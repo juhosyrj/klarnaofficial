@@ -1,0 +1,155 @@
+/*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
+/*  IMAGES / THEMEVERSIONS
+/*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
+
+/*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
+/*  BASIC SETUP
+/*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
+
+    a:focus{-moz-outline-style:none}a:active,a:hover{outline:0}:focus,a:focus{outline:0!important}.delete_image{display:block}.img_preview{max-height:200px}form.defaultForm .panel{display:none}form.defaultForm .panel.selected{display:block}form.defaultForm br{display:none}form.defaultForm .preference_description br{display:block}.st_tabs li{float:left;list-style:none}.st_tabs li a{display:inline-block;padding:10px 6px;background:#FAFAFA;border:1px solid #CCCED7;border-right:none;font-size:14px;font-weight:400;margin-bottom:-1px}.st_tabs li:last-child a{border-right:1px solid #CCCED7}.st_tabs li a:hover,.st_tabs li.selected a{background:#EBEDF4;border-bottom-color:#EBEDF4}.st_toolbtn .button{display:block;float:left;font-size:12px;line-height:24px;margin-bottom:10px;cursor:pointer}.st_toolbtn .button i{margin-right:2px;color:#090;font-size:18px}#custom_css,#custom_js,#tracking_code{height:auto!important}#content>div.klarnacheckout-admin+.bootstrap{display:none!important}
+    .textarea-autosize{font-family:monospace!important;height:auto!important;}
+    .form-group .form-group{margin-bottom:0;}
+    .help-block .btn.btn-default{font-style:normal;margin-right:5px;margin-top:-5px;}
+	
+/*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
+/*  CHANGE TABS APPEARANCE
+/*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
+
+    .klarnacheckout-admin > .sidebar {
+        margin: 0;
+    }
+        .klarnacheckout-admin .nav-tabs {
+            width: 100%;
+        }   
+            .klarnacheckout-admin .nav-tabs li {
+                border: 0;
+                display: block;
+                float: none;
+                width: 100%;
+            }
+                .klarnacheckout-admin .nav-tabs li a {
+                    border: 1px solid #ddd;
+                    border-radius: 0;
+                    color: #555;
+                    font-family: "Open Sans";
+                    font-size: 12px;
+                    font-weight: 400;
+                    text-shadow: 0 0 rgba(0, 0, 0, 0);
+                    text-transform: none;
+
+                    -webkit-transition: all .2s ease-in-out;
+                       -moz-transition: all .2s ease-in-out;
+                        -ms-transition: all .2s ease-in-out;
+                         -o-transition: all .2s ease-in-out;
+                            transition: all .2s ease-in-out;
+                }
+                    .klarnacheckout-admin .nav-tabs li:first-child a {
+                        border-radius: 3px 3px 0 0;
+                    }
+                    .klarnacheckout-admin .nav-tabs li:last-child a {
+                        border-radius: 0 0 3px 3px;
+                    }
+                    .klarnacheckout-admin .nav-tabs li a:hover {
+                        background: #fafafa;
+                        border-color: #ddd;
+                        color: #555;
+                        text-shadow: 0 0 rgba(0, 0, 0, 0);
+                    }
+                    .klarnacheckout-admin .nav-tabs li.active a,
+                    .klarnacheckout-admin .nav-tabs li.active:hover a,
+                    .klarnacheckout-admin .nav-tabs li.active a:hover {
+                        background-color: #00aff0 !important;
+                        border-color: rgba(0, 0, 0, .1) !important;
+                        color: #fff !important;
+                        text-shadow: 0 1px rgba(0, 0, 0, .25) !important;
+                    }
+                    .klarnacheckout-admin .nav-tabs li a i {
+                        color: #aaa;
+                        text-align: center;
+                        text-shadow: 0 0 rgba(0, 0, 0, 0);
+                        width: 25px;
+
+                        -webkit-transition: all .2s ease-in-out;
+                           -moz-transition: all .2s ease-in-out;
+                            -ms-transition: all .2s ease-in-out;
+                             -o-transition: all .2s ease-in-out;
+                                transition: all .2s ease-in-out;
+                    }
+                        .klarnacheckout-admin .nav-tabs li:hover i,
+                        .klarnacheckout-admin .nav-tabs li a:hover i {
+                            color: #00aff0;
+                        }
+                        .klarnacheckout-admin .nav-tabs li.active a i,
+                        .klarnacheckout-admin .nav-tabs li.active:hover a i,
+                        .klarnacheckout-admin .nav-tabs li.active a:hover i {
+                            color: #fff;
+                            text-shadow: 0 1px rgba(0, 0, 0, .25);
+                        }
+
+    .patterns-notice {
+        background: #fff;
+        border: 1px solid #e6e6e6;
+        border-radius: 3px;
+        margin-top: 10px;
+        padding: 5px 15px;
+
+        -webkit-box-shadow: 0 2px 0 #e6e6e6;
+           -moz-box-shadow: 0 2px 0 #e6e6e6;
+                box-shadow: 0 2px 0 #e6e6e6;
+    }
+	
+	.join {
+		background: #00aff0 !important;
+		box-shadow: rgba(0,0,0,0.1) 0 2px 0,#00aff0 0 0 0 3px inset !important;
+		border: solid 1px #0086b8 !important;
+	}
+	.join p { color: #ffffff !important; }
+	#content.bootstrap .join.panel .panel-heading { color: #ffffff !important; }
+	#content.bootstrap .join .panel-heading { border-bottom: solid 1px #0086b8 !important; }
+/*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
+/*  ABOUT / INFORMATION
+/*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
+
+    .pwd-infolabel {
+        font-size: 12px !important;
+        font-weight: bold !important;
+        padding-top: 10px !important;
+    }
+    .pwd-infopanel {
+        border: 1px solid #e6e6e6;
+        border-radius: 3px;
+        margin: 0;
+        padding: 10px 15px;
+        -webkit-box-shadow: inset 0 -2px 0 0 #e6e6e6;
+           -moz-box-shadow: inset 0 -2px 0 0 #e6e6e6;
+                box-shadow: inset 0 -2px 0 0 #e6e6e6;
+    }
+        .pwd-infopanel:after {
+            clear: both;
+            content: '';
+            display: table;
+        }
+        .pwd-infopanel ul {
+            list-style: none;
+            margin: 0 0 15px;
+            padding: 0;
+        }
+            .pwd-infopanel ul:last-child {
+                margin: 0;
+            }
+        .pwd-infopanel p {
+            margin: 0 0 15px;
+        }
+            .pwd-infopanel p:last-child {
+                margin: 0;
+            }
+        .pwd-notice {
+            margin-top: 5px !important;
+            padding: 5px 15px 5px 36px !important;
+        }
+            .pwd-notice:before {
+                font-size: 24px !important;
+            }
+            form.defaultForm .pwd-notice br {
+                display: block;
+            }

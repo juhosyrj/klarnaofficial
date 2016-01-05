@@ -1,0 +1,297 @@
+#klarnavoucher p{float:left; padding-bottom: 0;}
+#discount_name{
+    font-weight: normal;
+    padding: 7px 8px;
+    width: 147px;
+    height: auto;
+    background-color:#fff;
+    -webkit-box-shadow: inset 0 4px 4px -3px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 4px 4px -3px rgba(0, 0, 0, 0.2);
+    border: 1px solid #9F9D9D;  
+    color: #555555;
+    font: 14px Arial,sans-serif;
+    outline: medium none; 
+}
+#discount_name:focus {
+    border: 1px solid #2382C5;
+    background-color: #fff;
+    box-shadow: 0 0 4px 2px #B9DEFB;
+    color:#444;
+}
+#klarnavoucher { margin-top: 10px; }
+#submitAddDiscount {
+    border:1px solid #0084AD;
+    background: #009ec3;
+    background: -moz-linear-gradient(top,  #00b7ea 0%, #009ec3 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00b7ea), color-stop(100%,#009ec3));
+    background: -webkit-linear-gradient(top,  #00b7ea 0%,#009ec3 100%);
+    background: -o-linear-gradient(top,  #00b7ea 0%,#009ec3 100%);
+    background: -ms-linear-gradient(top,  #00b7ea 0%,#009ec3 100%);
+    background: linear-gradient(to bottom,  #00b7ea 0%,#009ec3 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00b7ea', endColorstr='#009ec3',GradientType=0 );
+    -webkit-box-shadow: 1px 1px 2px 0 #D0B9AE;
+    -moz-box-shadow: 1px 1px 2px 0 #D0B9AE;
+    box-shadow: 1px 1px 2px 0 #D0B9AE;
+    text-shadow: 1px 1px 0px #0084AD;
+    color: #FFFFFF;
+    height: 31px;
+    margin-left: 7px;
+    padding: 2px 0 0 10px;
+    text-transform: uppercase;
+    width: 39px;
+}
+.ldesktop #checkout .main {border-left: 1px solid #E7E7E7!important;}
+#submitAddDiscount:hover,
+#submitAddDiscount:focus {
+    background: #00cbff;
+    background: -moz-linear-gradient(top,  #00cbff 0%, #00a9ed 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00cbff), color-stop(100%,#00a9ed));
+    background: -webkit-linear-gradient(top,  #00cbff 0%,#00a9ed 100%);
+    background: -o-linear-gradient(top,  #00cbff 0%,#00a9ed 100%);
+    background: -ms-linear-gradient(top,  #00cbff 0%,#00a9ed 100%);
+    background: linear-gradient(to bottom,  #00cbff 0%,#00a9ed 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00cbff', endColorstr='#00a9ed',GradientType=0 );
+}
+div.floatleft{float:left;}
+#module-klarnacheckout-checkout_klarna #center_column{width:100%}
+#checkoutdiv{}
+#voucherdiv{
+    border-right: 1px solid #EEEEEE;
+    color: #888!important;
+    font-size: 12px!important;
+    font-family: "Arial",Verdana,sans-serif;
+    line-height: 1.5;   
+}
+#voucherdiv h4 {
+    font-family: 'arial', sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+#voucherdiv span {
+    font-size: 12px;
+    font-family: "Arial",Verdana,sans-serif;
+    line-height: 1.5;
+}
+#klarnacheckoutvouchers li{font-size: 12px;font-weight: bold;list-style: none outside none;margin: 20px 0 0;}
+.klarna_cart_total_price_incl_tax{font-weight:bold;}
+.klarna_cart_total_price_incl_tax_price{font-weight:bold;}
+.klarna_separator{ border-bottom:1px solid #f1f1f1; margin-bottom: 5px; }
+.klarna_delivery_option {
+    border: 1px solid #EEE;
+    margin: 5px 10px 10px 0px;
+    padding: 0px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: rgb(255,255,255);
+    background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(255,255,255,1) 70%, rgba(247,247,247,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(70%,rgba(255,255,255,1)), color-stop(100%,rgba(247,247,247,1)));
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 70%,rgba(247,247,247,1) 100%);
+    background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 70%,rgba(247,247,247,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 70%,rgba(247,247,247,1) 100%);
+    background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 70%,rgba(247,247,247,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7f7f7',GradientType=0 );
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 0 3px #fff inset;
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 0 3px #fff inset;
+     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 0 3px #fff inset;
+     text-decoration: none;
+     text-shadow: 1px 1px 0 rgba(255,255,255,.75);
+     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7f7f7',GradientType=0 );
+}
+.klarna_carrier_img { margin: 0 auto; display: block; }
+.carrier_info input { float:left; width: 13px; margin-top: 1px; margin-left: 0!important; }
+.klarna_delivery_option_title { float:left; width: 125px; margin-left: 4px; }
+.klarna_delivery_option_price { float: right; width: 48px; text-align: right; font-weight: bold; }
+.carrier_info {
+    border-top: 1px solid #e3e3e3;
+    padding: 3px 8px 3px 8px;
+}
+.sum_container {
+    margin: 0px 10px 5px 0px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+#giftwrappingh4klarna,
+#giftwrappingh4klarna label {
+    cursor:pointer;
+}
+#giftmessagearea{display:none;}
+#giftwrappinglabelklarna.up,
+#giftwrappinglabelklarna.down {
+    background: url('img/collapse_text.png') no-repeat left 8px transparent;
+    padding-left: 18px;
+}
+#giftwrappinglabelklarna.down {
+    background: url('img/expand_text.png') no-repeat left 8px transparent;
+}
+#giftwrappinglabelklarna.up:hover {
+    background: url('img/collapse_text_hover.png') no-repeat left 8px transparent;
+}
+#giftwrappinglabelklarna.down:hover {
+    background: url('img/expand_text_hover.png') no-repeat left 8px transparent;
+}
+#messagelabel.up,
+#messagelabel.down {
+    background: url('img/collapse_text.png') no-repeat left 8px transparent;
+    padding-left: 18px;
+}
+#messagelabel.down {
+    background: url('img/expand_text.png') no-repeat left 8px transparent;
+}
+#messagelabel.up:hover {
+    background: url('img/collapse_text_hover.png') no-repeat left 8px transparent;
+}
+#messagelabel.down:hover {
+    background: url('img/expand_text_hover.png') no-repeat left 8px transparent;
+}
+#messageh4klarna,
+#messageh4klarna label {
+    cursor:pointer;
+}
+.message_container {
+    margin-top: 10px;
+}
+.message_container #messagearea {
+    display:none;
+    margin: 0;
+    padding: 0;
+}
+.message_container #messagearea input {
+    margin: 0;
+}
+.message_container #messagearea #message {
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    margin: 0 10px 5px 0;
+    padding: 5px;
+    max-width: 324px;
+    width: 324px;
+    color: #555;
+    line-height: 140%;
+}
+.message_container #messagearea #message:focus {
+    border: 1px solid #2382C5;
+    background-color: #fff;
+    box-shadow: 0 0 4px 2px #B9DEFB;
+    color:#444;
+}
+.gift_container {
+    margin-top: 10px;
+}
+.gift_container p {
+    margin: 0!important;
+    padding: 0!important;
+}
+.gift_container p textarea {
+    border: 1px solid #CCCCCC;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 10px 15px 0 rgba(205, 205, 205, 0.3);
+    margin: 0 10px 5px 0;
+    padding: 5px;   
+    width: 198px;
+    max-width: 198px;
+    color: #555;
+    line-height: 140%;
+}
+.gift_container p textarea:focus {
+    border: 1px solid #2382C5;
+    background-color: #fff;
+    box-shadow: 0 0 4px 2px #B9DEFB;
+    color:#444;
+}
+.klarna_img { margin-right: 5px;}
+.klarna_img img { border: 1px solid #eee; }
+.klarna_quantity { margin-right: 5px; font-size: 10px !important; }
+.klarna_price { 
+    margin: 0px 6px 0px 0px;
+    float: right !important;
+    font-weight: bold;
+}
+.itemrow {
+    height: 50px;
+    line-height: 50px !important;
+    margin: 0px;
+    border-top: 1px solid #f1f1f1;
+    padding: 6px 3px 3px;;
+}
+.itemrow span { 
+    float: left;
+    line-height: 35px !important;
+}
+.kcoi {
+    padding: 3px;
+}
+.kcori { float: right; }
+.sum_container .even { background: #ffffff; }
+.sum_container .odd { background: #fafafa; }
+.editkco {
+    margin: 7px 10px 0px 0px;
+    float: right;
+    font-weight: bold;
+    font-size: 10px !important;
+    cursor: pointer;
+    color: #000;
+}
+#kco-full-width {
+    display: none;
+}
+.cart_voucher p{float:left}
+tr.klarna_delivery_options{
+    border: 1px solid #eee;
+    padding: 3px 8px;
+}
+td.carrierradiokco{width:120px; padding:8px; text-align: center; border-right: 1px solid #eee;}
+td.carrierimagekco{width:200px; padding:8px; text-align: center;}
+td.carrierpricekco{width:120px; padding:8px; text-align: center; font-size: 12px; font-weight: bold;}
+td.carriertextkco{width:472px; padding:8px; text-align: left; font-size: 12px;}
+#height_kco_div h2{
+    background:#0089CF;
+    color:#fff !important;
+    font-family: arial, sans-serif;
+    font-size: 17px !important;
+    padding: 1% !important;
+    font-weight: 400;
+    margin: 0px 0px 10px 0px !important;
+    line-height: 1.5;
+    float: right;
+    width: 88%;
+}
+#height_kco_div #messagearea{margin-top:8px;}
+#height_kco_div #gift_message{margin-top:8px;}
+#giftmessagearea_long{}
+#height_kco_div #klarnacarrier table{ clear: both; width: 100%; }
+.cstep {
+    float: left;
+    width: 12%;
+    padding: 1%;
+    font-weight: 400;
+    background-color: #2da9e8;
+    line-height: 1.5;
+    text-align: center;
+    font-size: 17px;
+    color: #fff;
+    margin: 0px 0px 10px 0px !important;
+}
+.kcotwidth {
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #eee;
+    margin-bottom: 5px;
+}
+.kcoimgfooter {
+    padding-left: 15px;
+}
+#klarnacarrier div.carrier_info div.radio{float:left; margin-top: 4px;}
+.klarna-widget{padding:8px;}
+.kcolayout_mobile{width:auto!important;}
+#module-klarnacheckout-checkout_klarna div.shopping_cart{display:none;}
+#module-klarnacheckout-checkout_klarna #left_column{display:none;}
+#module-klarnacheckout-checkout_klarna #right_column{display:none;}
+#module-klarnacheckout-thank_you div.shopping_cart{display:none;}
+#module-klarnacheckout-thank_you #left_column{display:none;}
+#module-klarnacheckout-thank_you #right_column{display:none;}
+div.order_delivery{display:none;}

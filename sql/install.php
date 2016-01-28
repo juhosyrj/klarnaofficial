@@ -59,7 +59,7 @@ $sql[] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'kpmpclasses` (
                 `startfee` decimal(11,2) NOT NULL,
                 `minamount` decimal(11,2) NOT NULL,
                 `country` int(11) NOT NULL,
-                `expire` int(11) NOT NULL,
+                `expire` varchar(20) NOT NULL,
                 KEY `id` (`id`)
             )
             ENGINE = '._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8;';

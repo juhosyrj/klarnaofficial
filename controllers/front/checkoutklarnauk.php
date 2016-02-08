@@ -109,7 +109,7 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
             }
         }
         if (Tools::isSubmit('savemessagebutton')) {
-            $messageContent = strip_tags(Tools::getValue('message'));
+            $messageContent = Tools::getValue('message');
             $message_result = $this->updateMessage($messageContent, $this->context->cart);
             if (!$message_result) {
                 $this->context->smarty->assign('gift_error', Tools::displayError('Invalid message'));
@@ -680,11 +680,11 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
                 return false;
             } elseif ($oldMessage = Message::getMessageByCartId((int) ($cart->id))) {
                 $message = new Message((int) ($oldMessage['id_message']));
-                $message->message = htmlentities($messageContent, ENT_COMPAT, 'UTF-8');
+                $message->message = $messageContent;
                 $message->update();
             } else {
                 $message = new Message();
-                $message->message = htmlentities($messageContent, ENT_COMPAT, 'UTF-8');
+                $message->message = $messageContent;
                 $message->id_cart = (int) ($cart->id);
                 $message->id_customer = (int) ($cart->id_customer);
                 $message->add();

@@ -316,6 +316,9 @@ class KlarnaOfficialPushUkModuleFrontController extends ModuleFrontController
                         }
                     }
 
+                    $reference = pSQL($reference);
+                    $merchantId = pSQL($merchantId);
+                    
                     $extra = array();
                     $extra['transaction_id'] = $reference;
                     $cache_id = 'objectmodel_cart_'.$cart->id.'_0_0';
@@ -354,8 +357,6 @@ class KlarnaOfficialPushUkModuleFrontController extends ModuleFrontController
                             ]);
                     $update->acknowledge();
 
-                    
-                    $reference = pSQL($reference);
                     $sql = 'UPDATE `'._DB_PREFIX_.
                         "klarna_orders` SET id_order=".
                         (int) $this->module->currentOrder.

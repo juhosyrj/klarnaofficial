@@ -73,7 +73,7 @@ class CurlTransport
         $this->handle->setOption(CURLOPT_CONNECTTIMEOUT, $this->getTimeout());
         $this->handle->setOption(CURLOPT_TIMEOUT, $this->getTimeout());
         $this->handle->setOption(CURLOPT_SSL_VERIFYHOST, 2);
-        $this->handle->setOption(CURLOPT_SSL_VERIFYPEER, true);
+        $this->handle->setOption(CURLOPT_SSL_VERIFYPEER, false);
 
         $data = $this->handle->execute();
         $info = $this->handle->getInfo();

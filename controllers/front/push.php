@@ -325,6 +325,9 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                         $amount = $total_cart_price_before_round;
                     }
                 }
+                
+                $eid = pSQL($eid);
+                $reference = pSQL($reference);
 
                 $extra = array();
                 $extra['transaction_id'] = $reference;
@@ -364,11 +367,6 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                 );
                 $klarnaorder->update($update);
                 
-                $eid = pSQL($eid);
-                $reference = pSQL($reference);
-                
-                
-                    
                 $sql = 'UPDATE `'._DB_PREFIX_.
                         "klarna_orders` SET id_order=".
                         (int) $this->module->currentOrder.

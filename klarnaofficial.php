@@ -27,7 +27,7 @@ class KlarnaOfficial extends PaymentModule
     {
         $this->name = 'klarnaofficial';
         $this->tab = 'payments_gateways';
-        $this->version = '1.8.17';
+        $this->version = '1.8.19';
         $this->author = 'Prestaworks AB';
         $this->module_key = '0969b3c2f7f0d687c526fbcb0906e204';
         $this->need_instance = 1;
@@ -2813,4 +2813,26 @@ class KlarnaOfficial extends PaymentModule
 
         return $combosArray;
     }
+    
+    public function hookDisplayPaymentEU($params)
+	{
+		if (!$this->active)
+			return;
+
+		if (!$this->checkCurrency($params['cart']))
+			return;
+
+        $iso = $this->getKlarnaLocale();
+        if($iso == '') {
+           $iso = 'sv_se'; 
+        }
+        
+		$payment_options = array(
+			'cta_text' => $this->l('Klarna'),
+			'logo' => 'https://cdn.klarna.com/1.0/shared/image/generic/logo/'.$iso.'/basic/blue-black.png?width=200',
+			'action' => $this->context->link->getModuleLink($this->name, 'kpmpartpayment', array(), true)
+		);
+
+		return $payment_options;
+	}
 }

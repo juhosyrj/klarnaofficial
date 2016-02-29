@@ -277,6 +277,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                     }
                 }
                 $k->setEstoreInfo('', $this->context->cart->id, '');
+                $payed_amount = number_format($this->context->cart->getOrderTotal(true, 3), 2, '.', '');
                 $result = $k->reserveAmount(
                     ''.Tools::getValue('kpm_ssn', Tools::getValue('kpm_birthdate')),
                     $gender,
@@ -343,7 +344,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                 $this->module->validateOrder(
                     $this->context->cart->id,
                     $order_status,
-                    number_format($this->context->cart->getOrderTotal(true, 3), 2, '.', ''),
+                    $payed_amount,
                     $this->module->displayName,
                     $reservation_number,
                     $extra_vars,

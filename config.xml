@@ -2,7 +2,7 @@
 <module>
 	<name>klarnaofficial</name>
 	<displayName><![CDATA[Klarna]]></displayName>
-	<version><![CDATA[1.8.14]]></version>
+	<version><![CDATA[1.8.20]]></version>
 	<description><![CDATA[Gateway for Klarna (KCO and KPM).]]></description>
 	<author><![CDATA[Prestaworks AB]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>

@@ -2813,26 +2813,28 @@ class KlarnaOfficial extends PaymentModule
 
         return $combosArray;
     }
-    
-    public function hookDisplayPaymentEU($params)
-	{
-		if (!$this->active)
-			return;
 
-		if (!$this->checkCurrency($params['cart']))
-			return;
+    public function hookDisplayPaymentEU($params)
+    {
+        if (!$this->active) {
+            return;
+        }
+
+        if (!$this->checkCurrency($params['cart'])) {
+            return;
+        }
 
         $iso = $this->getKlarnaLocale();
-        if($iso == '') {
-           $iso = 'sv_se'; 
+        if ($iso == '') {
+            $iso = 'sv_se';
         }
-        
-		$payment_options = array(
-			'cta_text' => $this->l('Klarna'),
-			'logo' => 'https://cdn.klarna.com/1.0/shared/image/generic/logo/'.$iso.'/basic/blue-black.png?width=200',
-			'action' => $this->context->link->getModuleLink($this->name, 'kpmpartpayment', array(), true)
-		);
 
-		return $payment_options;
-	}
+        $payment_options = array(
+            'cta_text' => $this->l('Klarna'),
+            'logo' => 'https://cdn.klarna.com/1.0/shared/image/generic/logo/'.$iso.'/basic/blue-black.png?width=200',
+            'action' => $this->context->link->getModuleLink($this->name, 'kpmpartpayment', array(), true)
+        );
+
+        return $payment_options;
+    }
 }

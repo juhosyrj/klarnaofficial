@@ -277,8 +277,10 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                 $new_delivery_options_serialized = serialize($new_delivery_options);
                 
                 $update_sql = 'UPDATE '._DB_PREFIX_.'cart '.
-                'SET delivery_option=\''.$new_delivery_options_serialized.
-                '\' WHERE id_cart='.(int) $cart->id;
+                        'SET delivery_option=\''.
+                        pSQL($new_delivery_options_serialized).
+                        '\' WHERE id_cart='.
+                        (int) $cart->id;
                 
                 Db::getInstance()->execute($update_sql);
                 

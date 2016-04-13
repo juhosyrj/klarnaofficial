@@ -27,7 +27,7 @@ class KlarnaOfficial extends PaymentModule
     {
         $this->name = 'klarnaofficial';
         $this->tab = 'payments_gateways';
-        $this->version = '1.8.20';
+        $this->version = '1.8.23';
         $this->author = 'Prestaworks AB';
         $this->module_key = '0969b3c2f7f0d687c526fbcb0906e204';
         $this->need_instance = 1;
@@ -159,6 +159,7 @@ class KlarnaOfficial extends PaymentModule
     public function setMeta($name)
     {
         $metas = array();
+        $name = pSQL($name);
         $sql = "SELECT id_meta FROM `"._DB_PREFIX_."meta` WHERE page='$name'";
         $id_meta = Db::getInstance()->getValue($sql);
         if ((int)$id_meta==0) {
@@ -2836,5 +2837,27 @@ class KlarnaOfficial extends PaymentModule
         );
 
         return $payment_options;
+    }
+    
+    public function createAddress($coutry_iso_code, $setting_name, $city, $country, $alias)
+    {
+        $coutry_iso_code = pSQL($coutry_iso_code);
+        $setting_name = pSQL($setting_name);
+        $city = pSQL($city);
+        $alias = pSQL($alias);
+        $country = pSQL($country);
+        
+        $addressidtoupd = (int)Configuration::get($setting_name);
+        $id_country = (int)Country::getByIso($coutry_iso_code);
+        //since opc is active with alot of countries, it is possible that it can reset the default address$sql_fix
+        $sql_fix = "UPDATE "._DB_PREFIX_."address SET id_customer=0, ".
+        "id_state=0, id_manufacturer=0, id_supplier=0,id_warehouse=0, ".
+        "alias='$alias', company='', lastname='$country',firstname='Person', ".
+        "address1='Standardgatan 1', address2='', postcode='12345',city='$city', ".
+        "other='', phone='1234567890', phone_mobile='',vat_number='', ".
+        "dni='', active='', deleted='',date_upd=NOW(), ".
+        "id_country=$id_country WHERE id_address=$addressidtoupd";
+        
+        Db::getInstance()->execute($sql_fix);
     }
 }

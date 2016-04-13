@@ -44,14 +44,14 @@
 
 <script type="text/javascript">
     // <![CDATA[
-    var currencySign = '{$currencySign|escape:'html':'UTF-8'}';
+    var currencySign = '{$currencySign|escape:'javascript':'UTF-8'}';
     var currencyRate = '{$currencyRate|floatval}';
     var currencyFormat = '{$currencyFormat|intval}';
     var currencyBlank = '{$currencyBlank|intval}';
     var txtProduct = "{l s='product' js=1 mod='klarnaofficial'}";
     var txtProducts = "{l s='products' js=1 mod='klarnaofficial'}";
     var freeShippingTranslation = "{l s='Free Shipping!' js=1 mod='klarnaofficial'}";
-    var kcourl = "{$kcourl|escape:'html':'UTF-8'}";
+    var kcourl = "{$kcourl|escape:'javascript':'UTF-8'}";
     // ]]>
 </script>
 

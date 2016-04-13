@@ -27,7 +27,7 @@ class KlarnaOfficial extends PaymentModule
     {
         $this->name = 'klarnaofficial';
         $this->tab = 'payments_gateways';
-        $this->version = '1.8.23';
+        $this->version = '1.8.24';
         $this->author = 'Prestaworks AB';
         $this->module_key = '0969b3c2f7f0d687c526fbcb0906e204';
         $this->need_instance = 1;
@@ -129,19 +129,19 @@ class KlarnaOfficial extends PaymentModule
         $states = OrderState::getOrderStates(Configuration::get('PS_LANG_DEFAULT'));
         $name = $this->l('Klarna pending invoice');
         $config_name = 'KPM_PENDING_INVOICE';
-        $this->createOrderStatus($name, $states, $config_name);
+        $this->createOrderStatus($name, $states, $config_name, false);
 
         $name = $this->l('Klarna pending partpayment');
         $config_name = 'KPM_PENDING_PP';
-        $this->createOrderStatus($name, $states, $config_name);
+        $this->createOrderStatus($name, $states, $config_name, false);
 
         $name = $this->l('Klarna accepted invoice');
         $config_name = 'KPM_ACCEPTED_INVOICE';
-        $this->createOrderStatus($name, $states, $config_name);
+        $this->createOrderStatus($name, $states, $config_name, true);
 
         $name = $this->l('Klarna accepted partpayment');
         $config_name = 'KPM_ACCEPTED_PP';
-        $this->createOrderStatus($name, $states, $config_name);
+        $this->createOrderStatus($name, $states, $config_name, true);
 
         $metas = array();
         $metas[] = $this->setMeta('module-klarnaofficial-checkoutklarna');
@@ -179,7 +179,7 @@ class KlarnaOfficial extends PaymentModule
         return $metas;
     }
 
-    public function createOrderStatus($name, $states, $config_name)
+    public function createOrderStatus($name, $states, $config_name, $paid)
     {
         $exists = false;
         foreach ($states as $state) {
@@ -206,6 +206,7 @@ class KlarnaOfficial extends PaymentModule
             $orderstate->unremovable = true;
             $orderstate->hidden = true;
             $orderstate->logable = true;
+            $orderstate->paid = $paid;
             $orderstate->save();
             Configuration::updateValue($config_name, $orderstate->id);
 

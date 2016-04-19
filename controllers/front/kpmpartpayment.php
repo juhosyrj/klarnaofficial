@@ -481,11 +481,11 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
             $data['payment_methods'][] = $newPclass;
             $use_case = '';
             if ($languageIso == 'de') {
-                $use_case = utf8_encode(file_get_contents(dirname(__FILE__)."/../../libraries/germanterms.txt"));
+                $use_case = file_get_contents(dirname(__FILE__)."/../../libraries/germanterms.txt");
                 $use_case = str_replace("(eid)", $eid, $use_case);
             }
             if ($languageIso == 'nl') {
-                $use_case = utf8_encode(file_get_contents(dirname(__FILE__)."/../../libraries/netherlandsterms.txt"));
+                $use_case = file_get_contents(dirname(__FILE__)."/../../libraries/netherlandsterms.txt");
                 $use_case = str_replace("(url)", $this->context->shop->virtual_uri, $use_case);
             }
             foreach ($kpm_invoice as $pclass) {
@@ -687,7 +687,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
         if ($kpm_birthdate != "" && $country->iso_code == "DE") {
             $birthday_segments = explode('-', $kpm_birthdate);
             if (count($birthday_segments) !== 3) {
-               $kpm_birthdate = "";
+                $kpm_birthdate = "";
             } else {
                 list($year, $month, $day) = $birthday_segments;
                 $kpm_birthdate = "$day$month$year";

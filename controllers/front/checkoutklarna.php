@@ -198,11 +198,10 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
             $sharedSecret = Configuration::get('KCO_SWEDEN_SECRET');
             $ssid = 'se';
             if ($country->iso_code != 'SE') {
-                
                 if ($this->context->cart->id_address_delivery==Configuration::get('KCO_SWEDEN_ADDR')) {
-                    $this->module->createAddress('SE', 'KCO_SWEDEN_ADDR', 'Stockholm', 'Sverige', 'KCO_SVERIGE_DEFAULT');
+                    $this->module->createAddress('SE', 'KCO_SWEDEN_ADDR',
+                    'Stockholm', 'Sverige', 'KCO_SVERIGE_DEFAULT');
                 }
-                
                 $this->context->cart->id_address_delivery = Configuration::get('KCO_SWEDEN_ADDR');
                 $this->context->cart->update();
                 Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
@@ -212,11 +211,10 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
             $sharedSecret = Configuration::get('KCO_FINLAND_SECRET');
             $ssid = 'fi';
             if ($country->iso_code != 'FI') {
-                
                 if ($this->context->cart->id_address_delivery==Configuration::get('KCO_FINLAND_ADDR')) {
-                    $this->module->createAddress('FI', 'KCO_FINLAND_ADDR', 'Helsinkki', 'Finland', 'KCO_FINLAND_DEFAULT');
+                    $this->module->createAddress('FI', 'KCO_FINLAND_ADDR',
+                    'Helsinkki', 'Finland', 'KCO_FINLAND_DEFAULT');
                 }
-                
                 $this->context->cart->id_address_delivery = Configuration::get('KCO_FINLAND_ADDR');
                 $this->context->cart->update();
                 Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
@@ -228,7 +226,8 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
             if ($country->iso_code != 'NO') {
                 
                 if ($this->context->cart->id_address_delivery==Configuration::get('KCO_NORWAY_ADDR')) {
-                    $this->module->createAddress('NO', 'KCO_NORWAY_ADDR', 'Oslo', 'Norge', 'KCO_NORGE_DEFAULT');
+                    $this->module->createAddress('NO', 'KCO_NORWAY_ADDR',
+                    'Oslo', 'Norge', 'KCO_NORGE_DEFAULT');
                 }
                 
                 $this->context->cart->id_address_delivery = Configuration::get('KCO_NORWAY_ADDR');
@@ -242,7 +241,8 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
             if ($country->iso_code != 'DE') {
                 
                 if ($this->context->cart->id_address_delivery==Configuration::get('KCO_GERMANY_ADDR')) {
-                    $this->module->createAddress('DE', 'KCO_GERMANY_ADDR', 'Berlin', 'Germany', 'KCO_GERMANY_DEFAULT');
+                    $this->module->createAddress('DE', 'KCO_GERMANY_ADDR',
+                    'Berlin', 'Germany', 'KCO_GERMANY_DEFAULT');
                 }
                 
                 $this->context->cart->id_address_delivery = Configuration::get('KCO_GERMANY_ADDR');
@@ -256,7 +256,8 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
             if ($country->iso_code != 'GB') {
                 
                 if ($this->context->cart->id_address_delivery==Configuration::get('KCO_UK_DEFAULT')) {
-                    $this->module->createAddress('GB', 'KCO_UK_ADDR', 'London', 'United Kingdom', 'KCO_UK_DEFAULT');
+                    $this->module->createAddress('GB', 'KCO_UK_ADDR',
+                    'London', 'United Kingdom', 'KCO_UK_DEFAULT');
                 }
                 
                 $this->context->cart->id_address_delivery = Configuration::get('KCO_UK_ADDR');

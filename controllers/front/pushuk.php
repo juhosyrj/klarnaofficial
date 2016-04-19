@@ -179,6 +179,13 @@ class KlarnaOfficialPushUkModuleFrontController extends ModuleFrontController
                     $shipping_country_id = Country::getByIso($shipping_iso);
                     $invocie_country_id = Country::getByIso($invocie_iso);
 
+                    if (!isset($shipping['care_of'])) {
+                        $shipping['care_of'] = "";
+                    }
+                    if (!isset($billing['care_of'])) {
+                        $billing['care_of'] = "";
+                    }
+                    
                     foreach ($customer->getAddresses($cart->id_lang) as $address) {
                         if ($address['firstname'] == $shipping['given_name']
                         and $address['lastname'] == $shipping['family_name']

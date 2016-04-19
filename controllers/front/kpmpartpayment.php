@@ -227,7 +227,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
 
             if ($total_discounts_wt > 0) {
                 $vatrate = (float) (($total_discounts_wt - $total_discounts) / $total_discounts) * 100;
-                $flags = KlarnaFlags::INC_VAT | KlarnaFlags::IS_HANDLING;
+                $flags = KlarnaFlags::INC_VAT;
                 $k->addArticle(
                     1,
                     '',
@@ -264,6 +264,11 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                 $housenumber,
                 $houseext
             );
+            
+            if (Tools::getValue('kpm_company') != "") {
+                $addr->setCompanyName(utf8_decode(Tools::getValue('kpm_company')));
+            }
+            
             $k->setAddress(KlarnaFlags::IS_BILLING, $addr);
             $k->setAddress(KlarnaFlags::IS_SHIPPING, $addr);
 
@@ -476,27 +481,12 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
             $data['payment_methods'][] = $newPclass;
             $use_case = '';
             if ($languageIso == 'de') {
-                $use_case = "Verfügungsrahmen ab 199,99 € (abhängig von der Höhe Ihrer Einkäufe), effektiver".
-                "Jahreszins 18,07%* und Gesamtbetrag 218,57€* ".
-                "(*bei Ausnutzung des vollen Verfügungsrahmens und Rückzahlung in".
-                "12 monatlichen Raten je 18,21 €). Hier finden Sie ".
-                "<a href='https://cdn.klarna.com/1.0/shared/content/legal/terms/$eid/de_de/account' target='_blank'".
-                " class='kpm_terms_link'>weitere Informationen</a>,".
-                "<a target='_blank' href='https://cdn.klarna.com/1.0/shared/content/legal/de_de/account/terms.pdf'>".
-                "AGB mit Widerrufsbelehrung</a>".
-                "<br />und<br />".
-                "<a target='_blank' href='https://cdn.klarna.com/1.0/shared/content/legal/de_de/consumer_credit.pdf'>".
-                "Standardinformationen für Verbraucherkredite.</a>".
-                "Übersteigt Ihr Einkauf mit Klarna Ratenkauf erstmals einen Betrag von 199,99 €".
-                "erhalten Sie von Klarna einen Ratenkaufver trag mit der Bitte um".
-                "Unterzeichnung zugesandt. Ihr Kauf gilt solange als Rechnungskauf. ";
+                $use_case = utf8_encode(file_get_contents(dirname(__FILE__)."/../../libraries/germanterms.txt"));
+                $use_case = str_replace("(eid)", $eid, $use_case);
             }
             if ($languageIso == 'nl') {
-                $use_case = "<img src='https://cdn.klarna.com/1.0/shared/image/".
-                "generic/legal/nl_nl/letop/balk_afm3-540.jpg' />".
-                "<br /><img src='".
-                $this->context->shop->virtual_uri."/modules/klarnaofficial/views/img/nl_credit_table.png'".
-                " alt='Credit table' />";
+                $use_case = utf8_encode(file_get_contents(dirname(__FILE__)."/../../libraries/netherlandsterms.txt"));
+                $use_case = str_replace("(url)", $this->context->shop->virtual_uri, $use_case);
             }
             foreach ($kpm_invoice as $pclass) {
                 $newPclass = array();

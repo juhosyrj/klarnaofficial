@@ -27,7 +27,7 @@ class KlarnaOfficial extends PaymentModule
     {
         $this->name = 'klarnaofficial';
         $this->tab = 'payments_gateways';
-        $this->version = '1.8.24';
+        $this->version = '1.8.27';
         $this->author = 'Prestaworks AB';
         $this->module_key = '0969b3c2f7f0d687c526fbcb0906e204';
         $this->need_instance = 1;
@@ -2080,13 +2080,15 @@ class KlarnaOfficial extends PaymentModule
                 $countryIso = '';
                 $languageIso = '';
                 $currencyIso = '';
-                $sql = 'SELECT reservation, invoicenumber, eid FROM '._DB_PREFIX_.
+                $sql = 'SELECT reservation, invoicenumber, eid, id_shop FROM '._DB_PREFIX_.
                 'klarna_orders WHERE id_order='.
                 (int) $params['id_order'];
                 $order_data = Db::getInstance()->getRow($sql);
                 $reservation_number = $order_data['reservation'];
                 $invoice_number = $order_data['invoicenumber'];
                 $eid = $order_data['eid'];
+                $id_shop = $order_data['id_shop'];
+                
                 $eid_ss_comb = $this->getAllEIDSScombinations($id_shop);
                 $shared_secret = $eid_ss_comb[$eid];
 
@@ -2189,6 +2191,8 @@ class KlarnaOfficial extends PaymentModule
             $klarna_country = KlarnaCountry::NL;
         } elseif ($countryIso == 'at') {
             $klarna_country = KlarnaCountry::AT;
+        } else {
+            $klarna_country = "";
         }
 
         if ($currencyIso == 'sek') {
@@ -2199,6 +2203,8 @@ class KlarnaOfficial extends PaymentModule
             $klarna_currency = KlarnaCurrency::EUR;
         } elseif ($currencyIso == 'dkk') {
             $klarna_currency = KlarnaCurrency::DKK;
+        } else {
+            $klarna_currency = "";
         }
 
         if ($languageIso == 'sv') {
@@ -2215,6 +2221,8 @@ class KlarnaOfficial extends PaymentModule
             $klarna_lang = KlarnaLanguage::NL;
         } elseif ($languageIso == 'en') {
             $klarna_lang = KlarnaLanguage::EN;
+        } else {
+            $klarna_lang = "";
         }
 
         if ($id_shop == null) {
@@ -2258,8 +2266,41 @@ class KlarnaOfficial extends PaymentModule
         if (!$this->checkCurrency($this->context->cart)) {
             return;
         }
+        
+        $iso = $this->getKlarnaLocale();
+        if ($iso == '') {
+            $iso = 'sv_se';
+        }
 
-        $this->smarty->assign('KCO_SHOW_IN_PAYMENTS', Configuration::get('KCO_SHOW_IN_PAYMENTS'));
+        if (Configuration::get('KCO_IS_ACTIVE')) {
+            $KCO_SHOW_IN_PAYMENTS = Configuration::get('KCO_SHOW_IN_PAYMENTS');
+            if ($KCO_SHOW_IN_PAYMENTS) {
+                $address = new Address($this->context->cart->id_address_delivery);
+                $country = new Country($address->id_country);
+                if ($country->iso_code=="DE") {
+                    $active_in_country = Configuration::get('KCO_GERMANY');
+                } elseif ($country->iso_code=="NO") {
+                    $active_in_country = Configuration::get('KCO_NORWAY');
+                } elseif ($country->iso_code=="FI") {
+                    $active_in_country = Configuration::get('KCO_FINLAND');
+                } elseif ($country->iso_code=="SE") {
+                    $active_in_country = Configuration::get('KCO_SWEDEN');
+                } elseif ($country->iso_code=="GB") {
+                    $active_in_country = Configuration::get('KCO_UK');
+                } else {
+                    $active_in_country = false;
+                }
+                
+                if (!$active_in_country) {
+                    $KCO_SHOW_IN_PAYMENTS = false;
+                }
+            }
+        } else {
+            $KCO_SHOW_IN_PAYMENTS = false;
+        }
+        $this->smarty->assign('KCO_SHOW_IN_PAYMENTS', $KCO_SHOW_IN_PAYMENTS);
+        $this->smarty->assign('KPM_LOGO', Configuration::get('KPM_LOGO'));
+        $this->smarty->assign('KPM_LOGO_ISO_CODE', $iso);
 
         return $this->display(__FILE__, 'kpm_payment.tpl');
     }

@@ -1,0 +1,3 @@
+<img src="https://cdn.klarna.com/1.0/shared/image/generic/legal/nl_nl/letop/balk_afm3-540.jpg" />
+<br />
+<img src="(url)/modules/klarnaofficial/views/img/nl_credit_table.png" alt="Credit table" />

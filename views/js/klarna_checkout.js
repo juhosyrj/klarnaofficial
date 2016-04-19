@@ -217,58 +217,72 @@ function updateCartSummary(json)
 	{
 		// if reduction, we need to show it in the cart by showing the initial price above the current one
 		var reduction = product_list[i].reduction_applies;
+		var reduction_type = product_list[i].reduction_type;
+		var reduction_symbol = '';
 		var initial_price_text = '';
-		initial_price = '';
+		var initial_price = '';
+
 		if (typeof(product_list[i].price_without_quantity_discount) !== 'undefined')
 			initial_price = formatCurrency(product_list[i].price_without_quantity_discount, currencyFormat, currencySign, currencyBlank);
+
 		var current_price = '';
+		var product_total = '';
+		var product_customization_total = '';
+
 		if (priceDisplayMethod !== 0)
+		{
 			current_price = formatCurrency(product_list[i].price, currencyFormat, currencySign, currencyBlank);
+			product_total = product_list[i].total;
+			product_customization_total = product_list[i].total_customization;
+		}
 		else
+		{
 			current_price = formatCurrency(product_list[i].price_wt, currencyFormat, currencySign, currencyBlank);
+			product_total = product_list[i].total_wt;
+			product_customization_total = product_list[i].total_customization_wt;
+		}
+
+		var current_price_class ='price';
+		var price_reduction = '';
 		if (reduction && typeof(initial_price) !== 'undefined')
 		{
-			if (initial_price !== '' && initial_price > current_price)
-				initial_price_text = '<span style="text-decoration:line-through;">'+initial_price+'</span><br />';
+			if (reduction_type == 'amount')
+				price_reduction = product_list[i].reduction_formatted;
+			else
+			{
+				var display_price = 0;
+				if (priceDisplayMethod !== 0)
+					display_price = product_list[i].price;
+				else
+					display_price = product_list[i].price_wt;
+
+				price_reduction = ps_round((product_list[i].price_without_quantity_discount - display_price)/product_list[i].price_without_quantity_discount * -100);
+				reduction_symbol = '%';
+			}
+
+			if (initial_price !== '' && product_list[i].price_without_quantity_discount > product_list[i].price)
+			{
+				initial_price_text = '<li class="price-percent-reduction small">&nbsp;'+price_reduction+reduction_symbol+'&nbsp;</li><li class="old-price">' + initial_price + '</li>';
+				current_price_class += ' special-price';
+			}
 		}
 
-		key_for_blockcart = product_list[i].id_product+'_'+product_list[i].id_product_attribute+'_'+product_list[i].id_address_delivery;
-		key_for_kco_cart = product_list[i].id_product+'_'+product_list[i].id_product_attribute;
+		var key_for_blockcart = product_list[i].id_product + '_' + product_list[i].id_product_attribute + '_' + product_list[i].id_address_delivery;
+		var key_for_blockcart_nocustom = product_list[i].id_product + '_' + product_list[i].id_product_attribute + '_' + ((product_list[i].id_customization && product_list[i].quantity_without_customization != product_list[i].quantity)? 'nocustom' : '0') + '_' + product_list[i].id_address_delivery;
 
-		$('#cart_block_product_'+key_for_blockcart+' span.quantity').html(product_list[i].quantity);
-		$('#klarna_quantity_'+key_for_kco_cart).html(product_list[i].quantity);
-		
-		if (priceDisplayMethod !== 0)
-		{
-			$('#cart_block_product_'+key_for_blockcart+' span.price').html(formatCurrency(product_list[i].total, currencyFormat, currencySign, currencyBlank));
-			$('#product_price_'+product_list[i].id_product+'_'+product_list[i].id_product_attribute+'_'+product_list[i].id_address_delivery).html(initial_price_text+current_price);
-			$('#total_product_price_'+product_list[i].id_product+'_'+product_list[i].id_product_attribute+'_'+product_list[i].id_address_delivery).html(formatCurrency(product_list[i].total, currencyFormat, currencySign, currencyBlank));
-			$('#klarna_price_'+key_for_kco_cart).html(formatCurrency(product_list[i].total, currencyFormat, currencySign, currencyBlank));
-		}
+		$('#product_price_' + key_for_blockcart).html('<li class="' + current_price_class + '">' + current_price + '</li>' + initial_price_text);
+		if (typeof(product_list[i].customizationQuantityTotal) !== 'undefined' && product_list[i].customizationQuantityTotal > 0)
+			$('#total_product_price_' + key_for_blockcart).html(formatCurrency(product_customization_total, currencyFormat, currencySign, currencyBlank));
 		else
-		{
-			$('#cart_block_product_'+key_for_blockcart+' span.price').html(formatCurrency(product_list[i].total_wt, currencyFormat, currencySign, currencyBlank));
-			$('#product_price_'+product_list[i].id_product+'_'+product_list[i].id_product_attribute+'_'+product_list[i].id_address_delivery).html(initial_price_text+current_price);
-			$('#total_product_price_'+product_list[i].id_product+'_'+product_list[i].id_product_attribute+'_'+product_list[i].id_address_delivery).html(formatCurrency(product_list[i].total_wt, currencyFormat, currencySign, currencyBlank));
-			$('#klarna_price_'+key_for_kco_cart).html(formatCurrency(product_list[i].total_wt, currencyFormat, currencySign, currencyBlank));
-		}
+			$('#total_product_price_' + key_for_blockcart).html(formatCurrency(product_total, currencyFormat, currencySign, currencyBlank));
+		if (product_list[i].quantity_without_customization != product_list[i].quantity)
+			$('#total_product_price_' + key_for_blockcart_nocustom).html(formatCurrency(product_total, currencyFormat, currencySign, currencyBlank));
 
+		$('input[name=quantity_' + key_for_blockcart_nocustom + ']').val(product_list[i].id_customization? product_list[i].quantity_without_customization : product_list[i].cart_quantity);
+		$('input[name=quantity_' + key_for_blockcart_nocustom + '_hidden]').val(product_list[i].id_customization? product_list[i].quantity_without_customization : product_list[i].cart_quantity);
+		if (typeof(product_list[i].customizationQuantityTotal) !== 'undefined' && product_list[i].customizationQuantityTotal > 0)
+			$('#cart_quantity_custom_' + key_for_blockcart).html(product_list[i].customizationQuantityTotal);
 		nbrProducts += parseInt(product_list[i].quantity);
-		$('input[name=quantity_'+product_list[i].id_product+'_'+product_list[i].id_product_attribute+'_0_'+product_list[i].id_address_delivery+']').val(product_list[i].quantity_without_customization);
-		$('input[name=quantity_'+product_list[i].id_product+'_'+product_list[i].id_product_attribute+'_0_'+product_list[i].id_address_delivery+'_hidden]').val(product_list[i].quantity_without_customization);
-		
-		if (typeof(product_list[i].customizationQuantityTotal) !== 'undefined')
-		{
-			$('#cart_quantity_custom_'+product_list[i].id_product+'_'+product_list[i].id_product_attribute+'_'+product_list[i].id_address_delivery)
-					.html(product_list[i].customizationQuantityTotal);
-			$('input[name=quantity_'+product_list[i].id_product+'_'+product_list[i].id_product_attribute+'_'+product_list[i].id_customization+'_'+product_list[i].id_address_delivery+']')
-					.val(product_list[i].customizationQuantityTotal);
-		}
-		// Show / hide quantity button if minimal quantity
-		if (parseInt(product_list[i].minimal_quantity) === parseInt(product_list[i].quantity) && product_list[i].minimal_quantity !== 1)
-			$('#cart_quantity_down_'+product_list[i].id_product+'_'+product_list[i].id_product_attribute+'_'+Number(product_list[i].id_customization)+'_'+product_list[i].id_address_delivery).fadeTo('slow',0.3);
-		else
-			$('#cart_quantity_down_'+product_list[i].id_product+'_'+product_list[i].id_product_attribute+'_'+Number(product_list[i].id_customization)+'_'+product_list[i].id_address_delivery).fadeTo('slow',1);
 	}
 
 	// Update discounts

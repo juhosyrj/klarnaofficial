@@ -33,7 +33,7 @@
 				<input type="radio" value="{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}" id="{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}" name="kpm_pclass"{if $kpm_plan.pclass_id==$kpm_pclass} checked="checked"{/if} />
 				<label for="{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}" class="kpm_description">{$kpm_plan.title|escape:'htmlall':'UTF-8'}</label> <label class="kpm_description_full" for="{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}">{$kpm_plan.extra_info|escape:'htmlall':'UTF-8'}{if $kpm_plan.pclass_id==-1} <strong>{l s='(Invoice)' mod='klarnaofficial'}</strong> {l s='Invoice fee' mod='klarnaofficial'} {convertPrice price=$klarna_invoice_fee}{/if}</label>
 				<a href="{$kpm_plan.terms.uri|escape:'htmlall':'UTF-8'}{if $kpm_plan.pclass_id==-1}{$klarna_invoice_fee|escape:'htmlall':'UTF-8'}{/if}" target="_blank" class="kpm_terms_link">({l s='Terms' mod='klarnaofficial'})</a>
-				{if $kpm_plan.use_case != ''}<br /><label class="alert alert-success">{$kpm_plan.use_case|escape:'htmlall':'UTF-8'}</label>{/if}<br />
+				{if $kpm_plan.use_case != ''}<br /><label class="alert alert-success">{$kpm_plan.use_case|escape:'quotes':'UTF-8'}</label>{/if}<br />
 		{/foreach}
 		</div>
 		

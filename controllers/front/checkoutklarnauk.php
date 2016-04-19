@@ -129,7 +129,9 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
         if (CartRule::isFeatureActive()) {
             $vouchererrors = '';
             if (Tools::isSubmit('submitAddDiscount')) {
-                if (!($code = trim(Tools::getValue('discount_name')))) {
+                $code = trim(Tools::getValue('discount_name'));
+                $code = Tools::purifyHTML($code);
+                if (!($code)) {
                     $vouchererrors = Tools::displayError('You must enter a voucher code');
                 } elseif (!Validate::isCleanHtml($code)) {
                     $vouchererrors = Tools::displayError('Voucher code invalid');

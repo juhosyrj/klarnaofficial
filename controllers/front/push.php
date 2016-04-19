@@ -197,6 +197,13 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                     $shipping['street_address'] = $shipping['street_name'].' '.$shipping['street_number'];
                     $billing['street_address'] = $billing['street_name'].' '.$billing['street_number'];
                 }
+                
+                if (!isset($shipping['care_of'])) {
+                    $shipping['care_of'] = "";
+                }
+                if (!isset($billing['care_of'])) {
+                    $billing['care_of'] = "";
+                }
 
                 foreach ($customer->getAddresses($cart->id_lang) as $address) {
                     if ($address['firstname'] == $shipping['given_name']

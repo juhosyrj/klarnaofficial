@@ -54,7 +54,7 @@
 		<div class="row">
 			<p>{l s='Link and information to documentation comes here...' mod='klarnaofficial'}</p>
 			<p>
-				<a href="../modules/klarnaofficial/doc/readme_en.pdf" target="_blank" class="btn btn-default" title="{l s='Read documentation here' mod='klarnaofficial'}">
+				<a href="{$module_dir|escape:'htmlall':'UTF-8'}doc/index.html" target="_blank" id="fancydocs" class="btn btn-default" title="{l s='Read documentation here' mod='klarnaofficial'}">
 					<i class="icon-file-text"></i> {l s='Read documentation here' mod='klarnaofficial'}
 				</a>
 			</p>

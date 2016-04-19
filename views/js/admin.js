@@ -18,6 +18,13 @@
 */
 
 $(document).ready(function(){
+    $("#fancydocs").fancybox({
+        'padding':  0,
+        'width':    1087,
+        'height':   610,
+        'type':     'iframe',
+    });
+    
 	$('.sidebar .nav-tabs a').click(function(){
 		$(this).parent().addClass('active').siblings().removeClass('active');
 		var fieldset_arr = $(this).attr('data-fieldset').split(',');

@@ -74,7 +74,7 @@
                     <span class="kco-title--step__nbr">1</span> {l s='Carrier' mod='klarnaofficial'}
                 </h4>
                 {if $no_active_countries > 1}
-                <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html'}" method="post" id="kco_change_country">
+                <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html':'UTF-8'}" method="post" id="kco_change_country">
                     <select name="kco_change_country" class="kco-select kco-select--full kco-select--margin" onchange="$('#kco_change_country').submit();">
                         {if $show_sweden}<option value="sv" {if $kco_selected_country=='SE'}selected="selected"{/if}>{l s='Sweden' mod='klarnaofficial'}</option>{/if}
                         {if $show_norway}<option value="no" {if $kco_selected_country=='NO'}selected="selected"{/if}>{l s='Norway' mod='klarnaofficial'}</option>{/if}
@@ -84,7 +84,7 @@
                     </select>
                 </form><!-- /form#kco_change_country -->
                 {/if}
-                <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html'}" method="post" id="klarnacarrier">
+                <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html':'UTF-8'}" method="post" id="klarnacarrier">
                 {foreach $delivery_option_list as $id_address => $option_list}
                 <ul class="kco-sel-list has-tooltips">
                     {foreach $option_list as $key => $option}
@@ -158,7 +158,7 @@
             </div><!-- /.kco-box -->
             {/if}
             <div class="kco-box">
-                <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html'}" method="post" id="klarnavoucher">
+                <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html':'UTF-8'}" method="post" id="klarnavoucher">
                     <h4 class="kco-title kco-trigger {if !sizeof($discounts)}kco-trigger--inactive{/if}">
                         {l s='Vouchers' mod='klarnaofficial'}
                     </h4>
@@ -182,7 +182,7 @@
                 </form><!-- /#klarnavoucher -->
             </div><!-- /.kco-box -->
             <div class="message_container kco-box">
-                <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html'}" method="post" id="klarnamessage">
+                <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html':'UTF-8'}" method="post" id="klarnamessage">
                     <h4 id="message-title" class="kco-title kco-trigger {if !$message.message}kco-trigger--inactive{/if}">
                         {l s='Message' mod='klarnaofficial'}
                     </h4>
@@ -194,7 +194,7 @@
             </div><!-- /.message_container.kco-box -->
             {if $giftAllowed==1}
             <div class="gift_container kco-box">
-                <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html'}" method="post" id="klarnagift">
+                <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html':'UTF-8'}" method="post" id="klarnagift">
                     <h4 id="giftwrap-title" class="kco-title kco-trigger {if $gift_message == '' && (!isset($gift) || $gift==0)}kco-trigger--inactive{/if}">
                         {l s='Giftwrapping' mod='klarnaofficial'}
                     </h4>

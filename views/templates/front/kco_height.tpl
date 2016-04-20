@@ -67,7 +67,7 @@
 			{/if}
 			<div class="row">
 				<div class="kco-box col-xs-12 col-md-4">
-	                <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html'}" method="post" id="klarnavoucher">
+	                <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html':'UTF-8'}" method="post" id="klarnavoucher">
 	                    <h4 class="kco-title kco-trigger kco-trigger--big {if !sizeof($discounts)}kco-trigger--inactive{/if}">
 	                        {l s='Vouchers' mod='klarnaofficial'}
 	                    </h4>
@@ -91,7 +91,7 @@
 	                </form><!-- /#klarnavoucher -->
 	            </div><!-- /.kco-box -->
 				<div class="kco-box col-xs-12 {if $giftAllowed==1}col-md-4{else}col-md-8{/if}">
-					<form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html'}" method="post" id="klarnamessage">
+					<form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html':'UTF-8'}" method="post" id="klarnamessage">
 						<h2 class="kco-title kco-trigger kco-trigger--big {if !$message.message}kco-trigger--inactive{/if}">
 							{l s='Message' mod='klarnaofficial'}
 						</h2>
@@ -105,7 +105,7 @@
 				</div>
 				{if $giftAllowed==1}
 				<div class="kco-box col-xs-12 col-md-4">
-					<form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html'}" method="post" id="klarnagift">
+					<form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html':'UTF-8'}" method="post" id="klarnagift">
 						<h2 class="kco-title kco-trigger kco-trigger--big {if $gift_message == '' && (!isset($gift) || $gift==0)}kco-trigger--inactive{/if}">
 							{l s='Giftwrapping' mod='klarnaofficial'}
 						</h2>

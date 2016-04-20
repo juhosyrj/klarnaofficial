@@ -24,7 +24,7 @@
             class="klarnacheckout_account" 
             href="{$link->getModuleLink('klarnaofficial', 'checkoutklarna')|escape:'html':'UTF-8'}" 
             title="{l s='Klarna Checkout' mod='klarnaofficial'}">
-            	<img src="https://cdn.klarna.com/1.0/shared/image/generic/logo/{$KPM_LOGO_ISO_CODE}/basic/{$KPM_LOGO}.png?width=200" />
+            	<img src="https://cdn.klarna.com/1.0/shared/image/generic/logo/{$KPM_LOGO_ISO_CODE|escape:'htmlall':'UTF-8'}/basic/{$KPM_LOGO|escape:'htmlall':'UTF-8'}.png?width=200" />
 				{l s='Klarna Checkout' mod='klarnaofficial'}
             </a>
         </p>
@@ -38,7 +38,7 @@
             class="klarnacheckout_account" 
             href="{$link->getModuleLink('klarnaofficial', 'kpmpartpayment')|escape:'html':'UTF-8'}" 
             title="{l s='Pay by Invoice / Partpayment' mod='klarnaofficial'}">
-            	<img src="https://cdn.klarna.com/1.0/shared/image/generic/logo/{$KPM_LOGO_ISO_CODE}/basic/{$KPM_LOGO}.png?width=200" />
+            	<img src="https://cdn.klarna.com/1.0/shared/image/generic/logo/{$KPM_LOGO_ISO_CODE|escape:'htmlall':'UTF-8'}/basic/{$KPM_LOGO|escape:'htmlall':'UTF-8'}.png?width=200" />
 				{l s='Pay by Invoice / Partpayment' mod='klarnaofficial'}
             </a>
         </p>

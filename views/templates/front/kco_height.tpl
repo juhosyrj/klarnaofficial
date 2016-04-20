@@ -141,7 +141,7 @@
                 <span class="kco-title--step__nbr">1</span> {l s='Carrier' mod='klarnaofficial'}
             </h4>
             {if $no_active_countries > 1}
-			<form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html'}" method="post" id="kco_change_country">
+			<form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html':'UTF-8'}" method="post" id="kco_change_country">
 				<select name="kco_change_country" class="kco-select kco-select--full kco-select--margin" onchange="$('#kco_change_country').submit();">
 					{if $show_sweden}<option value="sv" {if $kco_selected_country=='SE'}selected="selected"{/if}>{l s='Sweden' mod='klarnaofficial'}</option>{/if}
 					{if $show_norway}<option value="no" {if $kco_selected_country=='NO'}selected="selected"{/if}>{l s='Norway' mod='klarnaofficial'}</option>{/if}
@@ -151,7 +151,7 @@
 				</select>
 			</form><!-- /#kco_change_country -->
 			{/if}
-            <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html'}" method="post" id="klarnacarrier">
+            <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html':'UTF-8'}" method="post" id="klarnacarrier">
             {foreach $delivery_option_list as $id_address => $option_list}
             <ul class="kco-sel-list has-tooltips">
             	{foreach $option_list as $key => $option}

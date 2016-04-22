@@ -716,7 +716,7 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
         }
 
         foreach ($delivery_option as $option) {
-            if (!preg_match('/^(\d+,)?\d+$/', $option)) {
+            if (!preg_match('/(\d+,)?\d+/', $option)) {
                 return false;
             }
         }

@@ -155,10 +155,22 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                 if (!Validate::isEmail($shipping['email'])) {
                     $shipping['email'] = 'ingen_mejl_'.$id_cart.'@ingendoman.cc';
                 }
-
+                $newsletter = 0;
+                $newsletter_setting = (int)Configuration::get('KCO_ADD_NEWSLETTERBOX', null, $cart->id_shop);
+                if ($newsletter_setting == 0 || $newsletter_setting == 1) {
+                    if(isset($klarnaorder['merchant_requested']) && isset($klarnaorder['merchant_requested']['additional_checkbox']) && $klarnaorder['merchant_requested']['additional_checkbox'] == true) {
+                        $newsletter = 1;
+                    }
+                } elseif ($newsletter_setting == 2) {
+                    $newsletter = 1;
+                }
                 $id_customer = (int) (Customer::customerExists($shipping['email'], true, true));
                 if ($id_customer > 0) {
                     $customer = new Customer($id_customer);
+                    if ($newsletter == 1) {
+                        $sql_update_customer = "UPDATE "._DB_PREFIX_."customer SET newsletter=1 WHERE id_customer=$id_customer;";
+                        Db::getInstance()->execute(pSQL($sql_update_customer));
+                    }
                 } else {
                     //add customer
                     $password = Tools::passwdGen(8);
@@ -170,7 +182,7 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                     $customer->is_guest = 0;
                     $customer->id_default_group = (int) (Configuration::get('PS_CUSTOMER_GROUP', null, $cart->id_shop));
                     //$customer->id_default_group = (int)(Configuration::get('PS_GUEST_GROUP', null, $cart->id_shop));
-                    $customer->newsletter = 0;
+                    $customer->newsletter = $newsletter;
                     $customer->optin = 0;
                     $customer->active = 1;
                     $customer->id_gender = 9;

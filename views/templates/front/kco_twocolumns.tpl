@@ -28,6 +28,11 @@
 {capture name=path}{l s='Checkout' mod='klarnaofficial'}{/capture}
 
 {if isset($klarna_error)}
+{if isset($connectionerror)}
+    {if $connectionerror}
+        <a href="{$link->getPageLink("order", true)}" class="button btn btn-default button-medium">{l s='Go to checkout' mod='klarnacheckout'}</a><br /><br />
+    {/if}
+{/if}
 <div class="alert alert-warning">
     {if $klarna_error=='empty_cart'}
     {l s='Your cart is empty' mod='klarnaofficial'}

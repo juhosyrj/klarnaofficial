@@ -205,6 +205,45 @@ body {
         It is possible to enable both services (KCO & KPM) at the same time in the same store. Just make sure to submit your information in corresponding tab for KCO & KPM. If no information is submitted to e.g. Klarna Payment Method (KPM) tab, it will be disabled in the front-office. 
         The same goes with Klarna Checkout - that require you to set <strong>"Active KCO in this shop"</strong> to <strong>Yes</strong> while you've also make sure to submit your Klarna information to corresponding countries within the tab.
     </div>
+
+    <h3>Configure your store to add a invoice fee for Klarna (KPM only)</h3>
+    <p>To create an invoice fee for Klarna KPM (invoice) orders, you need to create a new product in the store with the following parameters:</p>
+    
+    <ul>
+        <li>Provide a proper name, e.g: Invoice fee</li>
+        <li>Make sure to assign a quiet high quantity for this article, e.g: 99999999</li>
+        <li>Submit the price for the fee in the price field</li>
+        <li>Make sure the product is active and visibility is set to "nowhere"</li>
+        <li><strong>It's very important that this product has the same reference code as you've submitted in the Klarna Official-module under tab KLARNA PAYMENT METHOD (KPM) - field: "Invoice fee product".</strong></li>
+    </ul>
+    
+    <h3>Configure backend calls (activate and cancel)</h3>
+    <p>It is possible to work with backend calls to Klarna to activate and cancel orders. Navigate to the integration configuration page and go to tab <strong>"COMMON SETTINGS"</strong>:</p>
+    
+    <table id="tabs_desc" class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Setting</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tabs_topic">Activate order status</td>
+          <td>In this drop-down you simply choose which order status you would like to trigger the call to Klarna for activating the invoice at Klarna. If you would like to disable this feature you will have to choose: <strong>"Deactivated"</strong>.</td>
+        </tr>
+        <tr>
+          <td class="tabs_topic">Cancel reservation status</td>
+          <td>In this drop-down you simply choose which order status you would like to trigger the call to Klarna for cancel the invoice at Klarna. If you would like to disable this feature you will have to choose: <strong>"Deactivated"</strong>.</td>
+        </tr>
+      </tbody>
+    </table>
+     
+    <div class="alert alert-block"> 
+        <a class="close" data-dismiss="alert">×</a>
+        <h4 class="alert-heading">NOTE!</h4>
+        This feature concerns KCO and KCO.
+    </div>
     
   </section>
       
@@ -224,6 +263,13 @@ body {
         <li>Font Icons - Many third party templates use different core for font icons within the template. The font icons used in our integration is mainly built together with default icons used in the bootstrap template. You will have to go through the template files (.tpl) in our integration to patch the source for icons in the integration if the icons won't appear in front-office.</li>
     </ul>
     
+    <h3>Important about callbacks</h3>
+    <p>The following callbacks are not implemented.</p>
+    <ul>
+        <li>Re-send invoice - Handled from Klarna Online.</li>
+        <li>Partial refund - Handled from Klarna Online.</li>
+    </ul>
+
   </section>
       
 <section id="changelog">

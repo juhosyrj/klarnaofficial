@@ -27,7 +27,7 @@ class KlarnaOfficial extends PaymentModule
     {
         $this->name = 'klarnaofficial';
         $this->tab = 'payments_gateways';
-        $this->version = '1.8.29';
+        $this->version = '1.8.31';
         $this->author = 'Prestaworks AB';
         $this->module_key = '0969b3c2f7f0d687c526fbcb0906e204';
         $this->need_instance = 1;
@@ -100,6 +100,7 @@ class KlarnaOfficial extends PaymentModule
             Configuration::deleteByName('KPM_PENDING_PP') == false ||
             Configuration::deleteByName('KPM_ACCEPTED_INVOICE') == false ||
             Configuration::deleteByName('KPM_PENDING_INVOICE') == false ||
+            Configuration::deleteByName('KCO_ADD_NEWSLETTERBOX') == false ||
             Configuration::deleteByName('KPM_ACCEPTED_PP') == false
         ) {
             return false;
@@ -271,6 +272,7 @@ class KlarnaOfficial extends PaymentModule
         }
         if (Tools::isSubmit('btnKCOSubmit')) {
             Configuration::updateValue('KCO_COLORBUTTON', Tools::getValue('KCO_COLORBUTTON'));
+            Configuration::updateValue('KCO_ADD_NEWSLETTERBOX', (int) Tools::getValue('KCO_ADD_NEWSLETTERBOX'));
             Configuration::updateValue('KCO_SHOW_IN_PAYMENTS', (int) Tools::getValue('KCO_SHOW_IN_PAYMENTS'));
             Configuration::updateValue('KCO_COLORBUTTONTEXT', Tools::getValue('KCO_COLORBUTTONTEXT'));
             Configuration::updateValue('KCO_COLORCHECKBOX', Tools::getValue('KCO_COLORCHECKBOX'));
@@ -308,6 +310,16 @@ class KlarnaOfficial extends PaymentModule
             }
         }
 
+        if (Tools::getIsset('deleteklarnaofficial')) {
+            $segments = explode('-', Tools::getValue('key_id'));
+            if (count($segments) === 2) {
+                list($eid, $pclass) = $segments;
+                $eid = pSQL($eid);
+                $pclass = pSQL($pclass);
+                $delete_sql = "DELETE FROM `"._DB_PREFIX_."kpmpclasses` WHERE id=$pclass AND eid=$eid";
+                Db::getInstance()->execute($delete_sql);
+            }
+        }
         if (Tools::getIsset('updateplcassklarnaofficial')) {
             $eids = array();
             if (Configuration::get('KPM_SV_EID') != '') {
@@ -484,8 +496,8 @@ class KlarnaOfficial extends PaymentModule
         $helper = new HelperList();
         $helper->shopLinkType = '';
         $helper->simple_header = false;
-        $helper->identifier = 'id';
-        $helper->actions = array();
+        $helper->identifier = 'key_id';
+        $helper->actions = array('delete');
         $helper->show_toolbar = true;
         $helper->toolbar_btn['new'] = array(
             'href' => AdminController::$currentIndex.'&configure='.
@@ -499,7 +511,7 @@ class KlarnaOfficial extends PaymentModule
         $helper->token = Tools::getAdminTokenLite('AdminModules');
         $helper->currentIndex = AdminController::$currentIndex.'&configure='.$this->name;
 
-        $sql = 'SELECT * FROM `'._DB_PREFIX_.'kpmpclasses`';
+        $sql = "SELECT *, CONCAT(eid, '-', id) as key_id FROM `"._DB_PREFIX_."kpmpclasses`";
         $content = Db::getInstance()->ExecuteS($sql);
 
         return $helper->generateList($content, $fields_list);
@@ -1087,6 +1099,31 @@ class KlarnaOfficial extends PaymentModule
                     ),
                     'desc' => $this->l('Show a link to KCO in the old checkout.'),
                 ),
+                
+                array(
+                    'type' => 'select',
+                    'label' => $this->l('Offer newsletter signup'),
+                    'name' => 'KCO_ADD_NEWSLETTERBOX',
+                    'desc' => $this->l('Show checkbox in kco window.'),
+                    'options' => array(
+                        'query' => array(
+                        array(
+                            'value' => 0,
+                            'label' => $this->l('Yes, show sign up box'), ),
+                        array(
+                            'value' => 1,
+                            'label' => $this->l('Yes, show sign up box (prechecked)'), ),
+                        array(
+                            'value' => 2,
+                            'label' => $this->l('No, do not show (all customers set to subscribers)'), ),
+                        array(
+                            'value' => 3,
+                            'label' => $this->l('No, do not show, customers are not set as subscribers'), ),
+                    ),
+                        'id' => 'value',
+                        'name' => 'label',
+                    ),
+                ),
 
                 //KCO
                 ),
@@ -1410,6 +1447,10 @@ class KlarnaOfficial extends PaymentModule
             'KCO_SHOW_IN_PAYMENTS' => Tools::getValue(
                 'KCO_SHOW_IN_PAYMENTS',
                 Configuration::get('KCO_SHOW_IN_PAYMENTS')
+            ),
+            'KCO_ADD_NEWSLETTERBOX' => Tools::getValue(
+                'KCO_ADD_NEWSLETTERBOX',
+                Configuration::get('KCO_ADD_NEWSLETTERBOX')
             ),
             'KCO_COLORBUTTONTEXT' => Tools::getValue(
                 'KCO_COLORBUTTONTEXT',
@@ -2488,6 +2529,7 @@ class KlarnaOfficial extends PaymentModule
             'monthlyFee' => $this->l('monthlyFee: '),
             'monthlyCost' => $this->l('monthlyCost: '),
             'Invoice' => $this->l('Invoice'),
+            'Subscribe to our newsletter.' => $this->l('Subscribe to our newsletter.'),
         );
 
         return $translations[$key];
@@ -2881,6 +2923,43 @@ class KlarnaOfficial extends PaymentModule
         return $payment_options;
     }
     
+    public function checkPendingStatus($id_order)
+    {
+        $sql = 'SELECT reservation, invoicenumber, eid, id_shop FROM '.
+        _DB_PREFIX_.'klarna_orders WHERE id_order='.
+        (int) $id_order;
+        $order_data = Db::getInstance()->getRow($sql);
+        $reservation_number = $order_data['reservation'];
+        $id_shop = $order_data['id_shop'];
+        $eid = $order_data['eid'];
+        $eid_ss_comb = $this->getAllEIDSScombinations($id_shop);
+        $shared_secret = $eid_ss_comb[$eid];
+        $countryIso = '';
+        $languageIso = '';
+        $currencyIso = '';
+        $k = $this->initKlarnaAPI($eid, $shared_secret, $countryIso, $languageIso, $currencyIso, $id_shop);
+        $status = $k->checkOrderStatus($reservation_number);
+        if($status == KlarnaFlags::ACCEPTED) {
+            $order = new Order($id_order);
+            if (Validate::isLoadedObject($order))
+            {
+                $new_status = Configuration::get('KPM_ACCEPTED_INVOICE', null, null, $order->id_shop);
+                $history = new OrderHistory();
+                $history->id_order = $id_order;
+                $history->changeIdOrderState(intval($new_status), $id_order, true);
+                $history->addWithemail(true, null);
+            }
+        } elseif ($status == KlarnaFlags::DENIED) {
+            $order = new Order($id_order);
+            if (Validate::isLoadedObject($order)) {
+                $cancel_status = ((int)(Configuration::get('PS_OS_CANCELED'))>0 ? Configuration::get('PS_OS_CANCELED') : _PS_OS_CANCELED_);
+                $history = new OrderHistory();
+                $history->id_order = $id_order;
+                $history->changeIdOrderState(intval($new_status), $id_order, true);
+                $history->addWithemail(true, null);
+            }
+        }
+    }
     public function createAddress($coutry_iso_code, $setting_name, $city, $country, $alias)
     {
         $coutry_iso_code = pSQL($coutry_iso_code);

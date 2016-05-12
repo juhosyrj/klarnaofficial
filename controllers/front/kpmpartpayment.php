@@ -176,7 +176,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                 $k->addArticle(
                     1,
                     'shipping',
-                    ''.Tools::getValue('kpmshipping'),
+                    ''.utf8_decode(pSQL(Tools::getValue('kpmshipping'))),
                     $total_shipping_wt,
                     $shipping_tax,
                     0,
@@ -192,7 +192,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                 $k->addArticle(
                     1,
                     'wrapping',
-                    ''.Tools::getValue('kpmwrapping'),
+                    ''.utf8_decode(pSQL(Tools::getValue('kpmwrapping'))),
                     $total_wrapping_cost_wt,
                     $wrapping_fees_tax,
                     0,
@@ -217,7 +217,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                 $k->addArticle(
                     $product['cart_quantity'],
                     ''.$product['reference'],
-                    ''.$name,
+                    ''.utf8_decode($name),
                     (float)$product['price_wt'],
                     $product['rate'],
                     0,

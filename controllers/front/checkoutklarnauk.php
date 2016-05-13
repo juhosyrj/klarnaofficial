@@ -292,7 +292,7 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
             $sharedSecret = Configuration::get('KCO_UK_SECRET');
             $ssid = 'gb';
             if ($country->iso_code != 'GB') {
-                if ($this->context->cart->id_address_delivery==Configuration::get('KCO_UK_DEFAULT')) {
+                if ($this->context->cart->id_address_delivery==Configuration::get('KCO_UK_ADDR')) {
                     $this->module->createAddress(
                         'GB',
                         'KCO_UK_ADDR',

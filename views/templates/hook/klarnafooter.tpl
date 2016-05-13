@@ -16,10 +16,21 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of Prestaworks AB
 *}
+{if ($kco_footer_locale|escape:'html':'UTF-8' == 'nl_nl')}
+<img src="https://cdn.klarna.com/1.0/shared/image/generic/logo/nl_nl/basic/blue-black.png?width=100" />
+{elseif ($kco_footer_locale|escape:'html':'UTF-8' == 'da_dk')}
+<div class="klarna-widget klarna-logo-tooltip"
+    data-eid="{$kco_footer_eid|escape:'html':'UTF-8'}"
+    data-locale="da_dk"
+    data-logo-name="blue-black"
+    data-logo-width="120">
+</div>
+{else}
 <div class="klarna-widget klarna-{if $kco_footer_active}badge{else}logo{/if}-tooltip"
     data-eid="{$kco_footer_eid|escape:'html':'UTF-8'}"
     data-locale="{$kco_footer_locale|escape:'html':'UTF-8'}"
     data-badge-name="{$klarna_footer_layout|escape:'html':'UTF-8'}"
     data-badge-width="385">
 </div>
+{/if}
 <script async src="https://cdn.klarna.com/1.0/code/client/all.js"></script>

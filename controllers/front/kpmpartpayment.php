@@ -684,7 +684,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
             $kpm_birthdate = $customer->birthday;
         }
 
-        if ($kpm_birthdate != "" && $country->iso_code == "DE") {
+        if ($kpm_birthdate != "" && ($country->iso_code == "DE" || $country->iso_code == "NL")) {
             $birthday_segments = explode('-', $kpm_birthdate);
             if (count($birthday_segments) !== 3) {
                 $kpm_birthdate = "";

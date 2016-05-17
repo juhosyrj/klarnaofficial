@@ -153,7 +153,7 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
                         $vouchererrors = Tools::displayError('This voucher does not exists');
                     }
                 }
-                //FORCE html_entity_decode SINCE PRESTASHOP Demand escape:html in 
+                //FORCE html_entity_decode SINCE PRESTASHOP Demand escape:html in
                 //tpl files but already does this on displayError..
                 $this->context->smarty->assign(array(
                     'vouchererrors' => html_entity_decode($vouchererrors),

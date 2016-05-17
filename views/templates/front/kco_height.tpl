@@ -30,7 +30,7 @@
 {if isset($klarna_error)}
 {if isset($connectionerror)}
     {if $connectionerror}
-        <a href="{$link->getPageLink("order", true)}" class="button btn btn-default button-medium">{l s='Go to checkout' mod='klarnacheckout'}</a><br /><br />
+        <a href="{$link->getPageLink("order", true)|escape:'html':'UTF-8'}" class="button btn btn-default button-medium">{l s='Go to checkout' mod='klarnaofficial'}</a><br /><br />
     {/if}
 {/if}
 <div class="alert alert-warning">

@@ -2939,23 +2939,26 @@ class KlarnaOfficial extends PaymentModule
         $currencyIso = '';
         $k = $this->initKlarnaAPI($eid, $shared_secret, $countryIso, $languageIso, $currencyIso, $id_shop);
         $status = $k->checkOrderStatus($reservation_number);
-        if($status == KlarnaFlags::ACCEPTED) {
+        if ($status == KlarnaFlags::ACCEPTED) {
             $order = new Order($id_order);
-            if (Validate::isLoadedObject($order))
-            {
+            if (Validate::isLoadedObject($order)) {
                 $new_status = Configuration::get('KPM_ACCEPTED_INVOICE', null, null, $order->id_shop);
                 $history = new OrderHistory();
                 $history->id_order = $id_order;
-                $history->changeIdOrderState(intval($new_status), $id_order, true);
+                $history->changeIdOrderState((int)$new_status, $id_order, true);
                 $history->addWithemail(true, null);
             }
         } elseif ($status == KlarnaFlags::DENIED) {
             $order = new Order($id_order);
             if (Validate::isLoadedObject($order)) {
-                $cancel_status = ((int)(Configuration::get('PS_OS_CANCELED'))>0 ? Configuration::get('PS_OS_CANCELED') : _PS_OS_CANCELED_);
+                if ((int)(Configuration::get('PS_OS_CANCELED'))>0) {
+                    $cancel_status = Configuration::get('PS_OS_CANCELED');
+                } else {
+                    $cancel_status = _PS_OS_CANCELED_;
+                }
                 $history = new OrderHistory();
                 $history->id_order = $id_order;
-                $history->changeIdOrderState(intval($new_status), $id_order, true);
+                $history->changeIdOrderState((int)$cancel_status, $id_order, true);
                 $history->addWithemail(true, null);
             }
         }

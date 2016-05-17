@@ -481,11 +481,11 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
             $data['payment_methods'][] = $newPclass;
             $use_case = '';
             if ($languageIso == 'de') {
-                $use_case = file_get_contents(dirname(__FILE__)."/../../libraries/germanterms.txt");
+                $use_case = Tools::file_get_contents(dirname(__FILE__)."/../../libraries/germanterms.txt");
                 $use_case = str_replace("(eid)", $eid, $use_case);
             }
             if ($languageIso == 'nl') {
-                $use_case = file_get_contents(dirname(__FILE__)."/../../libraries/netherlandsterms.txt");
+                $use_case = Tools::file_get_contents(dirname(__FILE__)."/../../libraries/netherlandsterms.txt");
                 $use_case = str_replace("(url)", $this->context->shop->virtual_uri, $use_case);
             }
             foreach ($kpm_invoice as $pclass) {

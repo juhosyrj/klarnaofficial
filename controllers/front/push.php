@@ -78,7 +78,6 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
             $update = array();
             $klarnaorder = new Klarna_Checkout_Order($connector, $checkoutId);
             $klarnaorder->fetch();
-            //print_r($klarnaorder);
             if ($klarnaorder['status'] == 'checkout_complete') {
                 $id_cart = $klarnaorder['merchant_reference']['orderid2'];
                 $cart = new Cart((int) ($id_cart));
@@ -158,7 +157,11 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                 $newsletter = 0;
                 $newsletter_setting = (int)Configuration::get('KCO_ADD_NEWSLETTERBOX', null, $cart->id_shop);
                 if ($newsletter_setting == 0 || $newsletter_setting == 1) {
-                    if(isset($klarnaorder['merchant_requested']) && isset($klarnaorder['merchant_requested']['additional_checkbox']) && $klarnaorder['merchant_requested']['additional_checkbox'] == true) {
+                    if (
+                            isset($klarnaorder['merchant_requested']) &&
+                            isset($klarnaorder['merchant_requested']['additional_checkbox']) &&
+                            $klarnaorder['merchant_requested']['additional_checkbox'] == true
+                        ) {
                         $newsletter = 1;
                     }
                 } elseif ($newsletter_setting == 2) {
@@ -168,7 +171,8 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                 if ($id_customer > 0) {
                     $customer = new Customer($id_customer);
                     if ($newsletter == 1) {
-                        $sql_update_customer = "UPDATE "._DB_PREFIX_."customer SET newsletter=1 WHERE id_customer=$id_customer;";
+                        $sql_update_customer = "UPDATE "._DB_PREFIX_."customer SET newsletter=1".
+                        " WHERE id_customer=$id_customer;";
                         Db::getInstance()->execute(pSQL($sql_update_customer));
                     }
                 } else {

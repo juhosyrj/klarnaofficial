@@ -153,7 +153,8 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
                         $vouchererrors = Tools::displayError('This voucher does not exists');
                     }
                 }
-                //FORCE html_entity_decode SINCE PRESTASHOP Demand escape:html in tpl files but already does this on displayError..
+                //FORCE html_entity_decode SINCE PRESTASHOP Demand escape:html in 
+                //tpl files but already does this on displayError..
                 $this->context->smarty->assign(array(
                     'vouchererrors' => html_entity_decode($vouchererrors),
                     'discount_name' => Tools::safeOutput($code),
@@ -520,11 +521,13 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
                         $create['merchant_urls']['push'] = $pushPage;
                         $create['merchant_reference2'] = ''.(int) ($this->context->cart->id);
                         if ((int)Configuration::get('KCO_ADD_NEWSLETTERBOX') == 0) {
-                            $create['options']['additional_checkbox']['text'] = $this->module->getL('Subscribe to our newsletter.');
+                            $create['options']['additional_checkbox']['text'] = ''.
+                            $this->module->getL('Subscribe to our newsletter.');
                             $create['options']['additional_checkbox']['checked'] = false;
                             $create['options']['additional_checkbox']['required'] = false;
                         } elseif ((int)Configuration::get('KCO_ADD_NEWSLETTERBOX') == 1) {
-                            $create['options']['additional_checkbox']['text'] = $this->module->getL('Subscribe to our newsletter.');
+                            $create['options']['additional_checkbox']['text'] = ''.
+                            $this->module->getL('Subscribe to our newsletter.');
                             $create['options']['additional_checkbox']['checked'] = true;
                             $create['options']['additional_checkbox']['required'] = false;
                         }

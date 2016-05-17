@@ -3,7 +3,7 @@ require_once(dirname(__FILE__). '/../../config/config.inc.php');
 require_once(_PS_ROOT_DIR_.'/init.php');
 require_once(dirname(__FILE__).'/klarnaofficial.php');
 
-$shops = Shop::getShops(true,null,true);
+$shops = Shop::getShops(true, null, true);
 $order_status_ids = "";
 foreach ($shops as $shop) {
     $order_status_ids .= Configuration::get('KPM_PENDING_PP', null, null, $shop).",";
@@ -25,4 +25,3 @@ foreach ($result as $row) {
     }
 }
 echo "Done";
-?>

@@ -394,6 +394,9 @@ class KlarnaOfficialPushUkModuleFrontController extends ModuleFrontController
 
     protected function sendConfirmationMail($customer, $id_lang, $psw)
     {
+        if (!Configuration::get('PS_CUSTOMER_CREATION_EMAIL')) {
+            return true;
+        }
         try {
             return Mail::Send(
                 $id_lang,

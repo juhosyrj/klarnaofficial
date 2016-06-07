@@ -35,6 +35,9 @@
 				<a href="{$kpm_plan.terms.uri|escape:'htmlall':'UTF-8'}{if $kpm_plan.pclass_id==-1}{$klarna_invoice_fee|escape:'htmlall':'UTF-8'}{/if}" target="_blank" class="kpm_terms_link">({l s='Terms' mod='klarnaofficial'})</a>
 				{if $kpm_plan.use_case != ''}<br /><label class="alert alert-success">{$kpm_plan.use_case|escape:'quotes':'UTF-8'}</label>{/if}<br />
 		{/foreach}
+        {if isset($special_usecase)}
+        <label class="alert alert-success">{$special_usecase|escape:'quotes':'UTF-8'}</label>
+        {/if}
 		</div>
 		
 		<div class="col-xs-4 col-lg-4">
@@ -155,7 +158,7 @@
 </div>
 	<p class="cart_navigation clearfix">
 		<a class="button-exclusive btn btn-default" href="{$link->getPageLink('order', true, NULL, "step=3")|escape:'html':'UTF-8'}"><i class="icon-chevron-left"></i>{l s='Other payment methods' mod='klarnaofficial'}</a>
-			<button name="confirmkpm" id="confirmkpm" class="button btn btn-default button-medium" type="submit">
+			<button name="confirmkpm" id="confirmkpm" class="button btn btn-default button-medium{if $kpm_iso_code=='DE' || $kpm_iso_code=='de'} hidden{/if}" type="submit">
 				<span>{l s='I confirm my order' mod='klarnaofficial'}<i class="icon-chevron-right right"></i></span>
 			</button>
 	</p>

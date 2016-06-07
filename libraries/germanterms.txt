@@ -9,3 +9,10 @@ Standardinformationen für Verbraucherkredite.</a>
 Übersteigt Ihr Einkauf mit Klarna Ratenkauf erstmals einen Betrag von 199,99 €
 erhalten Sie von Klarna einen Ratenkaufver trag mit der Bitte um
 Unterzeichnung zugesandt. Ihr Kauf gilt solange als Rechnungskauf.
+<br /><br />
+<input type="checkbox" onchange="checkRequirementsDE();" id="requirementsDE" />
+Mit der Übermittlung der für die Abwicklung der gewählten Klarna
+ Zahlungsmethode und einer Identitäts- und Bonitätsprüfung erforderlichen
+ Daten an Klarna bin ich einverstanden. Meine <a href="https://cdn.klarna.com/1.0/shared/content/legal/terms/(eid)/de_de/consent"
+ target="_blank" class="kpm_terms_link">Einwilligung</a> kann ich jederzeit mit Wirkung für die Zukunft widerrufen.
+ Es gelten die AGB des Händlers. 

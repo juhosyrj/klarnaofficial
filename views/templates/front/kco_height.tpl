@@ -128,16 +128,6 @@
 					</form><!-- /#klarnagift -->
 				</div>
 				{/if}	
-				<div id="HOOK_SHOPPING_CART">
-					{$HOOK_SHOPPING_CART}
-				</div><!-- /#HOOK_SHOPPING_CART -->
-				{if !empty($HOOK_SHOPPING_CART_EXTRA)}
-				<div class="cart_navigation_extra clear">
-					<div id="HOOK_SHOPPING_CART_EXTRA">
-						{$HOOK_SHOPPING_CART_EXTRA}
-					</div><!-- /#HOOK_SHOPPING_CART_EXTRA -->
-				</div><!-- /.cart_navigation_extra -->
-				{/if}
 			</div><!-- /.row -->
 		</div><!-- /.col-xs-12-->
 		{if isset($delivery_option_list)}

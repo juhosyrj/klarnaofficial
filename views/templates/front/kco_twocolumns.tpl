@@ -214,17 +214,6 @@
                     </p>
                 </form><!-- /#klarnagift -->
             </div><!-- /.gift_container.kco-box -->
-            {/if}   
-            <div id="HOOK_SHOPPING_CART">
-                {$HOOK_SHOPPING_CART}
-            </div><!-- /#HOOK_SHOPPING_CART -->
-
-            {if !empty($HOOK_SHOPPING_CART_EXTRA)}
-            <div class="cart_navigation_extra clear">
-                <div id="HOOK_SHOPPING_CART_EXTRA">
-                    {$HOOK_SHOPPING_CART_EXTRA}
-                </div><!-- /#HOOK_SHOPPING_CART_EXTRA -->
-            </div><!-- /.cart_navigation_extra -->
             {/if}
         </div><!-- /.col-xs-12.col-md-4 -->
         <div class="col-xs-12 col-md-8" id="checkoutdiv">

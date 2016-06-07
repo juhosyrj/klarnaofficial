@@ -16,6 +16,14 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of Prestaworks AB
 */
+function checkRequirementsDE()
+{
+    if($("#requirementsDE").is(":checked")) {
+        $("#confirmkpm").show();
+    } else {
+        $("#confirmkpm").hide();
+    }
+}
 function showinfobox(pclass)
 {
 	$("#kpm_displaybox").html($("#kpm_infobox_"+pclass).html());

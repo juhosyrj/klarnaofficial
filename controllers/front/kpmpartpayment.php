@@ -265,8 +265,9 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                 $houseext
             );
             
-            if (Tools::getValue('kpm_company') != "") {
+            if (Tools::getValue('kpm_company')!="") {
                 $addr->setCompanyName(utf8_decode(Tools::getValue('kpm_company')));
+                $addr->isCompany = true;
             }
             
             $k->setAddress(KlarnaFlags::IS_BILLING, $addr);
@@ -283,8 +284,13 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                 }
                 $k->setEstoreInfo('', $this->context->cart->id, '');
                 $payed_amount = number_format($this->context->cart->getOrderTotal(true, 3), 2, '.', '');
+                
+                $ssn = ''.Tools::getValue('kpm_ssn', Tools::getValue('kpm_birthdate'));
+                if ($klarnaCountry == 'DK') {
+                    $ssn = str_replace("-","", $ssn);
+                }
                 $result = $k->reserveAmount(
-                    ''.Tools::getValue('kpm_ssn', Tools::getValue('kpm_birthdate')),
+                    $ssn,
                     $gender,
                     -1,
                     KlarnaFlags::NO_FLAG,
@@ -660,6 +666,16 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                 $newPclass['terms']['uri'] = $termsuri;
                 $newPclass['logo']['uri'] = $logourl;
                 $data['payment_methods'][] = $newPclass;
+            }
+        } else {
+            if ($country->iso_code == "DE") {
+                $use_case = Tools::file_get_contents(dirname(__FILE__)."/../../libraries/germanterms.txt");
+                $use_case = str_replace("(eid)", $eid, $use_case);
+                $this->context->smarty->assign('special_usecase', $use_case);
+            } elseif ($country->iso_code == "NL") {
+                $use_case = Tools::file_get_contents(dirname(__FILE__)."/../../libraries/netherlandsterms.txt");
+                $use_case = str_replace("(url)", $this->context->shop->virtual_uri, $use_case);
+                $this->context->smarty->assign('special_usecase', $use_case);
             }
         }
 

@@ -24,9 +24,13 @@ $(document).ready(function()
 	//$("#kco_cart_summary_div a.cart_quantity_input").typeWatch({ highlight: true, wait: 600, captureLength: 0, callback: function(val) { updateQty(val, true, this.el); } });
 });
 
-
+function showLoaderImg()
+{
+    $("#checkoutdiv").html('');
+}
 function downQuantity(id, qty)
 {
+    showLoaderImg();
 	var val = $('input[name=quantity_'+id+']').val();
 	var newVal = val;
 	if(typeof(qty) === 'undefined' || !qty)
@@ -116,6 +120,7 @@ function downQuantity(id, qty)
 
 function upQuantity(id, qty)
 {
+    showLoaderImg();
 	if (typeof(qty) === 'undefined' || !qty)
 		qty = 1;
 	var customizationId = 0;
@@ -404,6 +409,7 @@ function updateCartSummary(json)
 
 function deleteProductFromSummary(id)
 {
+    showLoaderImg();
 	var customizationId = 0;
 	var productId = 0;
 	var productAttributeId = 0;

@@ -33,17 +33,6 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
 
     public function postProcess()
     {
-        if (
-            Tools::isSubmit('isolang') ||
-            Tools::isSubmit('id_lang') ||
-            Tools::isSubmit('SubmitCurrency') ||
-            Tools::isSubmit('id_currency')
-        ) {
-            if (isset($_SESSION['klarna_checkout'])) {
-                unset($_SESSION['klarna_checkout']);
-            }
-            Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
-        }
         if (Tools::isSubmit('kco_change_country')) {
             $id_lang = 0;
             $id_currency = 0;

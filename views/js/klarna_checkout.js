@@ -383,13 +383,13 @@ function updateCartSummary(json)
 		$('#klarna_shipping_price').html(freeShippingTranslation);
 	}
 
-	if (json.free_ship > 0 && !json.is_virtual_cart)
+	/*if (json.free_ship > 0 && !json.is_virtual_cart)
 	{
 		$('.cart_free_shipping').fadeIn();
-		$('#free_shipping').html(formatCurrency(json.free_ship, currencyFormat, currencySign, currencyBlank));
+		//$('#free_shipping').html(formatCurrency(json.free_ship, currencyFormat, currencySign, currencyBlank));
 	}
 	else
-		$('.cart_free_shipping').hide();
+		$('.cart_free_shipping').hide();*/
 
 	if (json.total_wrapping > 0)
 	{

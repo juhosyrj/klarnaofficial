@@ -40,6 +40,7 @@
     }
 
 	#module-klarnaofficial-checkoutklarna #order_step,
+    #module-klarnaofficial-checkoutklarna .price_discount_delete,
 	#module-klarnaofficial-checkoutklarna .standard-checkout{ display: none; }
 	
 

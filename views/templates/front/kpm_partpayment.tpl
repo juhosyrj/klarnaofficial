@@ -28,7 +28,7 @@
 	
 	<form action="{$kpm_postback_url|escape:'htmlall':'UTF-8'}" class="std" method="post">
 	<div class="row">
-		<div class="col-xs-8 col-lg-8">
+		<div class="col-xs-12 col-lg-8">
 		{foreach from=$kpm_pclasses item=kpm_plan}
 				<input type="radio" value="{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}" id="{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}" name="kpm_pclass"{if $kpm_plan.pclass_id==$kpm_pclass} checked="checked"{/if} />
 				<label for="{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}" class="kpm_description">{$kpm_plan.title|escape:'htmlall':'UTF-8'}</label> <label class="kpm_description_full" for="{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}">{$kpm_plan.extra_info|escape:'htmlall':'UTF-8'}{if $kpm_plan.pclass_id==-1} <strong>{l s='(Invoice)' mod='klarnaofficial'}</strong> {l s='Invoice fee' mod='klarnaofficial'} {convertPrice price=$klarna_invoice_fee}{/if}</label>
@@ -40,7 +40,7 @@
         {/if}
 		</div>
 		
-		<div class="col-xs-4 col-lg-4">
+		<div class="col-xs-12 col-lg-4">
 		<p class="required">
 				<sup>*</sup>{l s='Required fields' mod='klarnaofficial'}
 		</p>
@@ -158,7 +158,7 @@
 </div>
 	<p class="cart_navigation clearfix">
 		<a class="button-exclusive btn btn-default" href="{$link->getPageLink('order', true, NULL, "step=3")|escape:'html':'UTF-8'}"><i class="icon-chevron-left"></i>{l s='Other payment methods' mod='klarnaofficial'}</a>
-			<button name="confirmkpm" id="confirmkpm" class="button btn btn-default button-medium{if $kpm_iso_code=='DE' || $kpm_iso_code=='de'} hidden{/if}" type="submit">
+			<button name="confirmkpm" id="confirmkpm" class="button btn btn-default button-medium{if $kpm_iso_code=='DE' || $kpm_iso_code=='de'} hidden{/if}" type="submit" onclick="javascript:$('#confirmkpm').hide();">
 				<span>{l s='I confirm my order' mod='klarnaofficial'}<i class="icon-chevron-right right"></i></span>
 			</button>
 	</p>

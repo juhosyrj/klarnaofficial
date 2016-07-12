@@ -16,11 +16,13 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of Prestaworks AB
 */
+var tmpshippingvalue = "";
 $(document).ready(function()
 {
 	$("#kco_cart_summary_div a.cart_quantity_delete").unbind('click').live('click', function(){ deleteProductFromSummary($(this).attr('id')); return false; });
 	$("#kco_cart_summary_div a.cart_quantity_up").unbind('click').live('click', function(){ upQuantity($(this).attr('id').replace('cart_quantity_up_', '')); return false;	});
 	$("#kco_cart_summary_div a.cart_quantity_down").unbind('click').live('click', function(){ downQuantity($(this).attr('id').replace('cart_quantity_down_', '')); return false; });
+    tmpshippingvalue = $('#total_shipping').html();
 	//$("#kco_cart_summary_div a.cart_quantity_input").typeWatch({ highlight: true, wait: 600, captureLength: 0, callback: function(val) { updateQty(val, true, this.el); } });
 });
 
@@ -366,23 +368,30 @@ function updateCartSummary(json)
 
 	if (json.total_shipping > 0)
 	{
-		if (priceDisplayMethod !== 0)
-		{
-			$('#total_shipping').html(formatCurrency(json.total_shipping_tax_exc, currencyFormat, currencySign, currencyBlank));
-			$('#klarna_shipping_price').html(formatCurrency(json.total_shipping_tax_exc, currencyFormat, currencySign, currencyBlank));
-		}
-		else
-		{
-			$('#total_shipping').html(formatCurrency(json.total_shipping, currencyFormat, currencySign, currencyBlank));
-			$('#klarna_shipping_price').html(formatCurrency(json.total_shipping, currencyFormat, currencySign, currencyBlank));
-		}
+        if (priceDisplayMethod !== 0)
+        {
+            $('#total_shipping').html(formatCurrency(json.total_shipping_tax_exc, currencyFormat, currencySign, currencyBlank));
+            $('#klarna_shipping_price').html(formatCurrency(json.total_shipping_tax_exc, currencyFormat, currencySign, currencyBlank));
+        }
+        else
+        {
+            $('#total_shipping').html(formatCurrency(json.total_shipping, currencyFormat, currencySign, currencyBlank));
+            $('#klarna_shipping_price').html(formatCurrency(json.total_shipping, currencyFormat, currencySign, currencyBlank));
+        }
 	}
 	else
 	{
-		$('#total_shipping').html(freeShippingTranslation);
-		$('#klarna_shipping_price').html(freeShippingTranslation);
+        $('#total_shipping').html(freeShippingTranslation);
+        $('#klarna_shipping_price').html(freeShippingTranslation);
 	}
 
+    if($('#total_shipping').html() != tmpshippingvalue) {
+            //force page reload
+            location.href = kco_checkout_url;
+    } else {
+        tmpshippingvalue = $('#total_shipping').html();
+    }
+       
 	/*if (json.free_ship > 0 && !json.is_virtual_cart)
 	{
 		$('.cart_free_shipping').fadeIn();

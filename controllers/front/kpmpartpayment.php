@@ -287,7 +287,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                 
                 $ssn = ''.Tools::getValue('kpm_ssn', Tools::getValue('kpm_birthdate'));
                 if ($klarnaCountry == 'DK') {
-                    $ssn = str_replace("-","", $ssn);
+                    $ssn = str_replace("-", "", $ssn);
                 }
                 $result = $k->reserveAmount(
                     $ssn,

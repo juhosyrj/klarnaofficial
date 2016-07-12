@@ -32,9 +32,9 @@
 
 $sql = array();
 
-$sql[] = 'DROP TABLE `'._DB_PREFIX_.'klarna_orders`';
-$sql[] = 'DROP TABLE `'._DB_PREFIX_.'klarna_errors`';
-$sql[] = 'DROP TABLE `'._DB_PREFIX_.'kpmpclasses`';
+$sql[] = 'DROP TABLE IF EXISTS `'._DB_PREFIX_.'klarna_orders`';
+$sql[] = 'DROP TABLE IF EXISTS `'._DB_PREFIX_.'klarna_errors`';
+$sql[] = 'DROP TABLE IF EXISTS `'._DB_PREFIX_.'kpmpclasses`';
 
 foreach ($sql as $query) {
     if (Db::getInstance()->execute($query) == false) {

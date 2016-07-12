@@ -26,7 +26,7 @@
 
 $sql = array();
 
-$sql[] = 'CREATE TABLE `'._DB_PREFIX_.'klarna_orders` (
+$sql[] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'klarna_orders` (
 		  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 		  `id_cart` INTEGER UNSIGNED NOT NULL,
 		  `id_order` INTEGER UNSIGNED NOT NULL,
@@ -40,7 +40,7 @@ $sql[] = 'CREATE TABLE `'._DB_PREFIX_.'klarna_orders` (
 		)
 		ENGINE = '._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8;';
         
-$sql[] = 'CREATE TABLE `'._DB_PREFIX_.'klarna_errors` (
+$sql[] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'klarna_errors` (
 		  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 		  `id_order` INTEGER UNSIGNED NOT NULL,
 		  `error_message` VARCHAR(256) NOT NULL,

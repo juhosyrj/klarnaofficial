@@ -32,3 +32,19 @@ p.payment_module a.klarnacheckout_invoice:after, p.payment_module a.klarnachecko
 	color: #777777;
 }
 #order div.order_delivery{display: none;}
+.alert-klarna .kpm_terms_link{
+    color:cyan;
+    text-decoration: underline;
+}
+.alert-klarna{
+    background-color: #0074c8;
+    color:#fff;
+}
+.alert-klarna-confirmbox{
+    background-color: #777;
+    color:#fff;
+}
+.alert-klarna-confirmbox .kpm_terms_link{
+    color:#fff;
+    text-decoration: underline;
+}

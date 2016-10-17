@@ -16,18 +16,44 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of Prestaworks AB
 */
+function toggleKPMSpecialUseCase(pclasschoice) {
+    var selectedPClass = $('input[name=kpm_pclass]:checked', '#kpmForm').val();
+    if (selectedPClass > -1) {
+        $('#kpmspecialusecase').show();
+        $('#kpm_description_full_'+pclasschoice).show();
+    } else {
+        $('#kpmspecialusecase').hide();
+        $('.kpmtohide').hide();
+    }
+}
 function checkRequirementsDE()
 {
     if($("#requirementsDE").is(":checked")) {
         $("#confirmkpm").show();
+        $("#confirmkpm").removeClass('hidden');
     } else {
         $("#confirmkpm").hide();
+        $("#confirmkpm").addClass('hidden');
+    }
+}
+function checkRequirementsAT()
+{
+    if($("#requirementsAT").is(":checked")) {
+        $("#confirmkpm").show();
+        $("#confirmkpm").removeClass('hidden');
+    } else {
+        $("#confirmkpm").hide();
+        $("#confirmkpm").addClass('hidden');
     }
 }
 function showinfobox(pclass)
 {
 	$("#kpm_displaybox").html($("#kpm_infobox_"+pclass).html());
 }
+$(document).ready(function()
+{
+    toggleKPMSpecialUseCase();
+});
 function kpmfetchaddress(ssn)
 {
 	$.ajax({

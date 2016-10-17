@@ -219,7 +219,7 @@ body {
     
     <h3>Configure backend calls (activate and cancel)</h3>
     <p>It is possible to work with backend calls to Klarna to activate and cancel orders. Navigate to the integration configuration page and go to tab <strong>"COMMON SETTINGS"</strong>:</p>
-    
+    <p>Only full activation and full cancelation is possible.</p>
     <table id="tabs_desc" class="table table-bordered table-striped">
       <thead>
         <tr>
@@ -234,7 +234,9 @@ body {
         </tr>
         <tr>
           <td class="tabs_topic">Cancel reservation status</td>
-          <td>In this drop-down you simply choose which order status you would like to trigger the call to Klarna for cancel the invoice at Klarna. If you would like to disable this feature you will have to choose: <strong>"Deactivated"</strong>.</td>
+          <td>In this drop-down you simply choose which order status you would like to trigger the call to Klarna for cancel the invoice at Klarna. If you would like to disable this feature you will have to choose: <strong>"Deactivated"</strong>.
+          <br />In case the reservation has already been activated, a refund call is made instead.
+          </td>
         </tr>
       </tbody>
     </table>
@@ -269,6 +271,13 @@ body {
         <li>Re-send invoice - Handled from Klarna Online.</li>
         <li>Partial refund - Handled from Klarna Online.</li>
     </ul>
+    <h3>Regarding Pending orders.</h3>
+    <p>If you use Klarna KPM services it is possible to get a status from Klarna for Pending Invoice or Pending Partpayment.</p>
+    <p>Orders with these statuses, should not be delivered until Klarna are complete with their evaluation.</p>
+    <p>It is possible to set up a cronjob for the following url, it will make a check and change status of these orders as the status is changed in Klarna.</p>
+    <p><a href="../checkpendingorders.php" target="_blank" />Click here, to open.</a></p>
+    <p>If you don't set up a cronjob for this, you will need to check these orders in Klarna Online or by clicking the button on the order details page.</p>
+    
 
   </section>
       

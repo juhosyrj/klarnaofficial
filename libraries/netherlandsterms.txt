@@ -1,3 +1,4 @@
-<img src="https://cdn.klarna.com/1.0/shared/image/generic/legal/nl_nl/letop/balk_afm3-540.jpg" />
-<br />
-<img src="(url)/modules/klarnaofficial/views/img/nl_credit_table.png" alt="Credit table" />
+<div class="alert alert-klarna" id="kpmspecialusecase" style="display:none"><img src="//cdn.klarna.com/1.0/shared/image/generic/legal/nl_nl/letop/balk_afm3-540.jpg" />
+<br /><br />
+<img src="//cdn.klarna.com/1.0/shared/image/generic/legal/nl_nl/credit_table/basic.jpg?width=679" alt="Credit table" />
+</div>

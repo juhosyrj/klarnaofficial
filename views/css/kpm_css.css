@@ -12,7 +12,16 @@
 	display: inline-block;
 	font-weight: bold;
 }
-
+label.requiredkpmspecial.required {
+color: red;
+}
+label.requiredkpmspecial::before {
+    color: red;
+    content: "**";
+    font-size: 14px;
+    line-height: 12px;
+    position: relative;
+}
 .button-group-space {
 	width: 269px;
 	position: relative;

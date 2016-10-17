@@ -24,9 +24,10 @@
 				{l s='Social security number' mod='klarnaofficial'}: {$klarnacheckout_ssn|escape:'html':'UTF-8'}<br />
 				{l s='Invoice number' mod='klarnaofficial'}: {$klarnacheckout_invoicenumber|escape:'html':'UTF-8'}<br />
 				{l s='Reservation' mod='klarnaofficial'}: {$klarnacheckout_reservation|escape:'html':'UTF-8'}<br />
-				<span{if $klarnacheckout_risk_status == 'cancel' || $klarnacheckout_risk_status == 'credit'} style="color:red; font-weight:bold;"{/if}{if $klarnacheckout_risk_status == 'ok' || $klarnacheckout_risk_status == 'ACCEPTED'}  style="color:green; font-weight:bold;"{/if}>
+				<span{if $klarnacheckout_risk_status == 'Pending'} style="color:orange; font-weight:bold;"{/if}{if $klarnacheckout_risk_status == 'cancel' || $klarnacheckout_risk_status == 'credit'} style="color:red; font-weight:bold;"{/if}{if $klarnacheckout_risk_status == 'ok' || $klarnacheckout_risk_status == 'ACCEPTED'}  style="color:green; font-weight:bold;"{/if}>
 				{l s='Risk status' mod='klarnaofficial'}: {$klarnacheckout_risk_status|escape:'html':'UTF-8'}<br />
 				</span>
+                {if $klarnacheckout_risk_status == 'Pending'}<a href="../modules/klarnaofficial/checkpendingorders.php" target="_blank">{l s='Check Pending status' mod='klarnaofficial'}</a>{/if}
 			</div>
 			{foreach from=$klarna_errors item=klarna_error}
 				<div class="alert alert-danger">{$klarna_error.error_message|escape:'html':'UTF-8'}</div>
@@ -34,3 +35,13 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+var confirmchangeklarnatext = "{l s='If you change the address, Klarna will not accept the risk of the order. Do you wish to continue?' js=1 mod='klarnaofficial'}";
+
+$("#addressShipping .btn").off("click").on("click", function(e){
+return confirm(confirmchangeklarnatext);
+});
+$("#addressInvoice .btn").off("click").on("click", function(e){
+return confirm(confirmchangeklarnatext);
+});
+</script>

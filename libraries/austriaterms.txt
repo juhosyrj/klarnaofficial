@@ -1,0 +1,4 @@
+<div class="alert alert-klarna-confirmbox"><input type="checkbox" onchange="checkRequirementsAT();" id="requirementsAT" />
+Mit der Übermittlung der für die Abwicklung der gewählten Klarna Zahlungsmethode und einer Identitäts– und Bonitätsprüfung erforderlichen Daten an Klarna bin ich einverstanden.
+Meine <a href="//cdn.klarna.com/1.0/shared/content/legal/terms/(eid)/de_at/consent" target="_blank" class="kpm_terms_link">Einwilligung</a> kann ich jederzeit mit Wirkung für die Zukunft widerrufen.
+Es gelten die <a href="(storeterms)" target="_blank" class="kpm_terms_link">AGB des Händlers</a>.</div>

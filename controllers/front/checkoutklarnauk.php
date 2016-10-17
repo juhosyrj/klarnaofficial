@@ -71,6 +71,14 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
                     unset($_SESSION['klarna_checkout']);
                 }
             }
+            if (Tools::getValue('kco_change_country') == 'at') {
+                $id_lang = Language::getIdByIso('de');
+                $id_currency = Currency::getIdByIsoCode('EUR');
+                $id_tmp_address = Configuration::get('KCO_AUSTRIA_ADDR');
+                if (isset($_SESSION['klarna_checkout'])) {
+                    unset($_SESSION['klarna_checkout']);
+                }
+            }
             if (Tools::getValue('kco_change_country') == 'no') {
                 $id_lang = Language::getIdByIso('no');
                 if ((int) $id_lang == 0) {
@@ -288,6 +296,25 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
                 $this->context->cart->update();
             }
             Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
+        } elseif ($country_information['purchase_country'] == 'AT') {
+            $eid = (int) (Configuration::get('KCO_AUSTRIA_EID'));
+            $sharedSecret = Configuration::get('KCO_AUSTRIA_SECRET');
+            $ssid = 'at';
+            if ($country->iso_code != 'AT') {
+                if ($this->context->cart->id_address_delivery==Configuration::get('KCO_AUSTRIA_ADDR')) {
+                    $this->module->createAddress(
+                        'AT',
+                        'KCO_AUSTRIA_ADDR',
+                        'Vienna',
+                        'Austria',
+                        'KCO_AUSTRIA_DEFAULT'
+                    );
+                }
+                
+                $this->context->cart->id_address_delivery = Configuration::get('KCO_AUSTRIA_ADDR');
+                $this->context->cart->update();
+            }
+            Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
         } elseif ($country_information['purchase_country'] == 'GB') {
             $eid = Configuration::get('KCO_UK_EID');
             $sharedSecret = Configuration::get('KCO_UK_SECRET');
@@ -371,10 +398,13 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
                     $shipping_tax_value = ($shipping_cost_with_tax - $shipping_cost_without_tax);
                     $totalCartValue += $shipping_cost_with_tax;
 
+                    $carrier = new Carrier($this->context->cart->id_carrier);
+                    $shippingReference = $this->module->shippingreferences[$language->iso_code];
+                    
                     $checkoutcart[] = array(
                         'type' => 'shipping_fee',
-                        'reference' => 'frakt',
-                        'name' => 'Frakt',
+                        'reference' => $shippingReference,
+                        'name' => strip_tags($carrier->name),
                         'quantity' => 1,
                         'unit_price' => ($shipping_cost_with_tax * 100),
                         'tax_rate' => (int) ($shipping_tax_rate * 10000),
@@ -389,10 +419,15 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
                         $wrapping_cost_incl = $this->context->cart->getOrderTotal(true, Cart::ONLY_WRAPPING);
                         $wrapping_vat = (($wrapping_cost_incl / $wrapping_cost_excl) - 1) * 100;
                         $wrapping_tax_value = ($wrapping_cost_incl - $wrapping_cost_excl);
+                        
+                        $cart_wrapping = Tools::ps_round($cart_wrapping, 2);
                         $totalCartValue += $cart_wrapping;
+                        
+                        $wrappingreference = $this->module->wrappingreferences[$language->iso_code];
+                        
                         $checkoutcart[] = array(
-                            'reference' => 'inslagning',
-                            'name' => 'Inslagning',
+                            'reference' => $wrappingreference,
+                            'name' => $this->module->getL('Inslagning'),
                             'quantity' => 1,
                             'unit_price' => ($cart_wrapping * 100),
                             'tax_rate' => (int) ($wrapping_vat * 100),
@@ -470,7 +505,8 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
                 $checkout_url = $this->context->link->getModuleLink(
                     'klarnaofficial',
                     'checkoutklarnauk',
-                    array('sid' => $ssid)
+                    array('sid' => $ssid),
+                    true
                 );
                 $checkout_url .= '&klarna_order_id={checkout.order.id}';
 
@@ -663,6 +699,7 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
                         $show_norway = false;
                         $show_finland = false;
                         $show_germany = false;
+                        $show_austria = false;
                         $show_uk = false;
                         if ((int) (Configuration::get('KCO_SWEDEN')) == 1) {
                             ++$no_active_countries;
@@ -684,12 +721,17 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
                             ++$no_active_countries;
                             $show_uk = true;
                         }
+                        if ((int) (Configuration::get('KCO_AUSTRIA')) == 1) {
+                            ++$no_active_countries;
+                            $show_austria = true;
+                        }
                         $this->assignSummaryInformations();
                         $this->context->smarty->assign(array(
                             'no_active_countries' => $no_active_countries,
                             'show_germany' => $show_germany,
                             'show_norway' => $show_norway,
                             'show_uk' => $show_uk,
+                            'show_austria' => $show_austria,
                             'show_finland' => $show_finland,
                             'show_sweden' => $show_sweden,
                             'kco_selected_country' => $country_information['purchase_country'],

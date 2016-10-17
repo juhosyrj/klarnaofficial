@@ -54,6 +54,9 @@ class KlarnaOfficialThankYouModuleFrontController extends ModuleFrontController
             if ($sid == 'de') {
                 $secret = Configuration::get('KCO_GERMANY_SECRET');
             }
+            if ($sid == 'at') {
+                $secret = Configuration::get('KCO_AUSTRIA_SECRET');
+            }
             if ($sid == 'fi') {
                 $secret = Configuration::get('KCO_FINLAND_SECRET');
             }

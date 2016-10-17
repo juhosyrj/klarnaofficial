@@ -35,6 +35,7 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
         'SWE' => 'SE',
         'NOR' => 'NO',
         'FIN' => 'FI',
+        'AUT' => 'AT',
         'DNK' => 'DK',
         'DEU' => 'DE',
         'NLD' => 'NL',
@@ -45,6 +46,7 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
         'de' => 'DE',
         'nl' => 'NL',
         'gb' => 'GB',
+        'at' => 'AT',
         );
 
         try {
@@ -58,6 +60,11 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                 $conf = Configuration::getMultiple(array('KCO_GERMANY_EID', 'KCO_GERMANY_SECRET'));
                 $eid = $conf['KCO_GERMANY_EID'];
                 $secret = $conf['KCO_GERMANY_SECRET'];
+            }
+            if ($sid == 'at') {
+                $conf = Configuration::getMultiple(array('KCO_AUSTRIA_EID', 'KCO_AUSTRIA_SECRET'));
+                $eid = $conf['KCO_AUSTRIA_EID'];
+                $secret = $conf['KCO_AUSTRIA_SECRET'];
             }
             if ($sid == 'fi') {
                 $conf = Configuration::getMultiple(array('KCO_FINLAND_EID', 'KCO_FINLAND_SECRET'));
@@ -210,6 +217,10 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                 $shipping_country_id = Country::getByIso($shipping_iso);
                 $invocie_country_id = Country::getByIso($invocie_iso);
                 if ($shipping['country'] == 'de') {
+                    $shipping['street_address'] = $shipping['street_name'].' '.$shipping['street_number'];
+                    $billing['street_address'] = $billing['street_name'].' '.$billing['street_number'];
+                }
+                if ($shipping['country'] == 'at') {
                     $shipping['street_address'] = $shipping['street_name'].' '.$shipping['street_number'];
                     $billing['street_address'] = $billing['street_name'].' '.$billing['street_number'];
                 }

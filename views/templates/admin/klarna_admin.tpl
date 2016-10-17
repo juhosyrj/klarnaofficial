@@ -107,6 +107,7 @@
 							<li class="nav-item"><a href="javascript:;" title="{l s='Country settings' mod='klarnaofficial'}" data-panel="1" data-fieldset="3"><i class="icon-AdminParentLocalization"></i>{l s='Norway' mod='klarnaofficial'}</a></li>
 							<li class="nav-item"><a href="javascript:;" title="{l s='Country settings' mod='klarnaofficial'}" data-panel="1" data-fieldset="4"><i class="icon-AdminParentLocalization"></i>{l s='Finland' mod='klarnaofficial'}</a></li>
 							<li class="nav-item"><a href="javascript:;" title="{l s='Country settings' mod='klarnaofficial'}" data-panel="1" data-fieldset="5"><i class="icon-AdminParentLocalization"></i>{l s='Germany' mod='klarnaofficial'}</a></li>
+							<li class="nav-item"><a href="javascript:;" title="{l s='Country settings' mod='klarnaofficial'}" data-panel="1" data-fieldset="7"><i class="icon-AdminParentLocalization"></i>{l s='Austria' mod='klarnaofficial'}</a></li>
 							<li class="nav-item"><a href="javascript:;" title="{l s='Country settings' mod='klarnaofficial'}" data-panel="1" data-fieldset="6"><i class="icon-AdminParentLocalization"></i>{l s='UK' mod='klarnaofficial'}</a></li>
 						</ul>
 					</div>

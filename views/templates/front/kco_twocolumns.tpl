@@ -16,6 +16,12 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of Prestaworks AB
 *}
+{if isset($klarna_checkout_cart_changed) && $klarna_checkout_cart_changed}
+<div class="alert alert-warning">
+    {l s='Your cart have changed.' mod='klarnaofficial'}<br />
+    {l s='Please check all information below and then continue with the checkout.' mod='klarnaofficial'}
+</div>
+{/if}
 {if isset($KCO_SHOWLINK) && $KCO_SHOWLINK}
 	<a
 		href="{$link->getPageLink('order', true, NULL, 'step=1')|escape:'html':'UTF-8'}"
@@ -85,6 +91,7 @@
                         {if $show_norway}<option value="no" {if $kco_selected_country=='NO'}selected="selected"{/if}>{l s='Norway' mod='klarnaofficial'}</option>{/if}
                         {if $show_finland}<option value="fi" {if $kco_selected_country=='FI'}selected="selected"{/if}>{l s='Finland' mod='klarnaofficial'}</option>{/if}
                         {if $show_germany}<option value="de" {if $kco_selected_country=='DE'}selected="selected"{/if}>{l s='Germany' mod='klarnaofficial'}</option>{/if}
+                        {if $show_austria}<option value="at" {if $kco_selected_country=='AT'}selected="selected"{/if}>{l s='Austria' mod='klarnaofficial'}</option>{/if}
                         {if $show_uk}<option value="gb" {if $kco_selected_country=='GB'}selected="selected"{/if}>{l s='United Kingdom' mod='klarnaofficial'}</option>{/if}
                     </select>
                 </form><!-- /form#kco_change_country -->

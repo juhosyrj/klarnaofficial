@@ -1,18 +1,20 @@
+<div class="alert alert-klarna" id="kpmspecialusecase" style="display:none">
 Verfügungsrahmen ab 199,99 € (abhängig von der Höhe Ihrer Einkäufe), effektiver
 Jahreszins 18,07%* und Gesamtbetrag 218,57€* 
 (*bei Ausnutzung des vollen Verfügungsrahmens und Rückzahlung in
-12 monatlichen Raten je 18,21 €). Hier finden Sie <a href="https://cdn.klarna.com/1.0/shared/content/legal/terms/(eid)/de_de/account" target="_blank" class="kpm_terms_link">weitere Informationen</a>,
-<a target="_blank" href="https://cdn.klarna.com/1.0/shared/content/legal/de_de/account/terms.pdf">AGB mit Widerrufsbelehrung</a>
+12 monatlichen Raten je 18,21 €). Hier finden Sie <a href="//cdn.klarna.com/1.0/shared/content/legal/terms/(eid)/de_de/account" target="_blank" class="kpm_terms_link">weitere Informationen</a>,
+<a class="kpm_terms_link" target="_blank" href="//cdn.klarna.com/1.0/shared/content/legal/de_de/account/terms.pdf">AGB mit Widerrufsbelehrung</a>
 <br />und<br />
-<a target="_blank" href="https://cdn.klarna.com/1.0/shared/content/legal/de_de/consumer_credit.pdf">
+<a class="kpm_terms_link" target="_blank" href="//cdn.klarna.com/1.0/shared/content/legal/de_de/consumer_credit.pdf">
 Standardinformationen für Verbraucherkredite.</a>
 Übersteigt Ihr Einkauf mit Klarna Ratenkauf erstmals einen Betrag von 199,99 €
 erhalten Sie von Klarna einen Ratenkaufver trag mit der Bitte um
 Unterzeichnung zugesandt. Ihr Kauf gilt solange als Rechnungskauf.
-<br /><br />
+<br /><br /></div>
+<div class="alert alert-klarna-confirmbox">
 <input type="checkbox" onchange="checkRequirementsDE();" id="requirementsDE" />
 Mit der Übermittlung der für die Abwicklung der gewählten Klarna
  Zahlungsmethode und einer Identitäts- und Bonitätsprüfung erforderlichen
- Daten an Klarna bin ich einverstanden. Meine <a href="https://cdn.klarna.com/1.0/shared/content/legal/terms/(eid)/de_de/consent"
+ Daten an Klarna bin ich einverstanden. Meine <a class="kpm_terms_link" href="//cdn.klarna.com/1.0/shared/content/legal/terms/(eid)/de_de/consent"
  target="_blank" class="kpm_terms_link">Einwilligung</a> kann ich jederzeit mit Wirkung für die Zukunft widerrufen.
- Es gelten die AGB des Händlers. 
+ Es gelten die AGB des Händlers. </div>

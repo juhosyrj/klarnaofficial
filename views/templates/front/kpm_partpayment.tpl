@@ -41,7 +41,7 @@
 	{/if}
     {if $currencymismatch}
         {assign var=notOK value=true}
-        <label class="alert alert-danger">{l s='Based on the choosen delivery country, you need to select the following currency:' mod='klarnaofficial'}{$kpm_expected_currency}<br >
+        <label class="alert alert-danger">{l s='Based on the choosen delivery country, you need to select the following currency:' mod='klarnaofficial'}{$kpm_expected_currency|escape:'htmlall':'UTF-8'}<br >
              <a class="button-exclusive btn btn-default" href="{$link->getPageLink('order', true, NULL, "step=3")|escape:'html':'UTF-8'}"><i class="icon-chevron-left"></i>{l s='Other payment methods' mod='klarnaofficial'}</a>
         </label>
     {/if}
@@ -57,13 +57,13 @@
                 {if $kpm_plan.pclass_id==-1 && $klarna_invoice_fee>0}
                     <label class="kpm_description_full" for="{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}">{l s='Invoice fee' mod='klarnaofficial'} {convertPrice price=$klarna_invoice_fee}</label>
                 {/if}
-				<a href="{$kpm_plan.terms.uri|escape:'htmlall':'UTF-8'}{if $klarna_invoice_fee > 0}{if $kpm_iso_code=='se' || $kpm_iso_code=='no' || $kpm_iso_code=='de'}{$klarna_invoice_fee|escape:'htmlall':'UTF-8'}{/if}{/if}" target="_blank" class="kpm_terms_link">({if isset($terms_invoice)}{$terms_invoice}{else}{l s='Terms invoice' mod='klarnaofficial'}{/if})</a>
+				<a href="{$kpm_plan.terms.uri|escape:'htmlall':'UTF-8'}{if $klarna_invoice_fee > 0}{if $kpm_iso_code=='se' || $kpm_iso_code=='no' || $kpm_iso_code=='de'}{$klarna_invoice_fee|escape:'htmlall':'UTF-8'}{/if}{/if}" target="_blank" class="kpm_terms_link">({if isset($terms_invoice)}{$terms_invoice|escape:'htmlall':'UTF-8'}{else}{l s='Terms invoice' mod='klarnaofficial'}{/if})</a>
 				<br />
             {else}
                 <!-- Partpayments -->
                 <input type="radio" onclick="javascript:toggleKPMSpecialUseCase({$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'});" value="{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}" id="{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}" name="kpm_pclass"{if $kpm_plan.pclass_id==$kpm_pclass} checked="checked"{/if} />
 				<label for="{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}" class="kpm_description">{$kpm_plan.group.title|escape:'htmlall':'UTF-8'} - {$kpm_plan.title|escape:'htmlall':'UTF-8'}</label>
-                <a href="{$kpm_plan.terms.uri|escape:'htmlall':'UTF-8'}{if $kpm_plan.pclass_id==-1 && $klarna_invoice_fee > 0}{if $kpm_iso_code=='se' || $kpm_iso_code=='no' || $kpm_iso_code=='de'}{$klarna_invoice_fee|escape:'htmlall':'UTF-8'}{/if}{/if}" target="_blank" class="kpm_terms_link">({if isset($terms_account)}{$terms_account}{else}{l s='Terms account' mod='klarnaofficial'}{/if})</a>
+                <a href="{$kpm_plan.terms.uri|escape:'htmlall':'UTF-8'}{if $kpm_plan.pclass_id==-1 && $klarna_invoice_fee > 0}{if $kpm_iso_code=='se' || $kpm_iso_code=='no' || $kpm_iso_code=='de'}{$klarna_invoice_fee|escape:'htmlall':'UTF-8'}{/if}{/if}" target="_blank" class="kpm_terms_link">({if isset($terms_account)}{$terms_account|escape:'htmlall':'UTF-8'}{else}{l s='Terms account' mod='klarnaofficial'}{/if})</a>
                 <label id="kpm_description_full_{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}" class="kpm_description_full kpmtohide" for="{$kpm_plan.pclass_id|escape:'htmlall':'UTF-8'}">{$kpm_plan.extra_info|escape:'htmlall':'UTF-8'}</label>
 				{if isset($kpm_plan.use_case) && $kpm_plan.use_case != '' && $kpm_iso_code != 'de'}<br /><label class="alert alert-success">{$kpm_plan.use_case|escape:'quotes':'UTF-8'}</label>{/if}<br />
             {/if}

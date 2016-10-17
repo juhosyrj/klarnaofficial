@@ -26,18 +26,17 @@ class KlarnaOfficialCallbackValidationModuleFrontController extends ModuleFrontC
 
     public function init()
     {
-        $klarnadata = file_get_contents('php://input');
+        $klarnadata = Tools::file_get_contents('php://input');
         
-        $klarnaorder = json_decode($klarnadata, true);
-         PrestaShopLogger::addLog('KCO CALL', 3, null, '', 0, true);
+        $klarnaorder = Tools::jsonDecode($klarnadata, true);
         //DO THE CHECKS ON THE CART
         if (isset($klarnaorder["merchant_reference"]["orderid2"])) {
             $id_cart = (int)$klarnaorder["merchant_reference"]["orderid2"];
-            if($id_cart > 0) {
+            if ($id_cart > 0) {
                 $cart = new Cart($id_cart);
                 $this->context->currency = new Currency((int)$cart->id_currency);
                 $language = new Language((int)$cart->id_lang);
-                
+                $this->context->language = $language;
                 //Check cart exist and no order created
                 if (Validate::isLoadedObject($cart) && $cart->OrderExists() == false) {
                     //Check stock
@@ -49,9 +48,9 @@ class KlarnaOfficialCallbackValidationModuleFrontController extends ModuleFrontC
                     $shipping_cost_with_tax = ($shipping_cost_with_tax * 100);
                     foreach ($klarnaorder["cart"]["items"] as $key => $cartitem) {
                         if ($cartitem["type"] == "shipping_fee") {
-                           if ($shipping_cost_with_tax==$cartitem["unit_price"]) {
-                               unset($klarnaorder["cart"]["items"][$key]);
-                           } 
+                            if ($shipping_cost_with_tax==$cartitem["unit_price"]) {
+                                unset($klarnaorder["cart"]["items"][$key]);
+                           }
                         }
                     }
                     //Check products
@@ -62,14 +61,14 @@ class KlarnaOfficialCallbackValidationModuleFrontController extends ModuleFrontC
                         $product['reference'] != '') {
                             $product_reference = $product['reference'];
                         }
-                        
+
                         $price = Tools::ps_round($product['price_wt'], 2);
-                        $price = ($price * 100);
+                        $price = "".($price * 100);
 
                         foreach ($klarnaorder["cart"]["items"] as $key => $cartitem) {
-                            if($cartitem["reference"] == $product_reference) {
-                                if((int)$cartitem["quantity"] == (int)$product['cart_quantity']) {
-                                    if((int)$cartitem["unit_price"] == (int)$price) {
+                            if ($cartitem["reference"] == $product_reference) {
+                                if ((int)$cartitem["quantity"] == (int)$product['cart_quantity']) {
+                                    if ((int)$cartitem["unit_price"] == (int)$price) {
                                         //All is matching, remove this.
                                         unset($klarnaorder["cart"]["items"][$key]);
                                         $product_found = true;
@@ -90,10 +89,10 @@ class KlarnaOfficialCallbackValidationModuleFrontController extends ModuleFrontC
                             
                             foreach ($klarnaorder["cart"]["items"] as $key => $cartitem) {
                                      if ($cartitem["type"] == "discount") {
-                                         if ((int)$cartitem["unit_price"] == (int)$value_real) {
-                                             unset($klarnaorder["cart"]["items"][$key]);
-                                             $cartdiscountsfound = true;
-                                         }
+                                        if ((int)$cartitem["unit_price"] == (int)$value_real) {
+                                            unset($klarnaorder["cart"]["items"][$key]);
+                                            //$cartdiscountsfound = true;
+                                        }
                                      }
                                  }
                         }
@@ -123,12 +122,12 @@ class KlarnaOfficialCallbackValidationModuleFrontController extends ModuleFrontC
                                 $cart_wrapping = Tools::ps_round($cart_wrapping, 2);
                                 $cart_wrapping = ($cart_wrapping * 100);
                                  foreach ($klarnaorder["cart"]["items"] as $key => $cartitem) {
-                                     if ($cartitem["reference"] == $wrappingreference) {
-                                         if ($cartitem["unit_price"] == $cart_wrapping) {
-                                             $cartgiftfound = true;
-                                             unset($klarnaorder["cart"]["items"][$key]);
-                                         }
-                                     }
+                                    if ($cartitem["reference"] == $wrappingreference) {
+                                        if ($cartitem["unit_price"] == $cart_wrapping) {
+                                            $cartgiftfound = true;
+                                            unset($klarnaorder["cart"]["items"][$key]);
+                                        }
+                                    }
                                  }
                             }
                         }
@@ -137,7 +136,7 @@ class KlarnaOfficialCallbackValidationModuleFrontController extends ModuleFrontC
                     if (count($klarnaorder["cart"]["items"]) > 0) {
                             //Klarna has products that are not existing in Prestashop
                             $this->redirectKCO();
-                        }
+                    }
                     /*if ($cartdiscountsfound==false) {
                         $this->redirectKCO();
                     }*/
@@ -160,7 +159,7 @@ class KlarnaOfficialCallbackValidationModuleFrontController extends ModuleFrontC
     {
         header('HTTP/1.1 303 See Other');
         header('Cache-Control: no-cache');
-        //$url = $this->context->link->getProductLink($this->product->id_product_redirected);
+
         $url = $this->context->link->getModuleLink(
             'klarnaofficial',
             'checkoutklarna',
@@ -168,7 +167,7 @@ class KlarnaOfficialCallbackValidationModuleFrontController extends ModuleFrontC
             true
         );
        // $url = "http://kcouk.prestaworks.se";
-        header('Location: '.$url);
+        Tools::redirect($url);
         exit;
     }
 }

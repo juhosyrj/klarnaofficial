@@ -1,5 +1,5 @@
 <?php
-/*
+/**
 * File: /upgrade/Upgrade-1.8.11.php
 */
 function upgrade_module_1_8_15($module)

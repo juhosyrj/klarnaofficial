@@ -1092,6 +1092,6 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
         }
     }
     public function cutNum($num, $precision = 2){
-        return floor($num).substr($num-floor($num),1,$precision+1);
+        return floor($num).Tools::substr($num-floor($num),1,$precision+1);
     }
 }

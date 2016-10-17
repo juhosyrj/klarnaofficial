@@ -431,8 +431,8 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
             }
         }
 
-        if (isset($_COOKIE['kpm_ssn'])) {
-            $kpm_ssn = $_COOKIE['kpm_ssn'];
+        if (isset(Context::getContext()->cookie->kpm_ssn)) {
+            $kpm_ssn = Context::getContext()->cookie->kpm_ssn;
         } else {
             $kpm_ssn = Tools::getValue('kpm_ssn', '');
         }
@@ -507,6 +507,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
         $kpm_expected_currency = "";
         $kpm_expected_language = array("");
         if ($klarnaCountry == KlarnaCountry::NL) {
+            $data = array();
             $kpm_expected_currency = "EUR";
             $kpm_expected_language_display = "Nederlands";
             $kpm_expected_language = array("nl");
@@ -833,7 +834,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
         $this->setTemplate('kpm_partpayment.tpl');
     }
     public function cutNum($num, $precision = 2){
-        return floor($num).substr($num-floor($num),1,$precision+1);
+        return floor($num).Tools::substr($num-floor($num),1,$precision+1);
     }
     
     public function split_street($streetStr) {

@@ -518,7 +518,7 @@ class KlarnaOfficial extends PaymentModule
             ),
             'expire' => array(
                 'title' => $this->l('Valid to'),
-                'type' => 'date',
+                'type' => 'text',
                 'search' => false,
                 'orderby' => false,
             ),

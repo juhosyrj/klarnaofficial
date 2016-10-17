@@ -107,8 +107,8 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
         if ($deliveryCountry->iso_code == 'de' || $deliveryCountry->iso_code == 'DE') {
             $klarnaCountry = KlarnaCountry::DE;
         }
-        if ($deliveryCountry->iso_code == 'da' || $deliveryCountry->iso_code == 'DA') {
-            $klarnaCountry = KlarnaCountry::DA;
+        if ($deliveryCountry->iso_code == 'dk' || $deliveryCountry->iso_code == 'DK') {
+            $klarnaCountry = KlarnaCountry::DK;
         }
         if ($deliveryCountry->iso_code == 'nl' || $deliveryCountry->iso_code == 'NL') {
             $klarnaCountry = KlarnaCountry::NL;
@@ -573,11 +573,17 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                 $newPclass['pclass_id'] = $pclass->id;
                 $newPclass['group']['title'] = 'Gespreid betalen';
                 $newPclass['title'] = 'Flexibel, in uw eigen tempo betalen';
+                $newPclass['details']['rente']['label'] = 'Jaarlijkse rente';
+                $newPclass['details']['rente']['value'] = $pclass->interestRate;
+                $newPclass['details']['rente']['symbol'] = '%';
                 
-                $newPclass['extra_info'] = 'Jaarlijkse rente '.
-                $pclass->interestRate.'%'.' Factuurkosten '.
-                Tools::displayPrice($pclass->invoiceFee).' Maandelijkse betaling vanaf '.
-                Tools::displayPrice($monthlycost);
+                $newPclass['details']['factuurkosten']['label'] = 'Factuurkosten';
+                $newPclass['details']['factuurkosten']['value'] = Tools::displayPrice($pclass->invoiceFee);
+                $newPclass['details']['factuurkosten']['symbol'] = '';
+                
+                $newPclass['details']['vanaf']['label'] = 'Maandelijkse betaling vanaf';
+                $newPclass['details']['vanaf']['value'] = Tools::displayPrice($monthlycost);
+                $newPclass['details']['vanaf']['symbol'] = '';
                 
                 $newPclass['terms']['uri'] = $termsuri;
                 $newPclass['logo']['uri'] = $logourl;
@@ -587,6 +593,77 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
             $this->context->smarty->assign('terms_account', "Lees meer!");
             $this->context->smarty->assign('terms_invoice', "Factuurvoorwaarden");
             
+            
+        } elseif ($klarnaCountry == KlarnaCountry::DK) {
+            $kpm_expected_language = array("da");
+            $kpm_expected_language_display = "Danska";
+            $kpm_expected_currency = "DKK";
+            
+            if ($currencyIso == $kpm_expected_currency) {
+                $kpm_account = $k->getPClasses(KlarnaPClass::ACCOUNT);
+            } else {
+                $kpm_account = array();
+            }
+            
+            $newPclass = array();
+            $newPclass['title'] = 'Faktura';
+            $newPclass['group']['title'] = 'Betal om 14 dage';
+            $newPclass['pclass_id'] = -1;
+            $newPclass['use_case'] = '';
+            $newPclass['extra_info'] = '';
+            
+            if ($klarna_invoice_fee>0) {
+                $invoicefeestring = '?fee='.$klarna_invoice_fee;
+            } else {
+                $invoicefeestring = '';
+            }
+            
+            $klarna_locale = $this->module->getKlarnaLocale();
+            $newPclass['terms']['uri'] = "https://cdn.klarna.com/1.0/shared/content/legal/terms/$eid/".
+            $klarna_locale.'/invoice'.$invoicefeestring;
+            
+            $newPclass['logo']['uri'] = $logourl;
+            $data['payment_methods'][] = $newPclass;
+
+            foreach ($kpm_account as $pclass) {
+                $newPclass = array();
+                KlarnaCalc::calc_apr($kpm_total_order_value, $pclass, KlarnaFlags::CHECKOUT_PAGE);
+                $monthlycost = KlarnaCalc::calc_monthly_cost(
+                    $kpm_total_order_value,
+                    $pclass,
+                    KlarnaFlags::CHECKOUT_PAGE
+                );
+                KlarnaCalc::total_credit_purchase_cost(
+                    $kpm_total_order_value,
+                    $pclass,
+                    KlarnaFlags::CHECKOUT_PAGE
+                );
+
+                $newPclass['pclass_id'] = $pclass->id;
+                $newPclass['title'] = $pclass->description;
+                $newPclass['group']['title'] = 'Afbetaling';
+                
+                $newPclass['details']['rente']['label'] = 'Årlig rente';
+                $newPclass['details']['rente']['value'] = $pclass->interestRate;
+                $newPclass['details']['rente']['symbol'] = '%';
+                
+                $newPclass['details']['factuurkosten']['label'] = 'Administrationsgebyr';
+                $newPclass['details']['factuurkosten']['value'] = Tools::displayPrice($pclass->invoiceFee);
+                $newPclass['details']['factuurkosten']['symbol'] = '';
+                
+                $newPclass['details']['vanaf']['label'] = 'Månedlig omkostning';
+                $newPclass['details']['vanaf']['value'] = Tools::displayPrice($monthlycost);
+                $newPclass['details']['vanaf']['symbol'] = '';
+                
+                $newPclass['extra_info'] = '';
+                
+                $newPclass['terms']['uri'] = $termsuri;
+                $newPclass['logo']['uri'] = $logourl;
+                $data['payment_methods'][] = $newPclass;
+            }
+            
+            $this->context->smarty->assign('terms_account', "Læs mere");
+            $this->context->smarty->assign('terms_invoice', "Læs mere");
             
         } elseif ($klarnaCountry == KlarnaCountry::FI) {
             $kpm_expected_language = array("fi", "sv");
@@ -636,10 +713,20 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                 $newPclass['pclass_id'] = $pclass->id;
                 $newPclass['title'] = $pclass->description;
                 $newPclass['group']['title'] = 'Erämaksu';
-                $newPclass['extra_info'] = 'Vuosikorko '.
-                $pclass->interestRate.'%'.' Hallinnointimaksu '.
-                Tools::displayPrice($pclass->invoiceFee).' Kuukausikustannus '.
-                Tools::displayPrice($monthlycost);
+                
+                $newPclass['details']['rente']['label'] = 'Vuosikorko';
+                $newPclass['details']['rente']['value'] = $pclass->interestRate;
+                $newPclass['details']['rente']['symbol'] = '%';
+                
+                $newPclass['details']['factuurkosten']['label'] = 'Hallinnointimaksu';
+                $newPclass['details']['factuurkosten']['value'] = Tools::displayPrice($pclass->invoiceFee);
+                $newPclass['details']['factuurkosten']['symbol'] = '';
+                
+                $newPclass['details']['vanaf']['label'] = 'Kuukausikustannus';
+                $newPclass['details']['vanaf']['value'] = Tools::displayPrice($monthlycost);
+                $newPclass['details']['vanaf']['symbol'] = '';
+                
+                $newPclass['extra_info'] = '';
                 
                 $newPclass['terms']['uri'] = $termsuri;
                 $newPclass['logo']['uri'] = $logourl;
@@ -730,7 +817,6 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                 $pclassiso
             );
             $data = $response->getData();
-            
             /*Add a check here too see if pclass is active in shop*/
             $sql_to_check = "SELECT GROUP_CONCAT(id) FROM `"._DB_PREFIX_."kpmpclasses`".
                 "WHERE eid=$eid AND country=$klarnaCountry";

@@ -19,6 +19,7 @@
 function toggleKPMSpecialUseCase(pclasschoice) {
     var selectedPClass = $('input[name=kpm_pclass]:checked', '#kpmForm').val();
     if (selectedPClass > -1) {
+        $('.kpmtohide').hide();
         $('#kpmspecialusecase').show();
         $('#kpm_description_full_'+pclasschoice).show();
     } else {

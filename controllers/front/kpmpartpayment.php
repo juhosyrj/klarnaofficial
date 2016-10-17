@@ -337,7 +337,12 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                             );
                         }
                         if ((int) $result[1] == 2) {
-                            $order_status = Configuration::get('KPM_PENDING_INVOICE', null, null, $this->context->shop->id);
+                            $order_status = Configuration::get(
+                                'KPM_PENDING_INVOICE',
+                                null,
+                                null,
+                                $this->context->shop->id
+                            );
                             $risk_status = $this->module->Pending_risk;
                         }
                         $reservation_number = $result[0];
@@ -375,7 +380,9 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                     Db::getInstance()->Execute($sql);
                     
                     //Cache::clean('*');
-                    //Try to move this to a new controller or some kind of reload, that should in theory fix all cache issue with prestashop cart.
+                    /*Try to move this to a new controller or some kind of reload, 
+                    that should in theory fix all cache issue with prestashop cart.*/
+                    
                     $this->module->validateOrder(
                         $this->context->cart->id,
                         $order_status,
@@ -427,7 +434,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                     $this->context->smarty->assign('errormsg', utf8_encode($e->getMessage()));
                 }
             } else {
-                $this->context->smarty->assign('errormsg', $this->module->l('Missing field SSN','kpmpartpayment'));
+                $this->context->smarty->assign('errormsg', $this->module->l('Missing field SSN', 'kpmpartpayment'));
             }
         }
 
@@ -681,11 +688,16 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
             );
             
             
-            $link_conditions = $this->context->link->getCMSLink($cms, $cms->link_rewrite, Configuration::get('PS_SSL_ENABLED'));
-            if (!strpos($link_conditions, '?'))
+            $link_conditions = $this->context->link->getCMSLink(
+                $cms,
+                $cms->link_rewrite,
+                Configuration::get('PS_SSL_ENABLED')
+            );
+            if (!strpos($link_conditions, '?')) {
                 $link_conditions .= '?content_only=1';
-            else
+            } else {
                 $link_conditions .= '&content_only=1';
+            }
             
             $use_case = str_replace("(storeterms)", $link_conditions, $use_case);
             $use_case = str_replace("(eid)", $eid, $use_case);
@@ -720,7 +732,9 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
             $data = $response->getData();
             
             /*Add a check here too see if pclass is active in shop*/
-            $sql_to_check = "SELECT GROUP_CONCAT(id) FROM `"._DB_PREFIX_."kpmpclasses` WHERE eid=$eid AND country=$klarnaCountry";
+            $sql_to_check = "SELECT GROUP_CONCAT(id) FROM `"._DB_PREFIX_."kpmpclasses`".
+                "WHERE eid=$eid AND country=$klarnaCountry";
+                
             $active_pclasses_string = Db::getInstance()->getValue($sql_to_check);
             $active_pclasses = explode(",", $active_pclasses_string);
             $active_pclasses[] = -1;
@@ -757,7 +771,10 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
         }*/
 
         $kpm_birthdate = '';
-        if ($customer->birthday != null && $customer->birthday != '' & $customer->birthday != '0000-00-00') {
+        if ($customer->birthday != null &&
+            $customer->birthday != '' &&
+            $customer->birthday != '0000-00-00'
+        ) {
             $kpm_birthdate = $customer->birthday;
         }
 
@@ -775,7 +792,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
         
         if ($country->iso_code == "DE" || $country->iso_code == "NL") {
             if ($kpm_housenumber == "" || $kpm_housenumberext == "") {
-                $streetarray = $this->split_street($kpm_streetname);
+                $streetarray = $this->splitStreet($kpm_streetname);
                 $kpm_housenumberext = $streetarray["numberAddition"];
                 $kpm_housenumber = $streetarray["number"];
                 $kpm_streetname = $streetarray["street"];
@@ -792,6 +809,8 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
         } else {
             $languagemismatch = false;
         }
+        $kpm_postback_url = $this->context->link->getModuleLink('klarnaofficial', 'kpmpartpayment', array(), true);
+        $kpm_getaddress_url = $this->context->link->getModuleLink('klarnaofficial', 'kpmgetaddress', array(), true);
         
         $this->context->smarty->assign(array(
             'kpm_md5key' => Tools::encrypt($sharedSecret),
@@ -827,17 +846,18 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
             'kpm_eid' => $eid,
             'kpm_terms_layout' => $layout,
             'kpm_iso_code' => Tools::strtolower($country->iso_code),
-            'kpm_postback_url' => $this->context->link->getModuleLink('klarnaofficial', 'kpmpartpayment', array(), true),
-            'kpm_getaddress_url' => $this->context->link->getModuleLink('klarnaofficial', 'kpmgetaddress', array(), true),
+            'kpm_postback_url' => $kpm_postback_url,
+            'kpm_getaddress_url' => $kpm_getaddress_url,
         ));
 
         $this->setTemplate('kpm_partpayment.tpl');
     }
-    public function cutNum($num, $precision = 2){
-        return floor($num).Tools::substr($num-floor($num),1,$precision+1);
+    public function cutNum($num, $precision = 2)
+    {
+        return floor($num).Tools::substr($num-floor($num), 1, $precision+1);
     }
     
-    public function split_street($streetStr) {
+    public function splitStreet($streetStr) {
         $aMatch         = array();
         $pattern        = '#^([\w[:punct:] ]+) ([0-9]{1,5})([ \w[:punct:]\-/]*)$#';
         $matchResult    = preg_match($pattern, $streetStr, $aMatch);

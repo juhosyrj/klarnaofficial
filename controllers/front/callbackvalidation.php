@@ -50,7 +50,7 @@ class KlarnaOfficialCallbackValidationModuleFrontController extends ModuleFrontC
                         if ($cartitem["type"] == "shipping_fee") {
                             if ($shipping_cost_with_tax==$cartitem["unit_price"]) {
                                 unset($klarnaorder["cart"]["items"][$key]);
-                           }
+                            }
                         }
                     }
                     //Check products
@@ -88,13 +88,13 @@ class KlarnaOfficialCallbackValidationModuleFrontController extends ModuleFrontC
                             $value_real = -(Tools::ps_round($value_real, 2) * 100);
                             
                             foreach ($klarnaorder["cart"]["items"] as $key => $cartitem) {
-                                     if ($cartitem["type"] == "discount") {
-                                        if ((int)$cartitem["unit_price"] == (int)$value_real) {
+                                if ($cartitem["type"] == "discount") {
+                                    if ((int)$cartitem["unit_price"] == (int)$value_real) {
                                             unset($klarnaorder["cart"]["items"][$key]);
                                             //$cartdiscountsfound = true;
                                         }
-                                     }
-                                 }
+                                    }
+                                }
                         }
                         
                         /*$totalDiscounts = $cart->getOrderTotal(true, Cart::ONLY_DISCOUNTS);
@@ -121,14 +121,14 @@ class KlarnaOfficialCallbackValidationModuleFrontController extends ModuleFrontC
                                 $cartgiftfound = false;
                                 $cart_wrapping = Tools::ps_round($cart_wrapping, 2);
                                 $cart_wrapping = ($cart_wrapping * 100);
-                                 foreach ($klarnaorder["cart"]["items"] as $key => $cartitem) {
+                                foreach ($klarnaorder["cart"]["items"] as $key => $cartitem) {
                                     if ($cartitem["reference"] == $wrappingreference) {
                                         if ($cartitem["unit_price"] == $cart_wrapping) {
                                             $cartgiftfound = true;
                                             unset($klarnaorder["cart"]["items"][$key]);
                                         }
                                     }
-                                 }
+                                }
                             }
                         }
                     }

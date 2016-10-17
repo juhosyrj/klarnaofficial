@@ -35,7 +35,7 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
 
     public function postProcess()
     {
-        if ( version_compare(phpversion(), '5.4.0', '>=') ) {
+        if (version_compare(phpversion(), '5.4.0', '>=')) {
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
@@ -355,7 +355,7 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                     Tools::redirect('index.php?controller=order&step=1');
                 }
                 require_once dirname(__FILE__).'/../../libraries/Checkout.php';
-                if ( version_compare(phpversion(), '5.4.0', '>=') ) {
+                if (version_compare(phpversion(), '5.4.0', '>=')) {
                     if (session_status() === PHP_SESSION_NONE) {
                         session_start();
                     }
@@ -442,7 +442,10 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                         }
                         $PS_GIFT_WRAPPING_TAX_RULES_GROUP = Configuration::get('PS_GIFT_WRAPPING_TAX_RULES_GROUP');
                         if ($PS_GIFT_WRAPPING_TAX_RULES_GROUP > 0) {
-                            $tax_manager = TaxManagerFactory::getManager($carrieraddress, $PS_GIFT_WRAPPING_TAX_RULES_GROUP);
+                            $tax_manager = TaxManagerFactory::getManager(
+                                $carrieraddress,
+                                $PS_GIFT_WRAPPING_TAX_RULES_GROUP
+                            );
                             $tax_calculator = $tax_manager->getTaxCalculator();
                             $wrapping_vat = $tax_calculator->getTotalRate();
                         } else {
@@ -611,7 +614,6 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                         $create['merchant']['back_to_store_uri'] = $back_to_store_uri;
                         $create['merchant']['confirmation_uri'] = $callbackPage;
                         $create['merchant']['push_uri'] = $pushPage;
-                        //$create['merchant']['validation_uri'] = 'https://kcouk.prestaworks.se/klarnavalidationtest.php';
                         if (Configuration::get('KCO_CALLBACK_CHECK') == 1) {
                             $create['merchant']['validation_uri'] = ''.
                             $this->context->link->getModuleLink(
@@ -1091,7 +1093,8 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
             return Tools::ps_round($cart_vat_amount / $cart_amount_te, 2);
         }
     }
-    public function cutNum($num, $precision = 2){
-        return floor($num).Tools::substr($num-floor($num),1,$precision+1);
+    public function cutNum($num, $precision = 2)
+    {
+        return floor($num).Tools::substr($num-floor($num), 1, $precision+1);
     }
 }

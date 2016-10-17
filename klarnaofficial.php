@@ -3148,7 +3148,7 @@ class KlarnaOfficial extends PaymentModule
         $eid = $order_data['eid'];
         $eid_ss_comb = $this->getAllEIDSScombinations($id_shop);
         
-        if($eid != "") {
+        if ($eid != "") {
             $shared_secret = $eid_ss_comb[$eid];
             $countryIso = '';
             $languageIso = '';
@@ -3157,7 +3157,9 @@ class KlarnaOfficial extends PaymentModule
             $status = $k->checkOrderStatus($reservation_number);
             if ($status == KlarnaFlags::ACCEPTED) {
                 $order = new Order($id_order);
-                $sql_update = "UPDATE "._DB_PREFIX_."klarna_orders SET risk_status='ok' WHERE reservation='$reservation_number'";
+                $sql_update = "UPDATE "._DB_PREFIX_."klarna_orders SET risk_status='ok' ".
+                    "WHERE reservation='$reservation_number'";
+                    
                 Db::getInstance()->execute($sql_update);
                 if ($output_result) {
                     echo " APPROVED<br />";
@@ -3171,7 +3173,8 @@ class KlarnaOfficial extends PaymentModule
                 }
             } elseif ($status == KlarnaFlags::DENIED) {
                 $order = new Order($id_order);
-                $sql_update = "UPDATE "._DB_PREFIX_."klarna_orders SET risk_status='Denied' WHERE reservation='$reservation_number'";
+                $sql_update = "UPDATE "._DB_PREFIX_."klarna_orders SET risk_status='Denied' ".
+                    "WHERE reservation='$reservation_number'";
                 Db::getInstance()->execute($sql_update);
                 echo " DENIED<br />";
                 if (Validate::isLoadedObject($order)) {
@@ -3189,7 +3192,7 @@ class KlarnaOfficial extends PaymentModule
         } else {
             //Order is missing EID, set as payment error
             $order = new Order($id_order);
-                if (Validate::isLoadedObject($order)) {
+            if (Validate::isLoadedObject($order)) {
                 if ((int)(Configuration::get('PS_OS_ERROR'))>0) {
                     $error_status = Configuration::get('PS_OS_ERROR');
                 } else {

@@ -380,7 +380,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                     Db::getInstance()->Execute($sql);
                     
                     //Cache::clean('*');
-                    /*Try to move this to a new controller or some kind of reload, 
+                    /*Try to move this to a new controller or some kind of reload,
                     that should in theory fix all cache issue with prestashop cart.*/
                     
                     $this->module->validateOrder(
@@ -778,7 +778,9 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
             $kpm_birthdate = $customer->birthday;
         }
 
-        if ($kpm_birthdate != "" && ($country->iso_code == "DE" || $country->iso_code == "NL" || $country->iso_code == "AT")) {
+        if ($kpm_birthdate != "" &&
+            ($country->iso_code == "DE" || $country->iso_code == "NL" || $country->iso_code == "AT")
+        ) {
             $birthday_segments = explode('-', $kpm_birthdate);
             if (count($birthday_segments) !== 3) {
                 $kpm_birthdate = "";
@@ -857,7 +859,8 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
         return floor($num).Tools::substr($num-floor($num), 1, $precision+1);
     }
     
-    public function splitStreet($streetStr) {
+    public function splitStreet($streetStr)
+    {
         $aMatch         = array();
         $pattern        = '#^([\w[:punct:] ]+) ([0-9]{1,5})([ \w[:punct:]\-/]*)$#';
         $matchResult    = preg_match($pattern, $streetStr, $aMatch);

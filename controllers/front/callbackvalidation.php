@@ -92,9 +92,9 @@ class KlarnaOfficialCallbackValidationModuleFrontController extends ModuleFrontC
                                     if ((int)$cartitem["unit_price"] == (int)$value_real) {
                                             unset($klarnaorder["cart"]["items"][$key]);
                                             //$cartdiscountsfound = true;
-                                        }
                                     }
                                 }
+                            }
                         }
                         
                         /*$totalDiscounts = $cart->getOrderTotal(true, Cart::ONLY_DISCOUNTS);

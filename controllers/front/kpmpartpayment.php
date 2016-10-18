@@ -348,6 +348,12 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                         $reservation_number = $result[0];
                     }
                     $customer = new Customer((int) $this->context->cart->id_customer);
+                    if ($customer->email != Tools::getValue('kpm_email')) {
+                        $kpm_email = pSQL(Tools::getValue('kpm_email'));
+                        $customer->email = $kpm_email;
+                        $sql = "UPDATE `"._DB_PREFIX_."customer` SET email='$kpm_email' WHERE id_customer=".(int)$customer->id;
+                        Db::getInstance()->Execute($sql);
+                    }
                     $extra_vars = array();
                     $extra_vars['transaction_id'] = $reservation_number;
 

@@ -371,6 +371,9 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                     
                     $id_shop = (int) $this->context->shop->id;
                     $ssn = pSQL(Tools::getValue('kpm_ssn', Tools::getValue('kpm_birthdate')));
+                    if ($klarnaCountry == KlarnaCountry::NO) {
+                        $ssn = ""; //Do not store ssn for norway
+                    }
                     $reservation = pSQL($reservation_number);
                     $eid = pSQL($eid);
                     $id_cart = (int) $this->context->cart->id;

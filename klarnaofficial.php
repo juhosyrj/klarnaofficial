@@ -3055,7 +3055,7 @@ class KlarnaOfficial extends PaymentModule
             if ($language_iso == 'nb' || $language_iso == 'nn' || $language_iso == 'no') {
                 return 'nb_no';
             } else {
-                return 'en_no';
+                return 'nb_no';
             }
         }
 

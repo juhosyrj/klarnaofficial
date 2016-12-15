@@ -247,7 +247,7 @@ $_MODULE['<{klarnaofficial}prestashop>kco_twocolumns_76f1d5530297f364bdba642c85b
 $_MODULE['<{klarnaofficial}prestashop>kco_twocolumns_ab4f51128a8929e277ca66e12f02365d'] = 'Zusatzkosten:';
 $_MODULE['<{klarnaofficial}prestashop>kco_twocolumns_1e2a75e709cadff2cf957168c56fda54'] = 'Danke für ihre Bestellung';
 $_MODULE['<{klarnaofficial}prestashop>kpm_partpayment_5dce63620eac64561a9610845034f84c'] = 'Mit Rechnung / Raten kaufen';
-$_MODULE['<{klarnaofficial}prestashop>kpm_partpayment_7c35adab7817c38c5b9b224990612320'] = 'Bitte füllen Sie untern Ihre Informationen ein.';
+$_MODULE['<{klarnaofficial}prestashop>kpm_partpayment_7c35adab7817c38c5b9b224990612320'] = 'Bitte füllen Sie unten Ihre Informationen ein.';
 $_MODULE['<{klarnaofficial}prestashop>kpm_partpayment_602175c6a912e1c28df42426002856d0'] = 'Um mit Klarna Rechnungskauf oder Ratenkauf bezahlen zu können, muss die Lieferadresse mit der Rechnungsadresse übereinstimmen.';
 $_MODULE['<{klarnaofficial}prestashop>kpm_partpayment_569fd05bdafa1712c4f6be5b153b8418'] = 'Andere Zahlarten';
 $_MODULE['<{klarnaofficial}prestashop>kpm_partpayment_662f834d5b3424e11e56cc5b37fa83c1'] = 'Als Firmenkunde können Sie Klarna Zahlungsmethoden nicht verwenden.';

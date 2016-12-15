@@ -110,7 +110,7 @@ class KlarnaOfficialCheckoutKlarnaUkModuleFrontController extends ModuleFrontCon
                 }
 
                 if (Tools::getValue('kco_change_country') == 'gb') {
-                    Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna_uk');
+                    Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarnauk');
                 } else {
                     Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
                 }

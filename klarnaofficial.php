@@ -48,7 +48,7 @@ class KlarnaOfficial extends PaymentModule
     {
         $this->name = 'klarnaofficial';
         $this->tab = 'payments_gateways';
-        $this->version = '1.8.42';
+        $this->version = '1.9.1';
         $this->author = 'Prestaworks AB';
         $this->module_key = '0969b3c2f7f0d687c526fbcb0906e204';
         $this->need_instance = 1;
@@ -95,9 +95,12 @@ class KlarnaOfficial extends PaymentModule
             Configuration::deleteByName('KCO_TESTMODE') == false ||
             Configuration::deleteByName('KCO_LAYOUT') == false ||
             Configuration::deleteByName('KCO_NORWAY') == false ||
+            Configuration::deleteByName('KCO_NORWAY_B2B') == false ||
             Configuration::deleteByName('KCO_FINLAND') == false ||
+            Configuration::deleteByName('KCO_FINLAND_B2B') == false ||
             Configuration::deleteByName('KCO_UK') == false ||
             Configuration::deleteByName('KCO_SWEDEN') == false ||
+            Configuration::deleteByName('KCO_SWEDEN_B2B') == false ||
             Configuration::deleteByName('KCO_GERMANY') == false ||
             Configuration::deleteByName('KCO_ORDERID') == false ||
             Configuration::deleteByName('KCO_ACTIVATE_STATE') == false ||
@@ -323,6 +326,9 @@ class KlarnaOfficial extends PaymentModule
             Configuration::updateValue('KCO_NORWAY', (int) Tools::getValue('KCO_NORWAY'));
             Configuration::updateValue('KCO_FINLAND', (int) Tools::getValue('KCO_FINLAND'));
             Configuration::updateValue('KCO_UK', (int) Tools::getValue('KCO_UK'));
+            Configuration::updateValue('KCO_SWEDEN_B2B', (int) Tools::getValue('KCO_SWEDEN_B2B'));
+            Configuration::updateValue('KCO_NORWAY_B2B', (int) Tools::getValue('KCO_NORWAY_B2B'));
+            Configuration::updateValue('KCO_FINLAND_B2B', (int) Tools::getValue('KCO_FINLAND_B2B'));
             Configuration::updateValue('KCO_SWEDEN', (int) Tools::getValue('KCO_SWEDEN'));
             Configuration::updateValue('KCO_AUSTRIA', (int) Tools::getValue('KCO_AUSTRIA'));
             Configuration::updateValue('KCO_GERMANY', (int) Tools::getValue('KCO_GERMANY'));
@@ -435,7 +441,11 @@ class KlarnaOfficial extends PaymentModule
             }
         }
 
+        $PS_COUNTRY_DEFAULT = (int)Configuration::get('PS_COUNTRY_DEFAULT');
+        $country = new Country($PS_COUNTRY_DEFAULT);
+        
         $this->context->smarty->assign(array(
+            'klarnaisocodedef' => $country->iso_code,
             'errorMSG' => $errorMSG,
             'address_check_done' => $address_check_done,
             'isSaved' => $isSaved,
@@ -1299,6 +1309,24 @@ class KlarnaOfficial extends PaymentModule
                         ),
                         'desc' => $this->l('Activate KCO for Sweden, SEK and SE language required.'),
                     ),
+                    
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('Active B2B for Sweden'),
+                        'name' => 'KCO_SWEDEN_B2B',
+                        'is_bool' => true,
+                        'values' => array(
+                            array(
+                                'id' => 'swedenb2b_on',
+                                'value' => 1,
+                                'label' => $this->l('Yes'), ),
+                            array(
+                                'id' => 'swedenb2b_off',
+                                'value' => 0,
+                                'label' => $this->l('No'), ),
+                        ),
+                        'desc' => $this->l('Activate B2B KCO for Sweden, SEK and SE language required.'),
+                    ),
 
                     array(
                         'type' => 'text',
@@ -1344,6 +1372,24 @@ class KlarnaOfficial extends PaymentModule
                         ),
                         'desc' => $this->l('Activate KCO for Norway, NOK and NO language required.'),
                     ),
+                    
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('Active B2B for Norway'),
+                        'name' => 'KCO_NORWAY_B2B',
+                        'is_bool' => true,
+                        'values' => array(
+                            array(
+                                'id' => 'nowayb2b_on',
+                                'value' => 1,
+                                'label' => $this->l('Yes'), ),
+                            array(
+                                'id' => 'norwayb2b_off',
+                                'value' => 0,
+                                'label' => $this->l('No'), ),
+                        ),
+                        'desc' => $this->l('Activate B2B KCO for Norway, SEK and SE language required.'),
+                    ),
 
                     array(
                         'type' => 'text',
@@ -1388,6 +1434,25 @@ class KlarnaOfficial extends PaymentModule
                         ),
                         'desc' => $this->l('Activate KCO for Finland, EUR and FI and or SE languages required.'),
                     ),
+                    
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('Active B2B Finland'),
+                        'name' => 'KCO_FINLAND_B2B',
+                        'is_bool' => true,
+                        'values' => array(
+                            array(
+                                'id' => 'finlandb2b_on',
+                                'value' => 1,
+                                'label' => $this->l('Yes'), ),
+                            array(
+                                'id' => 'finlandb2b_off',
+                                'value' => 0,
+                                'label' => $this->l('No'), ),
+                        ),
+                        'desc' => $this->l('Activate B2B KCO for Finland, EUR and FI and or SE languages required.'),
+                    ),
+                    
                     array(
                         'type' => 'text',
                         'label' => $this->l('EID'),
@@ -1672,6 +1737,18 @@ class KlarnaOfficial extends PaymentModule
             'KCO_SWEDEN' => Tools::getValue(
                 'KCO_SWEDEN',
                 Configuration::get('KCO_SWEDEN')
+            ),
+            'KCO_SWEDEN_B2B' => Tools::getValue(
+                'KCO_SWEDEN_B2B',
+                Configuration::get('KCO_SWEDEN_B2B')
+            ),
+            'KCO_NORWAY_B2B' => Tools::getValue(
+                'KCO_NORWAY_B2B',
+                Configuration::get('KCO_NORWAY_B2B')
+            ),
+            'KCO_FINLAND_B2B' => Tools::getValue(
+                'KCO_FINLAND_B2B',
+                Configuration::get('KCO_FINLAND_B2B')
             ),
             'KCO_NORWAY' => Tools::getValue(
                 'KCO_NORWAY',
@@ -2990,6 +3067,8 @@ class KlarnaOfficial extends PaymentModule
         //$string = utf8_decode($string);
         if ($abconly) {
             $string = preg_replace("/[^\p{L}\p{N} -]/u", '', $string);
+            $string = preg_replace('/[0-9]+/', '', $string);
+            $string = trim($string);
         }
         //$string = utf8_encode($string);
         if (Tools::strlen($string) > $length) {

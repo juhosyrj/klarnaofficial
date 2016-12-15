@@ -226,9 +226,9 @@
         	</form>
         </div><!-- /.kco-box -->
         {/if}
-		<div class="col-xs-12 col-md-8" id="checkoutdiv">
+		<div class="col-xs-12 col-md-8">
 			<h2 class="kco-title kco-title--step"><span class="kco-title--step__nbr">2</span> {l s='Pay for your order' mod='klarnaofficial'}</h2>
-			{$klarna_checkout}
+			<div id="checkoutdiv">{$klarna_checkout}</div>
 		</div><!-- /#checkoutdiv.col-xs-12 -->
 	</div><!-- /.row -->
 </div><!-- /#height_kco_div -->

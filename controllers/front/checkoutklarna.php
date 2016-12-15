@@ -185,6 +185,10 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
     {
         parent::initContent();
 
+        //Make a check on reload
+        CartRule::autoRemoveFromCart($this->context);
+        CartRule::autoAddToCart($this->context);
+            
         $checkoutcart = array();
         $update = array();
         $create  = array();
@@ -307,7 +311,7 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                 Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
             }
         } elseif ($country_information['purchase_country'] == 'GB') {
-            $eid = (int) (Configuration::get('KCO_UK_EID'));
+            $eid = Configuration::get('KCO_UK_EID');
             $sharedSecret = Configuration::get('KCO_UK_SECRET');
             $ssid = 'gb';
             if ($country->iso_code != 'GB') {
@@ -493,44 +497,6 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                             'tax_rate' => (int) ($discount_tax_rate * 100),
                         );
                 }
-                
-                /*$totalDiscounts = $this->context->cart->getOrderTotal(true, Cart::ONLY_DISCOUNTS);
-                if ($totalDiscounts > 0) {
-                    if ($totalDiscounts > $totalCartValue) {
-                        //Free order
-                        $totalCartValue = $this->context->cart->getOrderTotal(true, Cart::BOTH);
-                        $totalCartValue_tax_excl = $this->context->cart->getOrderTotal(false, Cart::BOTH);
-                        $common_tax_rate = (($totalCartValue / $totalCartValue_tax_excl) - 1) * 100;
-                        $common_tax_rate = Tools::ps_round($common_tax_rate, 2);
-                        $checkoutcart[] = array(
-                            'type' => 'discount',
-                            'reference' => '',
-                            'name' => $this->module->getL('Discount'),
-                            'quantity' => 1,
-                            'unit_price' => -($totalCartValue * 100),
-                            'tax_rate' => (int) ($common_tax_rate * 100),
-                        );
-                    } else {
-                        $totalDiscounts_tax_excl = $this->context->cart->getOrderTotal(false, Cart::ONLY_DISCOUNTS);
-                        $common_tax_rate = (($totalDiscounts / $totalDiscounts_tax_excl) - 1) * 100;
-                        
-                        if ($has_different_rates) {
-                            $common_tax_rate = $this->kcoGetAverageProductsTaxRate();
-                            $common_tax_rate = $common_tax_rate * 100;
-                        } else {
-                            $common_tax_rate = $lastrate;
-                        }
-
-                        $checkoutcart[] = array(
-                            'type' => 'discount',
-                            'reference' => '',
-                            'name' => $this->module->getL('Discount'),
-                            'quantity' => 1,
-                            'unit_price' => -number_format(($totalDiscounts * 100), 2, '.', ''),
-                            'tax_rate' => (int) ($common_tax_rate * 100),
-                        );
-                    }
-                }*/
 
                 if ($round_diff != 0) {
                     $checkoutcart[] = array(
@@ -551,7 +517,7 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                 
                 $pushPage = $this->context->link->getModuleLink('klarnaofficial', 'push', array('sid' => $ssid));
                 $pushPage .= '&klarna_order={checkout.order.uri}';
-//print_r($checkoutcart);
+
                 $checkout = $this->context->link->getModuleLink('klarnaofficial', 'checkoutklarna', array(), true);
                 $back_to_store_uri = $this->context->link->getPageLink('index');
                 
@@ -625,7 +591,20 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                         }
                         
                         $create['merchant_reference']['orderid2'] = ''.(int) ($this->context->cart->id);
-
+                        
+                        if ($country_information['purchase_country'] == "SE") {
+                            $allowB2B = (bool)Configuration::get('KCO_SWEDEN_B2B');
+                        } elseif ($country_information['purchase_country'] == "NO") {
+                            $allowB2B = (bool)Configuration::get('KCO_NORWAY_B2B');
+                        } elseif ($country_information['purchase_country'] == "FI") {
+                            $allowB2B = (bool)Configuration::get('KCO_FINLAND_B2B');
+                        } else {
+                            $allowB2B = false;
+                        }
+                        if ($allowB2B == true) {
+                            $create['options']['allowed_customer_types'] = array("person", "organization");
+                        }
+                        
                         if ((int)Configuration::get('KCO_ADD_NEWSLETTERBOX') == 0) {
                             $create['options']['additional_checkbox']['text'] = ''.
                             $this->module->getL('Subscribe to our newsletter.');

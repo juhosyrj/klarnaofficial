@@ -223,11 +223,11 @@
             </div><!-- /.gift_container.kco-box -->
             {/if}
         </div><!-- /.col-xs-12.col-md-4 -->
-        <div class="col-xs-12 col-md-8" id="checkoutdiv">
+        <div class="col-xs-12 col-md-8">
             <h4 class="kco-title kco-title--step">
                 <span class="kco-title--step__nbr">2</span> {l s='Pay for your order' mod='klarnaofficial'}
             </h4>
-            {$klarna_checkout}
+            <div id="checkoutdiv">{$klarna_checkout}</div>
         </div><!-- /#chcekoutdiv.col-xs-12.col-md-8 -->
     </div><!-- /.row -->
 </div><!-- /#height_kco_div -->

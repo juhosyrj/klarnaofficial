@@ -76,36 +76,9 @@
 		<div class="row">
 			<p>{l s='Don\'t you have an account with Klarna yet? Hit the button below!' mod='klarnaofficial'}</p>
 			<p>
-            {if $klarnaisocodedef == 'se'}
-				<a href="https://klarna.com/sv/salj-med-klarna/registrering/klarna-faktura/?partner_id=4c629c4c340105f45966111510782ae516f7bf65&utm_campaign=KPM-Onboarding-From-Partner&utm_medium=partner&utm_source=prestaworks" target="_blank" class="btn btn-default" title="{l s='Register account here' mod='klarnaofficial'}">
+                <a href="https://www.klarna.com/international/business/prestashop" target="_blank" class="btn btn-default" title="{l s='Register account here' mod='klarnaofficial'}">
 					<i class="icon-send"></i> {l s='Register Klarna account here' mod='klarnaofficial'}
 				</a>
-            {elseif $klarnaisocodedef == 'nl'}
-                <a href="https://klarna.com/nl/verkoop-met-klarna/aanmelden/klarna-factuur?partner_id=4c629c4c340105f45966111510782ae516f7bf65&utm_campaign=KPM-Onboarding-From-Partner&utm_medium=partner&utm_source=prestaworks" target="_blank" class="btn btn-default" title="{l s='Register account here' mod='klarnaofficial'}">
-					<i class="icon-send"></i> {l s='Register Klarna account here' mod='klarnaofficial'}
-				</a>
-            {elseif $klarnaisocodedef == 'fi'}
-                <a href="https://klarna.com/fi/myy-klarnalla/rekisterointi/klarna-lasku?partner_id=4c629c4c340105f45966111510782ae516f7bf65&utm_campaign=KPM-Onboarding-From-Partner&utm_medium=partner&utm_source=prestaworks" target="_blank" class="btn btn-default" title="{l s='Register account here' mod='klarnaofficial'}">
-					<i class="icon-send"></i> {l s='Register Klarna account here' mod='klarnaofficial'}
-				</a>
-            {elseif $klarnaisocodedef == 'de'}
-                <a href="https://klarna.com/de/mit-klarna-verkaufen/anmelden/klarna-rechnung?partner_id=4c629c4c340105f45966111510782ae516f7bf65&utm_campaign=KPM-Onboarding-From-Partner&utm_medium=partner&utm_source=prestaworks" target="_blank" class="btn btn-default" title="{l s='Register account here' mod='klarnaofficial'}">
-					<i class="icon-send"></i> {l s='Register Klarna account here' mod='klarnaofficial'}
-				</a>
-            {elseif $klarnaisocodedef == 'no'}
-                <a href="https://klarna.com/no/selg-klarna/registrering/klarna-faktura?partner_id=4c629c4c340105f45966111510782ae516f7bf65&utm_campaign=KPM-Onboarding-From-Partner&utm_medium=partner&utm_source=prestaworks" target="_blank" class="btn btn-default" title="{l s='Register account here' mod='klarnaofficial'}">
-					<i class="icon-send"></i> {l s='Register Klarna account here' mod='klarnaofficial'}
-				</a>
-            {elseif $klarnaisocodedef == 'at'}
-                <a href="https://klarna.com/at/mit-klarna-verkaufen/anmelden/klarna-rechnung?partner_id=4c629c4c340105f45966111510782ae516f7bf65&utm_campaign=KPM-Onboarding-From-Partner&utm_medium=partner&utm_source=prestaworks" target="_blank" class="btn btn-default" title="{l s='Register account here' mod='klarnaofficial'}">
-					<i class="icon-send"></i> {l s='Register Klarna account here' mod='klarnaofficial'}
-				</a>
-            {else}
-                <a href="https://klarna.com/sv/salj-med-klarna/registrering/klarna-faktura/?partner_id=4c629c4c340105f45966111510782ae516f7bf65&utm_campaign=KPM-Onboarding-From-Partner&utm_medium=partner&utm_source=prestaworks" target="_blank" class="btn btn-default" title="{l s='Register account here' mod='klarnaofficial'}">
-					<i class="icon-send"></i> {l s='Register Klarna account here' mod='klarnaofficial'}
-				</a>
-            {/if}
-                
 			</p>
 		</div>
 	</div>

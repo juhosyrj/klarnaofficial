@@ -91,13 +91,13 @@ class KlarnaOfficialPushUkModuleFrontController extends ModuleFrontController
                 if ($cart->OrderExists()) {
                     $klarna_reservation = Tools::getValue('klarna_order_id');
                     
-                    $sql = 'SELECT * FROM `'._DB_PREFIX_.'message` m LEFT JOIN `'._DB_PREFIX_.
-                    'orders` o ON m.id_order=o.id_order WHERE o.id_cart='.(int) ($id_cart);
+                    $sql = 'SELECT m.transaction_id, o.id_order FROM `'._DB_PREFIX_.'order_payment` m LEFT JOIN `'._DB_PREFIX_.
+                    'orders` o ON m.order_reference=o.reference WHERE o.id_cart='.(int) ($id_cart);
                     
                     $messages = Db::getInstance()->ExecuteS($sql);
                     foreach ($messages as $message) {
                         //Check if reference matches
-                        if (strpos($message['message'], $klarna_reservation) !== false) {
+                        if ($message['transaction_id']==$klarna_reservation) {
                             //Already created, send create
                             $update = new Klarna\Rest\OrderManagement\Order($connector, $orderId);
                             $update->updateMerchantReferences([
@@ -365,7 +365,7 @@ class KlarnaOfficialPushUkModuleFrontController extends ModuleFrontController
                         number_format($amount, 2, '.', ''),
                         $this->module->displayName,
                         $reference,
-                        $extra,
+                        '',
                         $cart->id_currency,
                         false,
                         $customer->secure_key

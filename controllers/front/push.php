@@ -95,14 +95,13 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                 if ($cart->OrderExists()) {
                     $klarna_reservation = $klarnaorder['reservation'];
                     
-                    $sql = 'SELECT * FROM `'._DB_PREFIX_.'message` m '.
-                    'LEFT JOIN `'._DB_PREFIX_.'orders` o ON m.id_order=o.id_order '.
-                    'WHERE o.id_cart='.(int) ($id_cart);
+                    $sql = 'SELECT m.transaction_id, o.id_order FROM `'._DB_PREFIX_.'order_payment` m LEFT JOIN `'._DB_PREFIX_.
+                    'orders` o ON m.order_reference=o.reference WHERE o.id_cart='.(int) ($id_cart);
                     
                     $messages = Db::getInstance()->ExecuteS($sql);
                     foreach ($messages as $message) {
-                        //Check if reference matches
-                        if (strpos($message['message'], $klarna_reservation) !== false) {
+                        //Check if reference matches                        
+                        if ($message['transaction_id']==$klarna_reservation) {
                             //Already created, send create
                             $update['status'] = 'created';
                             $update['merchant_reference'] = array(
@@ -234,8 +233,14 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                 if (!isset($shipping['organization_name'])) {
                     $shipping['organization_name'] = "";
                 }
+                if (!isset($shipping['reference'])) {
+                    $shipping['reference'] = "";
+                }
                 if (!isset($billing['organization_name'])) {
                     $billing['organization_name'] = "";
+                }
+                if (!isset($billing['reference'])) {
+                    $billing['reference'] = "";
                 }
 
                 foreach ($customer->getAddresses($cart->id_lang) as $address) {
@@ -246,6 +251,7 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                     and $address['address1'] == $shipping['street_address']
                     and $address['postcode'] == $shipping['postal_code']
                     and $address['company'] == $shipping['organization_name']
+                    and $address['other'] == $shipping['reference']
                     and $address['phone_mobile'] == $shipping['phone']
                     and $address['id_country'] == $shipping_country_id) {
                         //LOAD SHIPPING ADDRESS
@@ -259,6 +265,7 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                     and $address['address1'] == $billing['street_address']
                     and $address['postcode'] == $billing['postal_code']
                     and $address['company'] == $billing['organization_name']
+                    and $address['other'] == $billing['reference']
                     and $address['phone_mobile'] == $billing['phone']
                     and $address['id_country'] == $invocie_country_id) {
                         //LOAD SHIPPING ADDRESS
@@ -272,6 +279,7 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                     $address->firstname = $this->module->truncateValue($billing['given_name'], 32, true);
                     $address->lastname = $this->module->truncateValue($billing['family_name'], 32, true);
                     $address->company = $this->module->truncateValue($billing['organization_name'], 64, true);
+                    $address->other = $billing['reference'];
                     if (isset($billing['care_of']) && Tools::strlen($billing['care_of']) > 0) {
                         $address->address1 = $this->cleanupAddressData($billing['care_of']);
                         $address->address2 = $this->cleanupAddressData($billing['street_address']);
@@ -296,6 +304,7 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                     $address->firstname = $this->module->truncateValue($shipping['given_name'], 32, true);
                     $address->lastname = $this->module->truncateValue($shipping['family_name'], 32, true);
                     $address->company = $this->module->truncateValue($shipping['organization_name'], 64, true);
+                    $address->other = $shipping['reference'];
                     if (isset($shipping['care_of']) && Tools::strlen($shipping['care_of']) > 0) {
                         $address->address1 = $this->cleanupAddressData($shipping['care_of']);
                         $address->address2 = $this->cleanupAddressData($shipping['street_address']);
@@ -398,7 +407,7 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                     Configuration::get('PS_OS_PAYMENT'),
                     number_format($amount, 2, '.', ''),
                     $this->module->displayName,
-                    $reference,
+                    '',
                     $extra,
                     $cart->id_currency,
                     false,

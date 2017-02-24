@@ -604,6 +604,10 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                         if ($allowB2B == true) {
                             $create['options']['allowed_customer_types'] = array("person", "organization");
                         }
+                        $forcePhone = false;
+                        if($forcePhone == true) {
+                            $create['options']['phone_mandatory'] = true;
+                        }
                         
                         if ((int)Configuration::get('KCO_ADD_NEWSLETTERBOX') == 0) {
                             $create['options']['additional_checkbox']['text'] = ''.

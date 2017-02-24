@@ -375,6 +375,8 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
 
                     $this->context->cart->update(true);
                     $this->context->cart->getPackageList(true);
+                    $this->context->cart->getProducts(true);
+                    $this->context->cart->getDeliveryOption(null, false, false);
                     
                     $id_shop = (int) $this->context->shop->id;
                     $ssn = pSQL(Tools::getValue('kpm_ssn', Tools::getValue('kpm_birthdate')));

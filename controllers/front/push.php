@@ -95,12 +95,13 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
                 if ($cart->OrderExists()) {
                     $klarna_reservation = $klarnaorder['reservation'];
                     
-                    $sql = 'SELECT m.transaction_id, o.id_order FROM `'._DB_PREFIX_.'order_payment` m LEFT JOIN `'._DB_PREFIX_.
+                    $sql = 'SELECT m.transaction_id, o.id_order FROM `'._DB_PREFIX_.'order_payment` m '.
+                    'LEFT JOIN `'._DB_PREFIX_.
                     'orders` o ON m.order_reference=o.reference WHERE o.id_cart='.(int) ($id_cart);
                     
                     $messages = Db::getInstance()->ExecuteS($sql);
                     foreach ($messages as $message) {
-                        //Check if reference matches                        
+                        //Check if reference matches
                         if ($message['transaction_id']==$klarna_reservation) {
                             //Already created, send create
                             $update['status'] = 'created';
@@ -391,9 +392,9 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
 
                 $id_shop = (int) $cart->id_shop;
                 if (isset($klarnaorder['customer']['organization_registration_id'])) {
-                    $snn = $klarnaorder['customer']['organization_registration_id'];
+                    $ssn = $klarnaorder['customer']['organization_registration_id'];
                 } else {
-                    $snn = "";
+                    $ssn = "";
                 }
                 
                 $sql = 'INSERT INTO `'._DB_PREFIX_."klarna_orders`".
@@ -512,7 +513,8 @@ class KlarnaOfficialPushModuleFrontController extends ModuleFrontController
         }
     }
     
-    protected function cleanupAddressData($string) {
+    protected function cleanupAddressData($string)
+    {
         $string = preg_replace("/[^\p{L}\p{N} -]/u", '', $string);
         $string = trim($string);
         return $string;

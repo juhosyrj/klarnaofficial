@@ -91,7 +91,8 @@ class KlarnaOfficialPushUkModuleFrontController extends ModuleFrontController
                 if ($cart->OrderExists()) {
                     $klarna_reservation = Tools::getValue('klarna_order_id');
                     
-                    $sql = 'SELECT m.transaction_id, o.id_order FROM `'._DB_PREFIX_.'order_payment` m LEFT JOIN `'._DB_PREFIX_.
+                    $sql = 'SELECT m.transaction_id, o.id_order FROM `'._DB_PREFIX_.'order_payment` m '.
+                    'LEFT JOIN `'._DB_PREFIX_.
                     'orders` o ON m.order_reference=o.reference WHERE o.id_cart='.(int) ($id_cart);
                     
                     $messages = Db::getInstance()->ExecuteS($sql);

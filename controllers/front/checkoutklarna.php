@@ -605,7 +605,7 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                             $create['options']['allowed_customer_types'] = array("person", "organization");
                         }
                         $forcePhone = false;
-                        if($forcePhone == true){
+                        if ($forcePhone == true){
                             $create['options']['phone_mandatory'] = true;
                         }
                         

@@ -152,7 +152,7 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                 }
 
                 $total_shipping_wt = (float) $this->context->cart->getOrderTotal(true, Cart::ONLY_SHIPPING);
-                $total_shipping = (float) $this->context->cart->getOrderTotal(false, Cart::ONLY_SHIPPING);
+                //$total_shipping = (float) $this->context->cart->getOrderTotal(false, Cart::ONLY_SHIPPING);
 
                 $total_discounts_wt = 0;
                 $total_discounts = 0;

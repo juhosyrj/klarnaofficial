@@ -437,8 +437,8 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                 if ($this->context->cart->gift == 1) {
                     $cart_wrapping = $this->context->cart->getOrderTotal(true, Cart::ONLY_WRAPPING);
                     if ($cart_wrapping > 0) {
-                        $wrapping_cost_excl = $this->context->cart->getOrderTotal(false, Cart::ONLY_WRAPPING);
-                        $wrapping_cost_incl = $this->context->cart->getOrderTotal(true, Cart::ONLY_WRAPPING);
+                        //$wrapping_cost_excl = $this->context->cart->getOrderTotal(false, Cart::ONLY_WRAPPING);
+                        //$wrapping_cost_incl = $this->context->cart->getOrderTotal(true, Cart::ONLY_WRAPPING);
                         /*$wrapping_vat = (($wrapping_cost_incl / $wrapping_cost_excl) - 1) * 100;*/
                         
                         if (!is_object($carrieraddress)) {
@@ -880,7 +880,7 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
         
         if (isset($this->context->cart) && $this->context->cart->id_address_delivery > 0) {
             $tmp_address = new Address((int) ($this->context->cart->id_address_delivery));
-            $country = new Country($tmp_address->id_country);
+            //$country = new Country($tmp_address->id_country);
             $id_country_austria = (int) Country::getByIso('AT');
             $id_country_germany = (int) Country::getByIso('DE');
             

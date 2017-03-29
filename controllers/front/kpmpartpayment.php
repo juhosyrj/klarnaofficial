@@ -425,7 +425,9 @@ class KlarnaOfficialKpmPartPaymentModuleFrontController extends ModuleFrontContr
                         '&id_cart='.
                         $this->context->cart->id.
                         '&id_module='.
-                        $this->module->id
+                        $this->module->id.
+                        '&id_order='.
+                        $id_order
                     );
                     
                 } catch (Exception $e) {

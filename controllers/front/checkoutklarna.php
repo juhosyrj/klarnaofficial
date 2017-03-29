@@ -491,7 +491,7 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                     $checkoutcart[] = array(
                             'type' => 'discount',
                             'reference' => '',
-                            'name' => $cart_rule["description"],
+                            'name' => $cart_rule["name"],
                             'quantity' => 1,
                             'unit_price' => -(Tools::ps_round($value_real, 2) * 100),
                             'tax_rate' => (int) ($discount_tax_rate * 100),

@@ -49,8 +49,20 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
             $id_currency = 0;
             if (Tools::getValue('kco_change_country') == 'gb') {
                 $id_lang = Language::getIdByIso('en');
-                $id_currency = Currency::getIdByIsoCode('gbp');
+                $id_currency = Currency::getIdByIsoCode('GBP');
                 $id_tmp_address = Configuration::get('KCO_UK_ADDR');
+				
+				$_GET['id_lang'] = $id_lang;
+                $_POST['id_lang'] = $id_lang;
+                $_POST['id_currency'] = $id_currency;
+                $_POST['SubmitCurrency'] = $id_currency;
+                Tools::switchLanguage();
+                Tools::setCurrency($this->context->cookie);
+                $this->context->cart->id_lang = $id_lang;
+                $this->context->cart->id_currency = $id_currency;
+                $this->context->cart->id_address_delivery = $id_tmp_address;
+                $this->context->cart->update();
+				
                 if (isset($_SESSION['klarna_checkout'])) {
                     unset($_SESSION['klarna_checkout']);
                 }
@@ -59,35 +71,33 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
             }
             if (Tools::getValue('kco_change_country') == 'sv') {
                 $id_lang = Language::getIdByIso('sv');
+                if ((int) ($id_lang) == 0) { $id_lang = Language::getIdByIso('en'); }
                 $id_currency = Currency::getIdByIsoCode('SEK');
                 $id_tmp_address = Configuration::get('KCO_SWEDEN_ADDR');
             }
             if (Tools::getValue('kco_change_country') == 'fi') {
                 $id_lang = Language::getIdByIso('fi');
-                if ((int) ($id_lang) == 0) {
-                    $id_lang = Language::getIdByIso('sv');
-                }
+                if ((int) ($id_lang) == 0) { $id_lang = Language::getIdByIso('en'); }
                 $id_currency = Currency::getIdByIsoCode('EUR');
                 $id_tmp_address = Configuration::get('KCO_FINLAND_ADDR');
             }
             if (Tools::getValue('kco_change_country') == 'de') {
                 $id_lang = Language::getIdByIso('de');
+                if ((int) ($id_lang) == 0) { $id_lang = Language::getIdByIso('en'); }
                 $id_currency = Currency::getIdByIsoCode('EUR');
                 $id_tmp_address = Configuration::get('KCO_GERMANY_ADDR');
             }
             if (Tools::getValue('kco_change_country') == 'at') {
                 $id_lang = Language::getIdByIso('de');
+                if ((int) ($id_lang) == 0) { $id_lang = Language::getIdByIso('en'); }
                 $id_currency = Currency::getIdByIsoCode('EUR');
                 $id_tmp_address = Configuration::get('KCO_AUSTRIA_ADDR');
             }
             if (Tools::getValue('kco_change_country') == 'no') {
                 $id_lang = Language::getIdByIso('no');
-                if ((int) $id_lang == 0) {
-                    $id_lang = Language::getIdByIso('nb');
-                }
-                if ((int) $id_lang == 0) {
-                    $id_lang = Language::getIdByIso('nn');
-                }
+                if ((int) $id_lang == 0) { $id_lang = Language::getIdByIso('nb'); }
+                if ((int) $id_lang == 0) { $id_lang = Language::getIdByIso('nn'); }
+                if ((int) ($id_lang) == 0) { $id_lang = Language::getIdByIso('en'); }
                 $id_currency = Currency::getIdByIsoCode('NOK');
                 $id_tmp_address = Configuration::get('KCO_NORWAY_ADDR');
             }
@@ -873,72 +883,118 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
         return true;
     }
 
+	protected function ForceEnglish($language_iso_code)
+	{
+		if ($_SERVER["REQUEST_URI"]) {
+			if( strpos( $_SERVER["REQUEST_URI"], '/en/' ) !== false ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	protected function IsKlarnaLocale($language_iso_code)
+	{
+		if ($language_iso_code == 'en' || 
+			$language_iso_code == 'gb' || 
+			$language_iso_code == 'fi' || 
+			$language_iso_code == 'sv' || 
+			$language_iso_code == 'no' || 
+			$language_iso_code == 'nb' || 
+			$language_iso_code == 'nn' || 
+			$language_iso_code == 'de')
+		{
+			return true;	
+		}
+		
+		return false;
+	}
+	
     protected function getKlarnaCountryInformation($currency_iso_code, $language_iso_code)
     {
-        $forceAustria = false;
-        $forceGermany = false;
-        
-        if (isset($this->context->cart) && $this->context->cart->id_address_delivery > 0) {
-            $tmp_address = new Address((int) ($this->context->cart->id_address_delivery));
-            //$country = new Country($tmp_address->id_country);
-            $id_country_austria = (int) Country::getByIso('AT');
-            $id_country_germany = (int) Country::getByIso('DE');
-            
-            if (Configuration::get('KCO_AUSTRIA') == 1 &&
-                $currency_iso_code == 'EUR' &&
-                $language_iso_code == 'de' &&
-                $tmp_address->id_country == $id_country_austria
-            ) {
-                $forceAustria = true;
-            } elseif (Configuration::get('KCO_GERMANY') == 1 &&
-                $currency_iso_code == 'EUR' &&
-                $language_iso_code == 'de' &&
-                $tmp_address->id_country == $id_country_germany
-            ) {
-                $forceGermany = true;
-            }
-        }
-        
-        if ($language_iso_code == 'nb' || $language_iso_code == 'nn') {
-            $language_iso_code = 'no';
-        }
-        if ($currency_iso_code == 'SEK' &&
-        $language_iso_code == 'sv' &&
-        Configuration::get('KCO_SWEDEN') == 1) {
+		if (!$this->IsKlarnaLocale($language_iso_code)) {
+			return false;
+		}
+		
+		if ($currency_iso_code == 'GBP' && Configuration::get('KCO_UK') == 1) {
+            return array('locale' => 'en-gb', 'purchase_currency' => 'GBP', 'purchase_country' => 'GB');
+		}
+		elseif ($currency_iso_code == 'SEK' && Configuration::get('KCO_SWEDEN') == 1) {
+			if ($this->ForceEnglish($language_iso_code)){
+				return array('locale' => 'en-gb', 'purchase_currency' => 'SEK', 'purchase_country' => 'SE'); }
             return array('locale' => 'sv-se', 'purchase_currency' => 'SEK', 'purchase_country' => 'SE');
-        } elseif ($currency_iso_code == 'EUR' &&
-        $language_iso_code == 'fi' &&
-        Configuration::get('KCO_FINLAND') == 1) {
-            return array('locale' => 'fi-fi', 'purchase_currency' => 'EUR', 'purchase_country' => 'FI');
-        } elseif ($currency_iso_code == 'NOK' &&
-        $language_iso_code == 'no' &&
-        Configuration::get('KCO_NORWAY') == 1) {
+		}
+		elseif ($currency_iso_code == 'NOK' && Configuration::get('KCO_NORWAY') == 1) {
+			if ($this->ForceEnglish($language_iso_code)){
+				return array('locale' => 'en-gb', 'purchase_currency' => 'NOK', 'purchase_country' => 'NO'); }
             return array('locale' => 'nb-no', 'purchase_currency' => 'NOK', 'purchase_country' => 'NO');
-        } elseif ($currency_iso_code == 'EUR' &&
-        $language_iso_code == 'sv' &&
-        Configuration::get('KCO_FINLAND') == 1) {
-            return array('locale' => 'sv-fi', 'purchase_currency' => 'EUR', 'purchase_country' => 'FI');
-        } elseif ($currency_iso_code == 'EUR' &&
-        $language_iso_code == 'de' &&
-        Configuration::get('KCO_GERMANY') == 1 &&
-        $forceAustria == false) {
-            return array('locale' => 'de-de', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE');
-        } elseif ($currency_iso_code == 'EUR' &&
-        $language_iso_code == 'de' &&
-        Configuration::get('KCO_AUSTRIA') == 1 &&
-        $forceGermany == false) {
-            return array('locale' => 'de-at', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT');
-        } elseif ($currency_iso_code == 'GBP' &&
-        $language_iso_code == 'en' &&
-        Configuration::get('KCO_UK') == 1) {
-            return array('locale' => 'en-gb', 'purchase_currency' => 'GBP', 'purchase_country' => 'GB');
-        } elseif ($currency_iso_code == 'GBP' &&
-        $language_iso_code == 'gb' &&
-        Configuration::get('KCO_UK') == 1) {
-            return array('locale' => 'en-gb', 'purchase_currency' => 'GBP', 'purchase_country' => 'GB');
-        } else {
-            return false;
-        }
+		}
+		elseif ($currency_iso_code == 'GBP' && Configuration::get('KCO_UK') == 1) {
+			return array('locale' => 'en-gb', 'purchase_currency' => 'GBP', 'purchase_country' => 'GB');
+		}
+		elseif ($currency_iso_code == 'EUR') {
+			
+			if (isset($this->context->cart) && $this->context->cart->id_address_delivery > 0) {
+				$tmp_address = new Address((int) ($this->context->cart->id_address_delivery));
+				$id_country_austria = (int) Country::getByIso('AT');
+				$id_country_germany = (int) Country::getByIso('DE');
+				
+				if ($tmp_address->id_country == $id_country_germany) {
+					if (Configuration::get('KCO_GERMANY') == 1) {
+						if ($this->ForceEnglish($language_iso_code)){
+							return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE'); }
+						return array('locale' => 'de-de', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE');
+					}
+					elseif (Configuration::get('KCO_AUSTRIA') == 1) {
+						if ($this->ForceEnglish($language_iso_code)){
+							return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT'); }
+						return array('locale' => 'de-at', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT');
+					}
+					elseif (Configuration::get('KCO_FINLAND') == 1) {
+						if ($this->ForceEnglish($language_iso_code)){
+							return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'FI'); }
+						return array('locale' => 'fi-fi', 'purchase_currency' => 'EUR', 'purchase_country' => 'FI');
+					}
+				}
+				elseif ($tmp_address->id_country == $id_country_austria) {
+					
+					if (Configuration::get('KCO_AUSTRIA') == 1) {
+						if ($this->ForceEnglish($language_iso_code)){
+							return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT'); }
+						return array('locale' => 'de-at', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT');
+					}
+					elseif (Configuration::get('KCO_GERMANY') == 1) {
+						if ($this->ForceEnglish($language_iso_code)){
+							return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE'); }
+						return array('locale' => 'de-de', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE');
+					}
+					elseif (Configuration::get('KCO_FINLAND') == 1) {
+						if ($this->ForceEnglish($language_iso_code)){
+							return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'FI'); }
+						return array('locale' => 'fi-fi', 'purchase_currency' => 'EUR', 'purchase_country' => 'FI');
+					}
+				}
+			}
+			
+			if (Configuration::get('KCO_FINLAND') == 1) {
+				if ($this->ForceEnglish($language_iso_code)){
+					return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'FI'); }
+				return array('locale' => 'fi-fi', 'purchase_currency' => 'EUR', 'purchase_country' => 'FI');
+			}
+			elseif (Configuration::get('KCO_GERMANY') == 1) {
+				if ($this->ForceEnglish($language_iso_code)){
+					return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE'); }
+				return array('locale' => 'de-de', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE');
+			}
+			elseif (Configuration::get('KCO_AUSTRIA') == 1) {
+				if ($this->ForceEnglish($language_iso_code)){
+					return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT'); }
+				return array('locale' => 'de-at', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT');
+			}
+		}
+		
+		return false;
     }
 
     protected function assignSummaryInformations()

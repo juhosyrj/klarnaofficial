@@ -59,7 +59,7 @@ class KlarnaOfficial extends PaymentModule
         parent::__construct();
 
         $this->displayName = $this->l('Klarna');
-        $this->description = $this->l('Gateway for Klarna (KCO and KPM).');
+        $this->description = $this->l('Modified Klarna module - https://github.com/juhosyrj/klarnaofficial');
     }
 
     public function uninstall()

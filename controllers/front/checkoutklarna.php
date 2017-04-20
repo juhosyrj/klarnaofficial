@@ -942,13 +942,13 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
 				
 				if ($tmp_address->id_country == $id_country_germany) {
 					if (Configuration::get('KCO_GERMANY') == 1) {
-						if ($this->ForceEnglish($language_iso_code)){
-							return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE'); }
+						//if ($this->ForceEnglish($language_iso_code)){
+						//	return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE'); }
 						return array('locale' => 'de-de', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE');
 					}
 					elseif (Configuration::get('KCO_AUSTRIA') == 1) {
-						if ($this->ForceEnglish($language_iso_code)){
-							return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT'); }
+						//if ($this->ForceEnglish($language_iso_code)){
+						//	return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT'); }
 						return array('locale' => 'de-at', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT');
 					}
 					elseif (Configuration::get('KCO_FINLAND') == 1) {
@@ -960,13 +960,13 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
 				elseif ($tmp_address->id_country == $id_country_austria) {
 					
 					if (Configuration::get('KCO_AUSTRIA') == 1) {
-						if ($this->ForceEnglish($language_iso_code)){
-							return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT'); }
+						//if ($this->ForceEnglish($language_iso_code)){
+						//	return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT'); }
 						return array('locale' => 'de-at', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT');
 					}
 					elseif (Configuration::get('KCO_GERMANY') == 1) {
-						if ($this->ForceEnglish($language_iso_code)){
-							return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE'); }
+						//if ($this->ForceEnglish($language_iso_code)){
+						//	return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE'); }
 						return array('locale' => 'de-de', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE');
 					}
 					elseif (Configuration::get('KCO_FINLAND') == 1) {
@@ -983,13 +983,13 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
 				return array('locale' => 'fi-fi', 'purchase_currency' => 'EUR', 'purchase_country' => 'FI');
 			}
 			elseif (Configuration::get('KCO_GERMANY') == 1) {
-				if ($this->ForceEnglish($language_iso_code)){
-					return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE'); }
+				//if ($this->ForceEnglish($language_iso_code)){
+				//	return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE'); }
 				return array('locale' => 'de-de', 'purchase_currency' => 'EUR', 'purchase_country' => 'DE');
 			}
 			elseif (Configuration::get('KCO_AUSTRIA') == 1) {
-				if ($this->ForceEnglish($language_iso_code)){
-					return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT'); }
+				//if ($this->ForceEnglish($language_iso_code)){
+				//	return array('locale' => 'en-gb', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT'); }
 				return array('locale' => 'de-at', 'purchase_currency' => 'EUR', 'purchase_country' => 'AT');
 			}
 		}

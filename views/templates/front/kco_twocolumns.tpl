@@ -78,7 +78,7 @@
             </div>
         </div>
         {/if}
-        <div class="col-xs-12 col-md-4">
+        <div class="col-xs-12 col-md-4" id="KCO_shipping_start">
             {if isset($delivery_option_list)}
             <div class="kco-box">
                 <h4 class="kco-title kco-title--step">
@@ -97,6 +97,18 @@
                 </form><!-- /form#kco_change_country -->
                 {/if}
                 <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html':'UTF-8'}" method="post" id="klarnacarrier">
+				
+				<div class="postcode_container">
+					{if $smarty.get.pickupalert}
+					<p style="color:red;">Muistitko valita Matkahuollon toimituspisteen?</p>
+					{/if}
+					{l s='Post code for pickup points' mod='klarnaofficial'}
+					<p id="postcode-area" class="kco-target" >
+						<input type="text" maxlength="5" class="kco-input kco-input--text" size="16" id="postcode" name="postcode" value="{$smarty.get.zip}"/>
+						<input type="submit" name="savepostcodebutton" class="kco-btn kco-btn--default" id="savepostcodebutton" value="{l s='Save' mod='klarnaofficial'}" />
+					</p>
+				</div>
+				
                 {foreach $delivery_option_list as $id_address => $option_list}
                 <ul class="kco-sel-list has-tooltips">
                     {foreach $option_list as $key => $option}
@@ -167,6 +179,7 @@
                 </ul>
                 {/foreach}
                 </form>
+                {if isset($displayCarrierListHook)}{$displayCarrierListHook}{/if}
             </div><!-- /.kco-box -->
             {/if}
             <div class="kco-box">

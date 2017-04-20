@@ -46,6 +46,7 @@ $_MODULE['<{klarnaofficial}prestashop>kco_twocolumns_d5b9290a0b67727d4ba1ca6059d
 $_MODULE['<{klarnaofficial}prestashop>kco_twocolumns_6f781c6559a0c605da918096bdb69edf'] = 'Suomi';
 $_MODULE['<{klarnaofficial}prestashop>kco_twocolumns_d8b00929dec65d422303256336ada04f'] = 'Saksa';
 $_MODULE['<{klarnaofficial}prestashop>kco_twocolumns_89f9c9f489be2a83cf57e53b9197d288'] = 'Yhdistynyt kuningaskunta';
+$_MODULE['<{klarnaofficial}prestashop>kco_twocolumns_ff1de8e0d59e3a2cfb5302682bc4f0b2'] = 'Postinumero noutopisteitä varten';
 $_MODULE['<{klarnaofficial}prestashop>kco_twocolumns_e7a6ca4e744870d455a57b644f696457'] = 'Ilmaiseksi!';
 $_MODULE['<{klarnaofficial}prestashop>kco_twocolumns_b6dddfff5178ce64364ca3f683930354'] = 'Edullisin ja nopein';
 $_MODULE['<{klarnaofficial}prestashop>kco_twocolumns_c2a32e7734b79d54eaaddb651707b403'] = 'Nopein';

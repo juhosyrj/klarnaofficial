@@ -98,6 +98,7 @@
                 {/if}
                 <form action="{$link->getModuleLink('klarnaofficial', $controllername, [], true)|escape:'html':'UTF-8'}" method="post" id="klarnacarrier">
 				
+				{if $show_finland_pickup_points}
 				<div class="postcode_container">
 					{if $smarty.get.pickupalert}
 					<p style="color:red;">Muistitko valita Matkahuollon toimituspisteen?</p>
@@ -108,6 +109,7 @@
 						<input type="submit" name="savepostcodebutton" class="kco-btn kco-btn--default" id="savepostcodebutton" value="{l s='Save' mod='klarnaofficial'}" />
 					</p>
 				</div>
+				{/if}
 				
                 {foreach $delivery_option_list as $id_address => $option_list}
                 <ul class="kco-sel-list has-tooltips">

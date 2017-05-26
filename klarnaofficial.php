@@ -98,6 +98,7 @@ class KlarnaOfficial extends PaymentModule
             Configuration::deleteByName('KCO_NORWAY_B2B') == false ||
             Configuration::deleteByName('KCO_FINLAND') == false ||
             Configuration::deleteByName('KCO_FINLAND_B2B') == false ||
+            Configuration::deleteByName('KCO_FINLAND_PICKUP_POINTS') == false ||
             Configuration::deleteByName('KCO_UK') == false ||
             Configuration::deleteByName('KCO_SWEDEN') == false ||
             Configuration::deleteByName('KCO_SWEDEN_B2B') == false ||
@@ -329,6 +330,7 @@ class KlarnaOfficial extends PaymentModule
             Configuration::updateValue('KCO_SWEDEN_B2B', (int) Tools::getValue('KCO_SWEDEN_B2B'));
             Configuration::updateValue('KCO_NORWAY_B2B', (int) Tools::getValue('KCO_NORWAY_B2B'));
             Configuration::updateValue('KCO_FINLAND_B2B', (int) Tools::getValue('KCO_FINLAND_B2B'));
+            Configuration::updateValue('KCO_FINLAND_PICKUP_POINTS', (int) Tools::getValue('KCO_FINLAND_PICKUP_POINTS'));
             Configuration::updateValue('KCO_SWEDEN', (int) Tools::getValue('KCO_SWEDEN'));
             Configuration::updateValue('KCO_AUSTRIA', (int) Tools::getValue('KCO_AUSTRIA'));
             Configuration::updateValue('KCO_GERMANY', (int) Tools::getValue('KCO_GERMANY'));
@@ -1437,6 +1439,24 @@ class KlarnaOfficial extends PaymentModule
                     
                     array(
                         'type' => 'switch',
+                        'label' => $this->l('Activate pickup points'),
+                        'name' => 'KCO_FINLAND_PICKUP_POINTS',
+                        'is_bool' => true,
+                        'values' => array(
+                            array(
+                                'id' => 'pickups_on',
+                                'value' => 1,
+                                'label' => $this->l('Yes'), ),
+                            array(
+                                'id' => 'pickups_off',
+                                'value' => 0,
+                                'label' => $this->l('No'), ),
+                        ),
+                        'desc' => $this->l('Display pickup point selector.'),
+                    ),
+					
+                    array(
+                        'type' => 'switch',
                         'label' => $this->l('Active B2B Finland'),
                         'name' => 'KCO_FINLAND_B2B',
                         'is_bool' => true,
@@ -1749,6 +1769,10 @@ class KlarnaOfficial extends PaymentModule
             'KCO_FINLAND_B2B' => Tools::getValue(
                 'KCO_FINLAND_B2B',
                 Configuration::get('KCO_FINLAND_B2B')
+            ),
+            'KCO_FINLAND_PICKUP_POINTS' => Tools::getValue(
+                'KCO_FINLAND_PICKUP_POINTS',
+                Configuration::get('KCO_FINLAND_PICKUP_POINTS')
             ),
             'KCO_NORWAY' => Tools::getValue(
                 'KCO_NORWAY',

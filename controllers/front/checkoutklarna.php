@@ -731,12 +731,15 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                         
                         $create['merchant_reference']['orderid2'] = ''.(int) ($this->context->cart->id);
                         
+						$allowPickupPoints = false;
+						
                         if ($country_information['purchase_country'] == "SE") {
                             $allowB2B = (bool)Configuration::get('KCO_SWEDEN_B2B');
                         } elseif ($country_information['purchase_country'] == "NO") {
                             $allowB2B = (bool)Configuration::get('KCO_NORWAY_B2B');
                         } elseif ($country_information['purchase_country'] == "FI") {
                             $allowB2B = (bool)Configuration::get('KCO_FINLAND_B2B');
+							$allowPickupPoints = (bool)Configuration::get('KCO_FINLAND_PICKUP_POINTS');
                         } else {
                             $allowB2B = false;
                         }
@@ -937,6 +940,7 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                         'show_norway' => $show_norway,
                         'show_uk' => $show_uk,
                         'show_finland' => $show_finland,
+                        'show_finland_pickup_points' => $allowPickupPoints,
                         'show_sweden' => $show_sweden,
                         'kco_selected_country' => $country_information['purchase_country'],
                         'klarna_checkout' => $snippet,

@@ -33,6 +33,31 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
         $this->addJS(_MODULE_DIR_.'klarnaofficial/views/js/klarna_checkout.js');
     }
 
+	public function UsePlaceholderAddress($postcode)
+	{
+		$alias = 'KCO_FINLAND_' . $postcode;
+		$value = 'KCO_FINLAND_ADDR_' . $postcode;
+		
+        $sql = 'SELECT id_address FROM '._DB_PREFIX_.'address WHERE alias=\'' . $alias . '\'';
+        $id_address_finland = Db::getInstance()->getValue($sql);
+        if ((int) ($id_address_finland) > 0) {
+            Configuration::updateValue($value, $id_address_finland);
+        } else {
+            $id_country = (int) Country::getByIso('FI');
+            $insert_sql = 'INSERT INTO '._DB_PREFIX_."address (id_country, id_state, id_customer, ".
+            "id_manufacturer, id_supplier, id_warehouse, alias, company, lastname, firstname, address1, ".
+            "address2, postcode, city, other,phone, phone_mobile, vat_number, ".
+            "dni, active, deleted, date_add, date_upd) ".
+            "VALUES ($id_country, 0,0,0,0,0,'" . $alias . "','','Finland', 'Person', ".
+            "'Standardgatan 1', '', '" . $postcode . "', 'Undefined', '', '1234567890','','','',1,0, NOW(), NOW());";
+            Db::getInstance()->execute($insert_sql);
+            $id_address_finland = Db::getInstance()->getValue($sql);
+            if ((int) ($id_address_finland) > 0) {
+                Configuration::updateValue($value, $id_address_finland);
+            }
+        }
+	}
+	
 	public function pushPostcode($postcode = "-1")
 	{
 		
@@ -52,6 +77,30 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
             return false;
         }
 		
+		$this->UsePlaceholderAddress($postcode);
+		
+		$this->context->smarty->assign('show_finland_pickup_points', true);
+		
+		/*
+		$addr = 'KCO_FINLAND_ADDR_' . $postcode;
+		$alias = 'KCO_FINLAND_' . $postcode;
+		
+        if ($this->context->cart->id_address_delivery==Configuration::get($addr)) {
+			$this->module->createAddress(
+				'FI',
+					"'" . $addr . "'",
+					'Helsinki',
+					'Finland',
+					"'" . $alias . "'"
+			);
+        }
+
+		$this->context->cart->id_address_delivery = Configuration::get($addr);
+		$this->context->cart->update();
+		*/
+		
+		
+		/*
 		$alias = 'KCO_UNDEFINED';
 				
 		if ($country_information['purchase_country'] == 'SE') { $alias = 'KCO_SVERIGE_DEFAULT'; }
@@ -64,6 +113,7 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
 			"WHERE alias='" . $alias . "'";
 
         Db::getInstance()->execute($update_sql);
+		*/
 	}
 	
     public function postProcess()
@@ -125,35 +175,33 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                 Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarnauk');
             }
             if (Tools::getValue('kco_change_country') == 'sv') {
-				$this->context->smarty->assign('show_postcode_field', false);
                 $id_lang = Language::getIdByIso('sv');
                 if ((int) ($id_lang) == 0) { $id_lang = Language::getIdByIso('en'); }
                 $id_currency = Currency::getIdByIsoCode('SEK');
                 $id_tmp_address = Configuration::get('KCO_SWEDEN_ADDR');
             }
             if (Tools::getValue('kco_change_country') == 'fi') {
-				$this->context->smarty->assign('show_postcode_field', true);
+				$allowPickupPoints = (bool)Configuration::get('KCO_FINLAND_PICKUP_POINTS');
+				$this->context->smarty->assign('show_finland_pickup_points', $allowPickupPoints);
+				
                 $id_lang = Language::getIdByIso('fi');
                 if ((int) ($id_lang) == 0) { $id_lang = Language::getIdByIso('en'); }
                 $id_currency = Currency::getIdByIsoCode('EUR');
                 $id_tmp_address = Configuration::get('KCO_FINLAND_ADDR');
             }
             if (Tools::getValue('kco_change_country') == 'de') {
-				$this->context->smarty->assign('show_postcode_field', false);
                 $id_lang = Language::getIdByIso('de');
                 if ((int) ($id_lang) == 0) { $id_lang = Language::getIdByIso('en'); }
                 $id_currency = Currency::getIdByIsoCode('EUR');
                 $id_tmp_address = Configuration::get('KCO_GERMANY_ADDR');
             }
             if (Tools::getValue('kco_change_country') == 'at') {
-				$this->context->smarty->assign('show_postcode_field', false);
                 $id_lang = Language::getIdByIso('de');
                 if ((int) ($id_lang) == 0) { $id_lang = Language::getIdByIso('en'); }
                 $id_currency = Currency::getIdByIsoCode('EUR');
                 $id_tmp_address = Configuration::get('KCO_AUSTRIA_ADDR');
             }
             if (Tools::getValue('kco_change_country') == 'no') {
-				$this->context->smarty->assign('show_postcode_field', false);
                 $id_lang = Language::getIdByIso('no');
                 if ((int) $id_lang == 0) { $id_lang = Language::getIdByIso('nb'); }
                 if ((int) $id_lang == 0) { $id_lang = Language::getIdByIso('nn'); }
@@ -274,9 +322,6 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
     public function initContent()
     {
         parent::initContent();
-
-		// lets assume that the customer is Finnish
-		$this->context->smarty->assign('show_postcode_field', true);
 		
         //Make a check on reload
         CartRule::autoRemoveFromCart($this->context);
@@ -308,7 +353,6 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
         $tmp_address = new Address((int) ($this->context->cart->id_address_delivery));
         $country = new Country($tmp_address->id_country);
         if ($country_information['purchase_country'] == 'SE') {
-			$this->context->smarty->assign('show_postcode_field', false);
             $eid = (int) (Configuration::get('KCO_SWEDEN_EID'));
             $sharedSecret = Configuration::get('KCO_SWEDEN_SECRET');
             $ssid = 'se';
@@ -327,11 +371,14 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                 Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
             }
         } elseif ($country_information['purchase_country'] == 'FI') {
-			$this->context->smarty->assign('show_postcode_field', true);
+			$allowPickupPoints = (bool)Configuration::get('KCO_FINLAND_PICKUP_POINTS');
+			$this->context->smarty->assign('show_finland_pickup_points', $allowPickupPoints);
+			
             $eid = (int) (Configuration::get('KCO_FINLAND_EID'));
             $sharedSecret = Configuration::get('KCO_FINLAND_SECRET');
             $ssid = 'fi';
             if ($country->iso_code != 'FI') {
+				/*
                 if ($this->context->cart->id_address_delivery==Configuration::get('KCO_FINLAND_ADDR')) {
                     $this->module->createAddress(
                         'FI',
@@ -344,9 +391,35 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                 $this->context->cart->id_address_delivery = Configuration::get('KCO_FINLAND_ADDR');
                 $this->context->cart->update();
                 Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
+				*/
+				
+				$postcode = '12345';
+				
+				if (isset($_GET['zip'])) {
+					$postcode = $_GET['zip'];
+				}
+				
+				$this->UsePlaceholderAddress($postcode);
+				
+				$addr = 'KCO_FINLAND_ADDR_' . $postcode;
+				$alias = 'KCO_FINLAND_' . $postcode;
+				
+				if ($this->context->cart->id_address_delivery==Configuration::get($addr)) {
+					$this->module->createAddress(
+						'FI',
+							"'" . $addr . "'",
+							'Helsinki',
+							'Finland',
+							"'" . $alias . "'"
+					);
+				}
+
+				$this->context->cart->id_address_delivery = Configuration::get($addr);
+				$this->context->cart->update();
+				
+                Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
             }
         } elseif ($country_information['purchase_country'] == 'NO') {
-			$this->context->smarty->assign('show_postcode_field', false);
             $eid = (int) (Configuration::get('KCO_NORWAY_EID'));
             $sharedSecret = Configuration::get('KCO_NORWAY_SECRET');
             $ssid = 'no';
@@ -367,7 +440,6 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                 Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
             }
         } elseif ($country_information['purchase_country'] == 'DE') {
-			$this->context->smarty->assign('show_postcode_field', false);
             $eid = (int) (Configuration::get('KCO_GERMANY_EID'));
             $sharedSecret = Configuration::get('KCO_GERMANY_SECRET');
             $ssid = 'de';
@@ -388,7 +460,6 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                 Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
             }
         } elseif ($country_information['purchase_country'] == 'AT') {
-			$this->context->smarty->assign('show_postcode_field', false);
             $eid = (int) (Configuration::get('KCO_AUSTRIA_EID'));
             $sharedSecret = Configuration::get('KCO_AUSTRIA_SECRET');
             $ssid = 'at';
@@ -409,7 +480,6 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                 Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
             }
         } elseif ($country_information['purchase_country'] == 'GB') {
-			$this->context->smarty->assign('show_postcode_field', false);
             $eid = Configuration::get('KCO_UK_EID');
             $sharedSecret = Configuration::get('KCO_UK_SECRET');
             $ssid = 'gb';

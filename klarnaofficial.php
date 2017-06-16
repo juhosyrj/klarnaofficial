@@ -2874,7 +2874,7 @@ class KlarnaOfficial extends PaymentModule
             "address2, postcode, city, other,phone, phone_mobile, vat_number, ".
             "dni, active, deleted, date_add, date_upd) ".
             "VALUES ($id_country, 0,0,0,0,0,'KCO_FINLAND_DEFAULT','','Finland', 'Person', ".
-            "'Standardgatan 1', '', '12345', 'Helsinkki', '', '1234567890','','','',1,0, NOW(), NOW());";
+            "'Standardgatan 1', '', '12345', 'Helsinki', '', '1234567890','','','',1,0, NOW(), NOW());";
             Db::getInstance()->execute($insert_sql);
             $id_address_finland = Db::getInstance()->getValue($sql);
             if ((int) ($id_address_finland) > 0) {

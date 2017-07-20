@@ -23,7 +23,7 @@ class KlarnaOfficialValidateModuleFrontController extends ModuleFrontController
 		$cart = new Cart((int) ($id_cart));
 
 		// hardcoded / check if we're using carrier that needs pickup point, check carrier id!
-		if ($cart->id_carrier == 4)
+		if ($cart->id_carrier == 98)
 		{
 			// matkahuolto (ahco.fi)
 			$sql = " SELECT * 	 FROM `" . _DB_PREFIX_ . "mhlahella`

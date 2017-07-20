@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>klarnaofficial</name>
+	<displayName><![CDATA[Klarna]]></displayName>
+	<version><![CDATA[1.9.3]]></version>
+	<description><![CDATA[Modified Klarna module - https://github.com/juhosyrj/klarnaofficial]]></description>
+	<author><![CDATA[Prestaworks AB]]></author>
+	<tab><![CDATA[payments_gateways]]></tab>
+	<is_configurable>1</is_configurable>
+	<need_instance>1</need_instance>
+	<limited_countries></limited_countries>
+</module>

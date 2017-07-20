@@ -77,9 +77,22 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
             return false;
         }
 		
-		$this->UsePlaceholderAddress($postcode);
+		//$this->UsePlaceholderAddress($postcode);
 		
 		$this->context->smarty->assign('show_finland_pickup_points', true);
+		
+		$alias = 'KCO_UNDEFINED';
+				
+		if ($country_information['purchase_country'] == 'SE') { $alias = 'KCO_SVERIGE_DEFAULT'; }
+		elseif ($country_information['purchase_country'] == 'FI') { $alias = 'KCO_FINLAND_DEFAULT'; }
+        elseif ($country_information['purchase_country'] == 'NO') { $alias = 'KCO_NORGE_DEFAULT'; }
+        elseif ($country_information['purchase_country'] == 'DE') { $alias = 'KCO_GERMANY_DEFAULT'; }
+
+        $update_sql = 'UPDATE '._DB_PREFIX_."address ".
+			"SET postcode='" . $postcode . "'".
+			"WHERE alias='" . $alias . "'";
+
+        Db::getInstance()->execute($update_sql);
 		
 		/*
 		$addr = 'KCO_FINLAND_ADDR_' . $postcode;
@@ -378,7 +391,6 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
             $sharedSecret = Configuration::get('KCO_FINLAND_SECRET');
             $ssid = 'fi';
             if ($country->iso_code != 'FI') {
-				/*
                 if ($this->context->cart->id_address_delivery==Configuration::get('KCO_FINLAND_ADDR')) {
                     $this->module->createAddress(
                         'FI',
@@ -389,32 +401,6 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                     );
                 }
                 $this->context->cart->id_address_delivery = Configuration::get('KCO_FINLAND_ADDR');
-                $this->context->cart->update();
-                Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
-				*/
-				
-				$postcode = '12345';
-				
-				if (isset($_GET['zip'])) {
-					$postcode = $_GET['zip'];
-				}
-				
-				$this->UsePlaceholderAddress($postcode);
-				
-				$addr = 'KCO_FINLAND_ADDR_' . $postcode;
-				$alias = 'KCO_FINLAND_' . $postcode;
-				
-				if ($this->context->cart->id_address_delivery==Configuration::get($addr)) {
-					$this->module->createAddress(
-						'FI',
-							"'" . $addr . "'",
-							'Helsinki',
-							'Finland',
-							"'" . $alias . "'"
-					);
-				}
-
-				$this->context->cart->id_address_delivery = Configuration::get($addr);
 				$this->context->cart->update();
 				
                 Tools::redirect('index.php?fc=module&module=klarnaofficial&controller=checkoutklarna');
@@ -507,7 +493,7 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
 		if ($this->context->cart->id_carrier == 0 && isset($_GET['pickupalert']))
 		{
 			// hardcoded carrier id (matkahuolto / smartpost)
-			$this->context->cart->id_carrier = 4;
+			$this->context->cart->id_carrier = 98;
 		}
 		
 		
@@ -785,7 +771,7 @@ class KlarnaOfficialCheckoutKlarnaModuleFrontController extends ModuleFrontContr
                         $create['merchant']['push_uri'] = $pushPage;
 						
 						
-                        //$create['merchant']['validation_uri'] = $validationPage;
+						//$create['merchant']['validation_uri'] = $validationPage;
 						
 						/*
                         if (Configuration::get('KCO_CALLBACK_CHECK') == 1) {
